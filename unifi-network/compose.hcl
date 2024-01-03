@@ -1,0 +1,182 @@
+job "unifi-network" {
+  datacenters = ["home"]
+  type        = "service"
+
+  group "network" {
+
+    constraint {
+      attribute = "${node.class}"
+      value     = "master"
+    }
+
+    restart {
+      attempts = 3
+      delay = "1m"
+    }
+
+    network {
+      port "ui" { static = 8443 }
+      port "controller" { static = 8080 }
+      port "stun" { static = 3478 }
+      port "discovery" { static = 10001 }
+    }
+
+    service {
+      name = "unifi-network"
+
+      port = "ui"
+
+      check {
+        type            = "http"
+        protocol        = "https"
+        tls_skip_verify = true
+        path            = "/status"
+        interval        = "10s"
+        timeout         = "2s"
+      }
+
+      tags = [
+        "traefik.enable=true",
+        "traefik.http.routers.unifi-network.rule=Host(`network.lab.home`)",
+        "traefik.http.routers.unifi-network.entrypoints=websecure",
+        "traefik.http.services.unifi-network.loadbalancer.server.port=8443",
+        "traefik.http.services.unifi-network.loadbalancer.server.scheme=https"
+      ]
+    }
+
+    task "network" {
+      driver = "docker"
+
+      // user = "1026:100" # matthias:users
+
+      config {
+        image = "lscr.io/linuxserver/unifi-network-application:latest"
+
+        network_mode = "host"
+        ports = ["ui","controller","stun","discovery"]
+
+        volumes = [
+          "/etc/ssl/certs/schoger_home_intermediate.pem:/etc/ssl/certs/schoger_home_intermediate.pem:ro" # use homelab cert from host OS
+        ]      
+      }
+
+      template {
+        destination = "secrets/variables.env"
+        env             = true
+        data            = <<EOH
+{{- with nomadVar "nomad/jobs/unifi-network" }}
+MONGO_PORT = "27017"
+MONGO_HOST = "unifi-mongodb.service.consul"
+MONGO_USER = "unifi"
+MONGO_PASS = "{{- .db_pass }}"
+MONGO_DBNAME = "unifi"
+TZ = "Europe/Berlin"
+{{- end }}
+EOH
+      }
+
+      resources {
+        memory = 1000
+        cpu    = 200
+      }
+
+      volume_mount {
+        volume      = "unifi-network"
+        destination = "/config"
+      }
+    }
+
+    volume "unifi-network" {
+      type            = "csi"
+      source          = "unifi-network"
+      access_mode     = "single-node-writer"
+      attachment_mode = "file-system"
+    }
+  }
+
+
+  group "mongodb" {
+
+    constraint {
+      attribute = "${node.class}"
+      value     = "compute"
+    }
+
+    restart {
+      attempts = 3
+      delay = "1m"
+    }
+
+    network {
+      mode = "bridge"
+
+      port "mongodb" { static = 27017 }
+    }
+
+    service {
+      name = "unifi-mongodb"
+
+      port = "mongodb"
+    }
+
+    task "mongodb" {
+      driver = "docker"
+
+      # proper user id is required for MongoDB
+      user = "1026:100" # matthias:users
+
+      config {
+        image = "mongo:4.4.26"
+
+        args = ["--config", "/local/config.yaml"]
+
+        ports = ["mongodb"]
+
+        volumes = [
+          "secrets/entrypoint:/docker-entrypoint-initdb.d:ro",
+          "/etc/ssl/certs/schoger_home_intermediate.pem:/etc/ssl/certs/schoger_home_intermediate.pem:ro" # use homelab cert from host OS
+        ]      
+      }
+
+      env {
+        TZ = "Europe/Berlin"
+      }
+
+      volume_mount {
+        volume      = "unifi-mongo"
+        destination = "/storage/db"
+      }
+
+      template {
+        destination = "secrets/entrypoint/init-mongo.js"
+        data = <<EOH
+{{- with nomadVar "nomad/jobs/unifi-network" }}
+db.getSiblingDB("unifi").createUser({user: "unifi", pwd: "{{- .db_pass }}", roles: [{role: "dbOwner", db: "unifi"}]});
+db.getSiblingDB("unifi_stat").createUser({user: "unifi", pwd: "{{- .db_pass }}", roles: [{role: "dbOwner", db: "unifi_stat"}]});
+{{- end }}
+EOH
+      }
+
+      # If using nfs, the share must preserve user:group and not sqash access rights
+      template {
+        destination = "local/config.yaml"
+        data = <<EOH
+storage:
+   dbPath: "/storage/db"
+EOH
+      }
+
+      resources {
+        memory = 700
+        cpu    = 200
+      }
+    }
+ 
+    volume "unifi-mongo" {
+      type            = "csi"
+      source          = "unifi-mongo"
+      access_mode     = "single-node-writer"
+      attachment_mode = "file-system"
+    }
+  }
+}
