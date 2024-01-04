@@ -105,8 +105,6 @@ job "vaultwarden" {
 
       config {
         image = "vaultwarden/server:latest"
-
-        ports = ["http", "livesync"]
       }
 
       env {
