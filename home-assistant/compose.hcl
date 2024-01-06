@@ -55,8 +55,8 @@ job "homeassistant" {
       }
 
       resources {
-        memory = 1024
-        cpu    = 250
+        memory = 600
+        cpu    = 200
       }
 
       dynamic "template" { # copy file in config folder into /local/integrations
