@@ -73,6 +73,10 @@ job "nginx" {
         volumes = [ "local:/etc/nginx/conf.d" ]      
       }
 
+      env {
+        TZ = "Europe/Berlin"
+      }
+
       template {
         data        = file("default.conf")
         destination = "local/default.conf"

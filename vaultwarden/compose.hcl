@@ -112,6 +112,7 @@ job "vaultwarden" {
         ROCKET_PORT = "80"
         WEBSOCKET_PORT = "81"
         WEBSOCKET_ENABLED = true
+        TZ = "Europe/Berlin"
       }
 
       resources {

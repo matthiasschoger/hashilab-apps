@@ -73,6 +73,10 @@ job "node-red" {
         ports = ["http"]
       }
 
+      env {
+        TZ = "Europe/Berlin"
+      }
+
       resources {
         memory = 200
         cpu    = 100

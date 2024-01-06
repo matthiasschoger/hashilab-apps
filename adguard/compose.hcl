@@ -55,6 +55,10 @@ job "adguard" {
         ports = ["http","dns"]
       }
 
+      env {
+        TZ = "Europe/Berlin"
+      }
+
       resources {
         memory = 80
         cpu    = 50

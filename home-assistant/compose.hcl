@@ -54,6 +54,10 @@ job "homeassistant" {
         ports = ["http","shelly","homekit","mDNS"]
       }
 
+      env {
+        TZ = "Europe/Berlin"
+      }
+
       resources {
         memory = 600
         cpu    = 200

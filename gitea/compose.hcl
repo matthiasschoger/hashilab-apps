@@ -76,6 +76,7 @@ job "gitea" {
 
       env {
         GITEA__webhook__ALLOWED_HOST_LIST = "private"
+        TZ = "Europe/Berlin"
       }
 
       resources {
