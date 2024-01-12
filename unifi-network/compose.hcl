@@ -124,11 +124,12 @@ EOH
       # proper user id is required for MongoDB
       user = "1026:100" # matthias:users
 
-      # backup database action
+      # backs up the MongoDB database and removes all files in the backup folder which are older than 10 days
       action "backup-mongodb" {
         command = "/bin/sh"
         args    = ["-c", <<EOF
-mongodump --uri="mongodb://localhost:27017" --gzip --archive=/storage/backup/backup.$(date +"%Y%m%d%H%M").gz
+mongodump --gzip --archive=/storage/backup/backup.$(date +"%Y%m%d%H%M").gz
+find /storage/backup/* -mtime +10 -exec rm {} \;
 EOF
         ]
       }
