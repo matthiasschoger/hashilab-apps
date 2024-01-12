@@ -80,8 +80,8 @@ job "gitea" {
       }
 
       resources {
-        memory = 400
-        cpu    = 200
+        memory = 600
+        cpu    = 100
       }
 
       template {
