@@ -129,13 +129,14 @@ EOH
         command = "/bin/sh"
         args    = ["-c", <<EOF
 mongodump --gzip --archive=/storage/backup/backup.$(date +"%Y%m%d%H%M").gz
+echo "cleaning up backup files older than 10 days ..."
 find /storage/backup/* -mtime +10 -exec rm {} \;
 EOF
         ]
       }
 
       config {
-        image = "mongo:4.4.26"
+        image = "mongo:4.4.26" # latest MongoDB version supported by the Unifi Network application
 
         args = ["--config", "/local/config.yaml"]
 

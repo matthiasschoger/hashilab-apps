@@ -158,15 +158,32 @@ EOH
         image = "linuxserver/mariadb:latest"
       }
 
+      # backs up the MongoDB database and removes all files in the backup folder which are older than 10 days
+      action "backup-mariadb" {
+        command = "/bin/sh"
+        args    = ["-c", <<EOH
+mariadb-dump -u bookstack --password=$MYSQL_PASSWORD --all-databases | gzip > /config/backup/backup.$(date +"%Y%m%d%H%M").gz
+echo "cleaning up backup files older than 10 days ..."
+find /config/backup/* -mtime +10 -exec rm {} \;
+EOH
+        ]
+      }
+
       # health check
       # "/usr/bin/mysql --user=foo --password=foo --execute \"SHOW DATABASES;\""
       
-      env {
-        MYSQL_ROOT_PASSWORD = "mE9qfGwRy%%NWPULGRU^"
-        MYSQL_DATABASE = "bookstackapp"
-        MYSQL_USER = "bookstack"
-        MYSQL_PASSWORD = "mE9qfGwRy%%NWPULGRU^"
-        TZ = "Europe/Berlin"
+      template {
+        destination = "secrets/variables.env"
+        env             = true
+        data            = <<EOH
+{{- with nomadVar "nomad/jobs/bookstack" }}
+MYSQL_ROOT_PASSWORD = "{{- .db_pass }}"
+MYSQL_DATABASE = "bookstackapp"
+MYSQL_USER = "bookstack"
+MYSQL_PASSWORD = "{{- .db_pass }}"
+TZ = "Europe/Berlin"
+{{- end }}
+EOH
       }
 
       resources {
