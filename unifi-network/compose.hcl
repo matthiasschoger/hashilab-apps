@@ -39,7 +39,6 @@ job "unifi-network" {
         "traefik.enable=true",
         "traefik.http.routers.unifi-network.rule=Host(`network.lab.home`)",
         "traefik.http.routers.unifi-network.entrypoints=websecure",
-        "traefik.http.services.unifi-network.loadbalancer.server.port=8443",
         "traefik.http.services.unifi-network.loadbalancer.server.scheme=https"
       ]
     }
@@ -125,6 +124,15 @@ EOH
       # proper user id is required for MongoDB
       user = "1026:100" # matthias:users
 
+      # backup database action
+      action "backup-mongodb" {
+        command = "/bin/sh"
+        args    = ["-c", <<EOF
+mongodump --uri="mongodb://localhost:27017" --gzip --archive=/storage/backup/backup.$(date +"%Y%m%d%H%M").gz
+EOF
+        ]
+      }
+
       config {
         image = "mongo:4.4.26"
 
@@ -144,7 +152,7 @@ EOH
 
       volume_mount {
         volume      = "unifi-mongo"
-        destination = "/storage/db"
+        destination = "/storage"
       }
 
       template {
