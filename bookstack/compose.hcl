@@ -47,7 +47,6 @@ job "bookstack" {
         sidecar_service {
           proxy {
             config {
-              protocol = "http"
               envoy_prometheus_bind_addr = "0.0.0.0:9102"
             }
             upstreams {
@@ -66,7 +65,7 @@ job "bookstack" {
       }
     }
 
-    task "bookstack" {
+    task "server" {
       driver = "docker"
 
       config {
@@ -106,6 +105,7 @@ EOH
       attachment_mode = "file-system"
     }
   }
+
 
   group "mariadb" {
 
@@ -151,14 +151,14 @@ EOH
       }
     }
 
-    task "mariadb" {
+    task "server" {
       driver = "docker"
 
       config {
         image = "linuxserver/mariadb:latest"
       }
 
-      # backs up the MongoDB database and removes all files in the backup folder which are older than 10 days
+      # backs up the MariaDB database and removes all files in the backup folder which are older than 3 days
       action "backup-mariadb" {
         command = "/bin/sh"
         args    = ["-c", <<EOH
