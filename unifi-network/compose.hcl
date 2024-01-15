@@ -129,8 +129,8 @@ EOH
         command = "/bin/sh"
         args    = ["-c", <<EOF
 mongodump --gzip --archive=/storage/backup/backup.$(date +"%Y%m%d%H%M").gz
-echo "cleaning up backup files older than 10 days ..."
-find /storage/backup/* -mtime +10 -exec rm {} \;
+echo "cleaning up backup files older than 3 days ..."
+find /storage/backup/* -mtime +3 -exec rm {} \;
 EOF
         ]
       }

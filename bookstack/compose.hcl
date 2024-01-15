@@ -163,8 +163,8 @@ EOH
         command = "/bin/sh"
         args    = ["-c", <<EOH
 mariadb-dump -u bookstack --password=$MYSQL_PASSWORD --all-databases | gzip > /config/backup/backup.$(date +"%Y%m%d%H%M").gz
-echo "cleaning up backup files older than 10 days ..."
-find /config/backup/* -mtime +10 -exec rm {} \;
+echo "cleaning up backup files older than 3 days ..."
+find /config/backup/* -mtime +3 -exec rm {} \;
 EOH
         ]
       }
