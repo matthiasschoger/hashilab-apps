@@ -6,7 +6,7 @@ job "unifi-network" {
 
     constraint {
       attribute = "${node.class}"
-      value     = "master"
+      value     = "compute"
     }
 
     restart {
@@ -19,6 +19,8 @@ job "unifi-network" {
       port "controller" { static = 8080 }
       port "stun" { static = 3478 }
       port "discovery" { static = 10001 }
+      port "discovery-l2" { static = 1900 }
+      port "speedtest" { static = 6789 }
     }
 
     service {
@@ -52,7 +54,7 @@ job "unifi-network" {
         image = "lscr.io/linuxserver/unifi-network-application:latest"
 
         network_mode = "host"
-        ports = ["ui","controller","stun","discovery"]
+        ports = ["ui","controller","stun","discovery","discovery-l2","speedtest"]
 
         volumes = [
           "/etc/ssl/certs/schoger_home_intermediate.pem:/etc/ssl/certs/schoger_home_intermediate.pem:ro" # use homelab cert from host OS
@@ -76,7 +78,7 @@ EOH
 
       resources {
         memory = 1000
-        cpu    = 200
+        cpu    = 400
       }
 
       volume_mount {
