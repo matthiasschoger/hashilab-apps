@@ -55,10 +55,6 @@ job "unifi-network" {
 
         network_mode = "host"
         ports = ["ui","controller","stun","discovery","discovery-l2","speedtest"]
-
-        volumes = [
-          "/etc/ssl/certs/schoger_home_intermediate.pem:/etc/ssl/certs/schoger_home_intermediate.pem:ro" # use homelab cert from host OS
-        ]      
       }
 
       template {
