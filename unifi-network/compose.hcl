@@ -122,7 +122,7 @@ EOH
       # proper user id is required for MongoDB
       user = "1026:100" # matthias:users
 
-      # backs up the MongoDB database and removes all files in the backup folder which are older than 10 days
+      # backs up the MongoDB database and removes all files in the backup folder which are older than 3 days
       action "backup-mongodb" {
         command = "/bin/sh"
         args    = ["-c", <<EOF
@@ -142,7 +142,6 @@ EOF
 
         volumes = [
           "secrets/entrypoint:/docker-entrypoint-initdb.d:ro",
-          "/etc/ssl/certs/schoger_home_intermediate.pem:/etc/ssl/certs/schoger_home_intermediate.pem:ro" # use homelab cert from host OS
         ]      
       }
 
