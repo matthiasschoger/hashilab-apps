@@ -9,11 +9,6 @@ job "unifi-network" {
       value     = "compute"
     }
 
-    restart {
-      attempts = 3
-      delay = "1m"
-    }
-
     network {
       port "ui" { static = 8443 }
       port "controller" { static = 8080 }
@@ -97,11 +92,6 @@ EOH
     constraint {
       attribute = "${node.class}"
       value     = "compute"
-    }
-
-    restart {
-      attempts = 3
-      delay = "1m"
     }
 
     network {

@@ -9,11 +9,6 @@ job "bookstack" {
       value     = "compute"
     }
 
-    restart {
-      attempts = 3
-      delay = "1m"
-    }
-
     network {
       mode = "bridge"
 
@@ -112,11 +107,6 @@ EOH
     constraint {
       attribute = "${node.class}"
       value     = "compute"
-    }
-
-    restart {
-      attempts = 3
-      delay = "1m"
     }
 
     network {

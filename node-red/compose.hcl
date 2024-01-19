@@ -9,12 +9,6 @@ job "node-red" {
       value     = "compute"
     }
 
-    restart {
-      attempts = 2
-      delay = "1m"
-      mode = "fail"
-    }
-
     network {
       mode = "bridge"
 
