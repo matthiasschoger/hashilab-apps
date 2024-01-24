@@ -32,7 +32,7 @@ job "nginx" {
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
         "traefik.http.routers.nginx.rule=Host(`schoger.net`) || Host(`www.schoger.net`)",
-        "traefik.http.routers.nginx.entrypoints=inet-websecure"
+        "traefik.http.routers.nginx.entrypoints=cloudflare",
       ]
 
       meta {
@@ -42,7 +42,6 @@ job "nginx" {
         sidecar_service {
           proxy {
             config {
-              protocol = "http"
               envoy_prometheus_bind_addr = "0.0.0.0:9102"
             }
           }
@@ -64,7 +63,7 @@ job "nginx" {
       config {
         image = "nginx:latest"
 
-        volumes = [ "local:/etc/nginx/conf.d" ]      
+        volumes = [ "local/conf.d:/etc/nginx/conf.d" ]      
       }
 
       env {
@@ -73,7 +72,7 @@ job "nginx" {
 
       template {
         data        = file("default.conf")
-        destination = "local/default.conf"
+        destination = "local/conf.d/default.conf"
         change_mode   = "signal"
         change_signal = "SIGHUP"
       }

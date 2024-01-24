@@ -33,7 +33,7 @@ job "vaultwarden" {
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
         "traefik.http.routers.vaultwarden.rule=Host(`bitwarden.schoger.net`)",
-        "traefik.http.routers.vaultwarden.entrypoints=inet-websecure"
+        "traefik.http.routers.vaultwarden.entrypoints=cloudflare"
       ]
 
       meta {
@@ -68,7 +68,7 @@ job "vaultwarden" {
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
         "traefik.http.routers.vaultwarden-livesync.rule=Host(`bitwarden.schoger.net`) && (Path(`/notifications/hub`) && !Path(`/notifications/hub/negotiate`))",
-        "traefik.http.routers.vaultwarden-livesync.entrypoints=inet-websecure"
+        "traefik.http.routers.vaultwarden-livesync.entrypoints=cloudflare"
       ]
 
       meta {

@@ -68,8 +68,19 @@ EOH
       }
 
       resources {
-        memory = 1000
+        memory = 1200
         cpu    = 400
+      }
+
+      scaling "mem" { # experimental auto-scaling of the available memory
+        enabled = true
+        max     = 1536
+
+        policy {
+          check "max" {
+            strategy "app-sizing-max" {}
+          }
+        }
       }
 
       volume_mount {
