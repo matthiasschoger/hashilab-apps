@@ -12,8 +12,7 @@ job "vaultwarden" {
     network {
       mode = "bridge"
 
-      port "envoy_metrics_ui" { to = 9102 }
-      port "envoy_metrics_ls" { to = 9103 }
+      port "envoy_metrics" { to = 9102 }
     }
 
     service {
@@ -37,7 +36,7 @@ job "vaultwarden" {
       ]
 
       meta {
-        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_ui}" # make envoy metrics port available in Consul
+        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
       }
       connect {
         sidecar_service {
@@ -45,41 +44,6 @@ job "vaultwarden" {
             config {
               protocol = "http"
               envoy_prometheus_bind_addr = "0.0.0.0:9102"
-            }
-          }
-        }
-
-        sidecar_task {
-          resources {
-            cpu    = 50
-            memory = 96
-          }
-        }
-      }
-    }
-
-    # LiveSync, see https://www.blackvoid.club/bitwarden-livesync-feature/
-    service {
-      name = "vaultwarden-livesync"
-
-      port = 81
-
-      tags = [
-        "traefik.enable=true",
-        "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.vaultwarden-livesync.rule=Host(`bitwarden.schoger.net`) && (Path(`/notifications/hub`) && !Path(`/notifications/hub/negotiate`))",
-        "traefik.http.routers.vaultwarden-livesync.entrypoints=cloudflare"
-      ]
-
-      meta {
-        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_ls}" # make envoy metrics port available in Consul
-      }
-      connect {
-        sidecar_service {
-          proxy {
-            config {
-              protocol = "http"
-              envoy_prometheus_bind_addr = "0.0.0.0:9103"
             }
           }
         }
@@ -104,7 +68,6 @@ job "vaultwarden" {
       env {
         ROCKET_PROFILE = "release"
         ROCKET_PORT = "80"
-        WEBSOCKET_PORT = "81"
         WEBSOCKET_ENABLED = true
         TZ = "Europe/Berlin"
       }
