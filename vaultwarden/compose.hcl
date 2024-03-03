@@ -16,7 +16,7 @@ job "vaultwarden" {
     }
 
     service {
-      name = "vaultwarden-ui"
+      name = "vaultwarden"
 
       port = 80
 
