@@ -69,6 +69,7 @@ job "vaultwarden" {
         ROCKET_PROFILE = "release"
         ROCKET_PORT = "80"
         WEBSOCKET_ENABLED = true
+        DOMAIN = "https://bitwarden.schoger.net"
         TZ = "Europe/Berlin"
       }
 
