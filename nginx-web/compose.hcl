@@ -6,7 +6,7 @@ job "nginx" {
 
     constraint {
       attribute = "${node.class}"
-      value     = "compute"
+      value     = "dmz"
     }
 
     network {
