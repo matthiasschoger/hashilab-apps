@@ -135,7 +135,7 @@ EOF
       }
 
       config {
-        image = "mongo:4.4.26" # latest MongoDB version supported by the Unifi Network application
+        image = "mongo:4.4.29" # latest MongoDB version supported by the Unifi Network application
 
         args = ["--config", "/local/config.yaml"]
 
