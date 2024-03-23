@@ -171,6 +171,9 @@ EOH
         data = <<EOH
 storage:
    dbPath: "/storage/db"
+
+systemLog:
+  verbosity: 1 # log level Debug1
 EOH
       }
 
