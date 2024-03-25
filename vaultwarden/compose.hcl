@@ -51,7 +51,7 @@ job "vaultwarden" {
         sidecar_task {
           resources {
             cpu    = 50
-            memory = 96
+            memory = 48
           }
         }
       }
@@ -74,7 +74,7 @@ job "vaultwarden" {
       }
 
       resources {
-        memory = 200
+        memory = 64
         cpu    = 100
       }
 
