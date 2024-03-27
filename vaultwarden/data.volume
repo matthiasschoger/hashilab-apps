@@ -11,9 +11,9 @@ capability {
 
 context {
   server = "storage.home"
-  share = "/volume2/homelab"
+  share = "/volume2/homelab-dmz"
   subDir = "vaultwarden"
-  mountPermissions = "0"  
+  mountPermissions = "775"  
 }
 
 mount_options {

@@ -57,9 +57,13 @@ job "vaultwarden" {
       }
     }
 
+    // NOTE: This service is running in my DMZ and using a specific volume for DMZ services. 
+    //  If you like to run this normally, just point the volume to the right location.
     task "server" {
 
       driver = "docker"
+
+      user = "1026:100" # matthias:users
 
       config {
         image = "vaultwarden/server:latest"

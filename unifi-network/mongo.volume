@@ -13,9 +13,7 @@ context {
   server = "storage.home"
   # has to use volume1 without user sqashing 
   share = "/volume1/homelab-hdd"
-#  share = "/volume1/docker"
   subDir = "unifi/mongodb"
-#  mountPermissions = "0"  
   mountPermissions = "755"
 }
 
