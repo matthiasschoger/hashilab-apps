@@ -4,7 +4,7 @@ job "vaultwarden" {
 
   group "vaultwarden" {
 
-    constraint {
+    constraint {       # deploy to DMZ nodes
       attribute = "${node.class}"
       value     = "dmz"
     }
@@ -42,7 +42,6 @@ job "vaultwarden" {
         sidecar_service {
           proxy {
             config {
-              protocol = "http"
               envoy_prometheus_bind_addr = "0.0.0.0:9102"
             }
           }
@@ -73,12 +72,13 @@ job "vaultwarden" {
         ROCKET_PROFILE = "release"
         ROCKET_PORT = "80"
         WEBSOCKET_ENABLED = true
+        LOG_LEVEL = "warn"
         DOMAIN = "https://bitwarden.schoger.net"
         TZ = "Europe/Berlin"
       }
 
       resources {
-        memory = 64
+        memory = 128
         cpu    = 100
       }
 
