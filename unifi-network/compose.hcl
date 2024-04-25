@@ -40,6 +40,28 @@ job "unifi-network" {
       ]
     }
 
+    // # wait for MongoDB to be ready before starting the Network application
+    // task "wait-for" {
+    //   driver = "docker"
+
+    //   config {
+    //     image = "danielberteaud/wait-for:latest"
+    //   }
+
+    //   lifecycle {
+    //     hook = "prestart"
+    //   }
+
+    //   env {
+    //     SERVICE_0 = "unifi-mongodb.service.consul"
+    //   }
+
+    //   resources {
+    //     cpu        = 10
+    //     memory     = 30
+    //   }
+    // }
+
     task "network" {
       driver = "docker"
 
@@ -172,8 +194,8 @@ EOH
 storage:
    dbPath: "/storage/db"
 
-systemLog:
-  verbosity: 1 # log level Debug1
+#systemLog:
+#  verbosity: 1 # log level Debug1
 EOH
       }
 
