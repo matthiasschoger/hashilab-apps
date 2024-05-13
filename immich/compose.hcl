@@ -72,6 +72,7 @@ job "immich" {
       }
     }
 
+    # Immich is using Redis to communicate with the worker microservices
     service {
       name = "immich-redis"
 
@@ -142,7 +143,7 @@ EOH
 
       resources {
         memory = 512
-        cpu    = 800
+        cpu    = 500
       }
 
       volume_mount {
@@ -160,8 +161,8 @@ EOH
       }
 
       resources {
-        memory = 256
-        cpu    = 500
+        memory = 65
+        cpu    = 100
       }
     }
 
@@ -262,7 +263,7 @@ EOH
       }
 
       resources {
-        memory = 1024
+        memory = 768
         cpu    = 1000
       }
 
@@ -365,8 +366,8 @@ EOH
       }
 
       resources {
-        memory = 768
-        cpu    = 500
+        memory = 256
+        cpu    = 200
       }
     }
  
