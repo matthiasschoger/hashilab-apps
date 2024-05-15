@@ -113,9 +113,10 @@ job "immich" {
       driver = "docker"
 
       user = "1026:100" # matthias:users
-
+    
       config {
         image = "altran1502/immich-server:release"
+        force_pull = true
 
         command         = "start-server.sh"
         args            = ["immich"]
@@ -127,8 +128,8 @@ job "immich" {
         IMMICH_MEDIA_LOCATION = "/data"
         TZ = "Europe/Berlin"
 
-        LOG_LEVEL = "debug"
       }
+#        LOG_LEVEL = "debug"
 
       template {
         destination = "secrets/variables.env"
@@ -237,6 +238,7 @@ EOH
 
       config {
         image = "altran1502/immich-server:release"
+       force_pull = true
 
         command         = "start.sh"
         args            = ["microservices"]
@@ -248,8 +250,8 @@ EOH
         IMMICH_MEDIA_LOCATION = "/data"
         TZ = "Europe/Berlin"
 
-        LOG_LEVEL = "debug"
       }
+#        LOG_LEVEL = "debug"
 
       template {
         destination = "secrets/variables.env"
@@ -365,7 +367,7 @@ EOH
       }
 
       resources {
-        memory = 256
+        memory = 384
         cpu    = 200
       }
     }
