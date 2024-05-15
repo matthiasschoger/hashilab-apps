@@ -327,19 +327,18 @@ EOH
       # proper user id is required 
       user = "1026:100" # matthias:users
 
-      # backs up the MongoDB database and removes all files in the backup folder which are older than 3 days
-//       action "backup-mongodb" {
-//         command = "/bin/sh"
-//         args    = ["-c", <<EOF
-// mongodump --gzip --archive=/storage/backup/backup.$(date +"%Y%m%d%H%M").gz
-// echo "cleaning up backup files older than 3 days ..."
-// find /storage/backup/* -mtime +3 -exec rm {} \;
-// EOF
-//         ]
-//       }
+      # backs up the Postgres database and removes all files in the backup folder which are older than 3 days.
+      action "backup-postgres" {
+        command = "/bin/sh"
+        args    = ["-c", <<EOF
+pg_dumpall -U "$POSTGRES_USER" | gzip > /var/lib/postgresql/data/backup/backup.$(date +"%Y%m%d%H%M").sql.gz
+echo "cleaning up backup files older than 3 days ..."
+find /var/lib/postgresql/data/backup/* -mtime +3 -exec rm {} \;
+EOF
+        ]
+      }
 
       config {
-//        image = "postgres:latest"
          image = "tensorchord/pgvecto-rs:pg14-v0.2.1"
       }
 
