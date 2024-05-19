@@ -29,10 +29,10 @@ job "vaultwarden" {
       }
 
       tags = [
-        "traefik.enable=true",
-        "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.vaultwarden.rule=Host(`bitwarden.schoger.net`)",
-        "traefik.http.routers.vaultwarden.entrypoints=cloudflare"
+        "dmz.enable=true",
+        "dmz.consulcatalog.connect=true",
+        "dmz.http.routers.vaultwarden.rule=Host(`bitwarden.schoger.net`)",
+        "dmz.http.routers.vaultwarden.entrypoints=cloudflare"
       ]
 
       meta {

@@ -29,10 +29,10 @@ job "nginx" {
       }
 
       tags = [
-        "traefik.enable=true",
-        "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.nginx.rule=Host(`schoger.net`) || Host(`www.schoger.net`)",
-        "traefik.http.routers.nginx.entrypoints=cloudflare",
+        "dmz.enable=true",
+        "dmz.consulcatalog.connect=true",
+        "dmz.http.routers.nginx.rule=Host(`schoger.net`) || Host(`www.schoger.net`)",
+        "dmz.http.routers.nginx.entrypoints=cloudflare",
       ]
 
       meta {

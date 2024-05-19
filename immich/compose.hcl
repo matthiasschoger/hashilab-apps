@@ -31,10 +31,10 @@ job "immich" {
       }
 
       tags = [
-        "traefik.enable=true",
-        "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.immich.rule=Host(`immich.schoger.net`)",
-        "traefik.http.routers.immich.entrypoints=cloudflare",
+        "dmz.enable=true",
+        "dmz.consulcatalog.connect=true",
+        "dmz.http.routers.immich.rule=Host(`immich.schoger.net`)",
+        "dmz.http.routers.immich.entrypoints=cloudflare",
       ]
 
       meta {
