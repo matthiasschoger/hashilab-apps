@@ -265,7 +265,7 @@ EOH
       }
 
       resources {
-        memory = 768
+        memory = 2048
         cpu    = 1000
       }
 
@@ -316,7 +316,7 @@ EOH
 
         sidecar_task {
           resources {
-            cpu    = 50
+            cpu    = 100
             memory = 48
           }
         }
