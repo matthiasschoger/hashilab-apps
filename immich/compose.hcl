@@ -30,11 +30,15 @@ job "immich" {
         expose   = true
       }
 
-      tags = [
+      tags = [ # dual-head to make imports easier
         "dmz.enable=true",
         "dmz.consulcatalog.connect=true",
         "dmz.http.routers.immich.rule=Host(`immich.schoger.net`)",
         "dmz.http.routers.immich.entrypoints=cloudflare",
+        "traefik.enable=true",
+        "traefik.consulcatalog.connect=true",
+        "traefik.http.routers.immich.rule=Host(`immich.lab.home`)",
+        "traefik.http.routers.immich.entrypoints=websecure",
       ]
 
       meta {
