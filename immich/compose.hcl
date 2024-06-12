@@ -42,7 +42,7 @@ job "immich" {
       ]
 
       meta {
-        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
+        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_api}" # make envoy metrics port available in Consul
       }
       connect {
         sidecar_service {
@@ -51,15 +51,6 @@ job "immich" {
               envoy_prometheus_bind_addr = "0.0.0.0:9102"
             }
 
-            // upstreams {
-            //   destination_name = "immich-ml"
-            //   local_bind_port  = 3003
-            //   # Work arround, see https://github.com/hashicorp/nomad/issues/18538
-            //   destination_type = "service"
-            //   config {
-            //     protocol = "http"
-            //   }
-            // }
             upstreams {
               destination_name = "immich-postgres"
               local_bind_port  = 5432
@@ -83,16 +74,8 @@ job "immich" {
       task = "redis"
       port = 6379
 
-      // check {
-      //   type     = "http"
-      //   path     = "/api/server-info/ping"
-      //   interval = "10s"
-      //   timeout  = "2s"
-      //   expose   = true
-      // }
-
       meta {
-        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
+        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_redis}" # make envoy metrics port available in Consul
       }
       connect {
         sidecar_service {
@@ -119,11 +102,7 @@ job "immich" {
       user = "1026:100" # matthias:users
     
       config {
-        image = "altran1502/immich-server:release"
-        force_pull = true
-
-        command         = "start-server.sh"
-        args            = ["immich"]
+        image = "ghcr.io/immich-app/immich-server:release"
       }
 
       env {
@@ -132,8 +111,9 @@ job "immich" {
         IMMICH_MEDIA_LOCATION = "/data"
         TZ = "Europe/Berlin"
 
+        IMMICH_WORKERS_INCLUDE = "api"
+#        IMMICH_LOG_LEVEL = "debug"
       }
-#        LOG_LEVEL = "debug"
 
       template {
         destination = "secrets/variables.env"
@@ -241,9 +221,9 @@ EOH
       user = "1026:100" # matthias:users
 
       config {
-        image = "altran1502/immich-server:release"
-       force_pull = true
+        image = "ghcr.io/immich-app/immich-server:release"
 
+        # still needed?
         command         = "start.sh"
         args            = ["microservices"]
       }
@@ -254,8 +234,9 @@ EOH
         IMMICH_MEDIA_LOCATION = "/data"
         TZ = "Europe/Berlin"
 
+        IMMICH_WORKERS_EXCLUDE = "api"
+#        IMMICH_LOG_LEVEL = "debug"
       }
-#        LOG_LEVEL = "debug"
 
       template {
         destination = "secrets/variables.env"
