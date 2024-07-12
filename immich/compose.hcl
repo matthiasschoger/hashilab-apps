@@ -55,6 +55,10 @@ job "immich" {
               destination_name = "immich-postgres"
               local_bind_port  = 5432
             }
+            upstreams {
+              destination_name = "immich-ml"
+              local_bind_port  = 3003
+            }
           }
         }
 
@@ -128,7 +132,7 @@ EOH
 
       resources {
         memory = 512
-        cpu    = 500
+        cpu    = 1000
       }
 
       volume_mount {
@@ -142,7 +146,7 @@ EOH
        driver = "docker"
 
       config {
-        image = "redis:latest"
+        image = "redis:alpine"
       }
 
       resources {
@@ -159,6 +163,7 @@ EOH
     }
   }
 
+  // --- Immich Worker ---
 
   group "immich-worker" {
 
@@ -251,6 +256,111 @@ EOH
 
       resources {
         memory = 2048
+        cpu    = 2000
+      }
+
+      volume_mount {
+        volume      = "immich-data"
+        destination = "/data"
+      }
+    }
+
+    volume "immich-data" {
+      type            = "csi"
+      source          = "immich-data"
+      access_mode     = "multi-node-multi-writer"
+      attachment_mode = "file-system"
+    }
+  }
+
+  // --- Immich Machine Learning ---
+
+    group "immich-ml" {
+
+    # Run two ML instancen, spread over the two DMZ nodes.
+    // count = "2"
+    // constraint {
+    //   attribute = "${node.class}"
+    //   value     = "dmz"
+    // }
+    // constraint {
+    //   distinct_hosts = true
+    // }
+
+    network {
+      mode = "bridge"
+
+      port "envoy_metrics" { to = 9102 }
+    }
+
+    service {
+      name = "immich-ml"
+
+      task = "server"
+      port = 3003
+
+      meta {
+        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
+      }
+      connect {
+        sidecar_service {
+          proxy {
+            config {
+              envoy_prometheus_bind_addr = "0.0.0.0:9102"
+            }
+
+            upstreams {
+              destination_name = "immich-postgres"
+              local_bind_port  = 5432
+            }
+            upstreams {
+              destination_name = "immich-redis"
+              local_bind_port  = 6379
+            }
+          }
+        }
+
+        sidecar_task {
+          resources {
+            cpu    = 50
+            memory = 48
+          }
+        }
+      }
+    }
+
+    # microservices is the task worker, doing all the processing async
+    task "server" {
+      driver = "docker"
+
+      user = "1026:100" # matthias:users
+
+      config {
+        image = "ghcr.io/immich-app/immich-machine-learning:release"
+      }
+
+      env {
+        NODE_ENV              = "production"
+        REDIS_HOSTNAME        = "127.0.0.1"
+        IMMICH_MEDIA_LOCATION = "/data"
+        TZ = "Europe/Berlin"
+
+#        IMMICH_LOG_LEVEL = "debug"
+      }
+
+      template {
+        destination = "secrets/variables.env"
+        env         = true
+        perms       = 400
+        data        = <<EOH
+{{- with nomadVar "nomad/jobs/immich" }}
+DB_URL=postgres://{{- .db_user }}:{{- .db_pass }}@127.0.0.1:5432/immich
+{{- end }}
+EOH
+      }
+
+      resources {
+        memory = 1024
         cpu    = 1000
       }
 
@@ -268,6 +378,7 @@ EOH
     }
   }
 
+  // --- Immich Postgres ---
 
   group "immich-postgres" {
 
