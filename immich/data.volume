@@ -5,7 +5,7 @@ id          = "immich-data"
 name        = "Immich Data"
 
 capability {
-	access_mode = "multi-node-multi-writer" # multi-node, both api server and microservices tasks
+	access_mode = "multi-node-multi-writer" # multi-node, both api server and worker tasks
 	attachment_mode = "file-system"
 }
 

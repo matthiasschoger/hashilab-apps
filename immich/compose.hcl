@@ -2,7 +2,7 @@ job "immich" {
   datacenters = ["home"]
   type        = "service"
 
-  group "immich-api" {
+  group "api" {
 
     constraint {
       attribute = "${node.class}"
@@ -52,12 +52,12 @@ job "immich" {
             }
 
             upstreams {
-              destination_name = "immich-postgres"
-              local_bind_port  = 5432
-            }
-            upstreams {
               destination_name = "immich-ml"
               local_bind_port  = 3003
+            }
+            upstreams {
+              destination_name = "immich-postgres"
+              local_bind_port  = 5432
             }
           }
         }
@@ -107,6 +107,15 @@ job "immich" {
     
       config {
         image = "ghcr.io/immich-app/immich-server:release"
+        force_pull = true
+
+        # map Intel QuickSync to container
+        devices = [
+          {
+            host_path = "/dev/dri"
+            container_path = "/dev/dri"
+          }
+        ]
       }
 
       env {
@@ -114,6 +123,8 @@ job "immich" {
         REDIS_HOSTNAME        = "127.0.0.1"
         IMMICH_MEDIA_LOCATION = "/data"
         TZ = "Europe/Berlin"
+
+        HF_ENDPOINT = "https://hf-mirror.com"
 
         IMMICH_WORKERS_INCLUDE = "api"
 #        IMMICH_LOG_LEVEL = "debug"
@@ -165,7 +176,7 @@ EOH
 
   // --- Immich Worker ---
 
-  group "immich-worker" {
+  group "worker" {
 
     # Run two worker instancen, spread over the two DMZ nodes.
     count = "2"
@@ -186,7 +197,6 @@ EOH
     service {
       name = "immich-worker"
 
-      task = "server"
       port = 3002
 
       meta {
@@ -227,6 +237,7 @@ EOH
 
       config {
         image = "ghcr.io/immich-app/immich-server:release"
+        force_pull = true
 
         # still needed?
         command         = "start.sh"
@@ -275,17 +286,7 @@ EOH
 
   // --- Immich Machine Learning ---
 
-    group "immich-ml" {
-
-    # Run two ML instancen, spread over the two DMZ nodes.
-    // count = "2"
-    // constraint {
-    //   attribute = "${node.class}"
-    //   value     = "dmz"
-    // }
-    // constraint {
-    //   distinct_hosts = true
-    // }
+  group "machine-learning" {
 
     network {
       mode = "bridge"
@@ -296,7 +297,6 @@ EOH
     service {
       name = "immich-ml"
 
-      task = "server"
       port = 3003
 
       meta {
@@ -307,15 +307,6 @@ EOH
           proxy {
             config {
               envoy_prometheus_bind_addr = "0.0.0.0:9102"
-            }
-
-            upstreams {
-              destination_name = "immich-postgres"
-              local_bind_port  = 5432
-            }
-            upstreams {
-              destination_name = "immich-redis"
-              local_bind_port  = 6379
             }
           }
         }
@@ -329,7 +320,6 @@ EOH
       }
     }
 
-    # microservices is the task worker, doing all the processing async
     task "server" {
       driver = "docker"
 
@@ -337,26 +327,25 @@ EOH
 
       config {
         image = "ghcr.io/immich-app/immich-machine-learning:release"
+        force_pull = true
+
+        devices = [ # map Intel QuickSync to container
+          {
+            host_path = "/dev/dri"
+            container_path = "/dev/dri"
+          }
+        ]
       }
 
       env {
-        NODE_ENV              = "production"
-        REDIS_HOSTNAME        = "127.0.0.1"
-        IMMICH_MEDIA_LOCATION = "/data"
-        TZ = "Europe/Berlin"
+        TMPDIR       = "/local"
+        MPLCONFIGDIR = "/local"
+        IMMICH_HOST  = "127.0.0.1"
+        IMMICH_PORT  = "3003"
+
+        TZ           = "Europe/Berlin"
 
 #        IMMICH_LOG_LEVEL = "debug"
-      }
-
-      template {
-        destination = "secrets/variables.env"
-        env         = true
-        perms       = 400
-        data        = <<EOH
-{{- with nomadVar "nomad/jobs/immich" }}
-DB_URL=postgres://{{- .db_user }}:{{- .db_pass }}@127.0.0.1:5432/immich
-{{- end }}
-EOH
       }
 
       resources {
@@ -365,22 +354,22 @@ EOH
       }
 
       volume_mount {
-        volume      = "immich-data"
-        destination = "/data"
+        volume      = "immich-ml"
+        destination = "/cache"
       }
     }
 
-    volume "immich-data" {
+    volume "immich-ml" {
       type            = "csi"
-      source          = "immich-data"
-      access_mode     = "multi-node-multi-writer"
+      source          = "immich-ml"
+      access_mode     = "single-node-writer"
       attachment_mode = "file-system"
     }
   }
 
-  // --- Immich Postgres ---
+  // --- Immich Postgres database ---
 
-  group "immich-postgres" {
+  group "postgres" {
 
     constraint {
       attribute = "${node.class}"
@@ -419,7 +408,7 @@ EOH
       }
     }
 
-    task "postgres" {
+    task "server" {
       driver = "docker"
 
       # proper user id is required 
