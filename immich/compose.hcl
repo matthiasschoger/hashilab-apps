@@ -124,10 +124,7 @@ job "immich" {
         IMMICH_MEDIA_LOCATION = "/data"
         TZ = "Europe/Berlin"
 
-        HF_ENDPOINT = "https://hf-mirror.com"
-
         IMMICH_WORKERS_INCLUDE = "api"
-#        IMMICH_LOG_LEVEL = "debug"
       }
 
       template {
@@ -210,6 +207,10 @@ EOH
             }
 
             upstreams {
+              destination_name = "immich-ml"
+              local_bind_port  = 3003
+            }
+            upstreams {
               destination_name = "immich-postgres"
               local_bind_port  = 5432
             }
@@ -251,7 +252,6 @@ EOH
         TZ = "Europe/Berlin"
 
         IMMICH_WORKERS_EXCLUDE = "api"
-#        IMMICH_LOG_LEVEL = "debug"
       }
 
       template {
@@ -288,10 +288,26 @@ EOH
 
   group "machine-learning" {
 
+    # Run two ML instancen, spread over the two DMZ nodes.
+    count = "2"
+    constraint {
+      attribute = "${node.class}"
+      value     = "dmz"
+    }
+    constraint {
+      distinct_hosts = true
+    }
+
     network {
       mode = "bridge"
 
       port "envoy_metrics" { to = 9102 }
+    }
+
+    ephemeral_disk {
+      # Used to cache the machine learning model
+      size    = 1500 # MB
+      migrate = true
     }
 
     service {
@@ -340,30 +356,18 @@ EOH
       env {
         TMPDIR       = "/local"
         MPLCONFIGDIR = "/local"
-        IMMICH_HOST  = "127.0.0.1"
+        IMMICH_HOST  = "localhost"
         IMMICH_PORT  = "3003"
 
-        TZ           = "Europe/Berlin"
+        MACHINE_LEARNING_CACHE_FOLDER = "${NOMAD_ALLOC_DIR}/data/cache"
 
-#        IMMICH_LOG_LEVEL = "debug"
+        TZ           = "Europe/Berlin"
       }
 
       resources {
-        memory = 1024
+        memory = 1536
         cpu    = 1000
       }
-
-      volume_mount {
-        volume      = "immich-ml"
-        destination = "/cache"
-      }
-    }
-
-    volume "immich-ml" {
-      type            = "csi"
-      source          = "immich-ml"
-      access_mode     = "single-node-writer"
-      attachment_mode = "file-system"
     }
   }
 
