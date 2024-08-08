@@ -108,14 +108,6 @@ job "immich" {
       config {
         image = "ghcr.io/immich-app/immich-server:release"
         force_pull = true
-
-        # map Intel QuickSync to container
-        devices = [
-          {
-            host_path = "/dev/dri"
-            container_path = "/dev/dri"
-          }
-        ]
       }
 
       env {
@@ -140,7 +132,12 @@ EOH
 
       resources {
         memory = 512
-        cpu    = 1000
+        cpu    = 500
+      }
+
+      volume_mount {
+        volume      = "immich-homes"
+        destination = "/homes"
       }
 
       volume_mount {
@@ -167,6 +164,13 @@ EOH
       type            = "csi"
       source          = "immich-data"
       access_mode     = "multi-node-multi-writer"
+      attachment_mode = "file-system"
+    }
+
+    volume "immich-homes" {
+      type            = "csi"
+      source          = "immich-homes"
+      access_mode     = "single-node-writer"
       attachment_mode = "file-system"
     }
   }
@@ -240,9 +244,12 @@ EOH
         image = "ghcr.io/immich-app/immich-server:release"
         force_pull = true
 
-        # still needed?
-        command         = "start.sh"
-        args            = ["microservices"]
+        devices = [ # map Intel QuickSync to container
+          {
+            host_path = "/dev/dri"
+            container_path = "/dev/dri"
+          }
+        ]
       }
 
       env {
@@ -267,7 +274,7 @@ EOH
 
       resources {
         memory = 2048
-        cpu    = 2000
+        cpu    = 1000
       }
 
       volume_mount {
