@@ -40,28 +40,6 @@ job "unifi-network" {
       ]
     }
 
-    // # wait for MongoDB to be ready before starting the Network application
-    // task "wait-for" {
-    //   driver = "docker"
-
-    //   config {
-    //     image = "danielberteaud/wait-for:latest"
-    //   }
-
-    //   lifecycle {
-    //     hook = "prestart"
-    //   }
-
-    //   env {
-    //     SERVICE_0 = "unifi-mongodb.service.consul"
-    //   }
-
-    //   resources {
-    //     cpu        = 10
-    //     memory     = 30
-    //   }
-    // }
-
     task "network" {
       driver = "docker"
 
@@ -92,17 +70,6 @@ EOH
       resources {
         memory = 1200
         cpu    = 400
-      }
-
-      scaling "mem" { # experimental auto-scaling of the available memory
-        enabled = true
-        max     = 1536
-
-        policy {
-          check "max" {
-            strategy "app-sizing-max" {}
-          }
-        }
       }
 
       volume_mount {
