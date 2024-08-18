@@ -1,13 +1,8 @@
 job "nginx" {
-  datacenters = ["home"]
+  datacenters = ["dmz"]
   type        = "service"
 
   group "nginx" {
-
-    constraint {
-      attribute = "${node.class}"
-      value     = "dmz"
-    }
 
     network {
       mode = "bridge"

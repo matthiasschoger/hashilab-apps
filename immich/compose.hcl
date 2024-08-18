@@ -1,5 +1,5 @@
 job "immich" {
-  datacenters = ["home"]
+  datacenters = ["dmz"]
   type        = "service"
 
   group "api" {

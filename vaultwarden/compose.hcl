@@ -1,13 +1,8 @@
 job "vaultwarden" {
-  datacenters = ["home"]
+  datacenters = ["dmz"]
   type        = "service"
 
   group "vaultwarden" {
-
-    constraint {       # deploy to DMZ nodes
-      attribute = "${node.class}"
-      value     = "dmz"
-    }
 
     network {
       mode = "bridge"
