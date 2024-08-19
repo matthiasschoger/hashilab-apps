@@ -4,11 +4,6 @@ job "immich" {
 
   group "api" {
 
-    constraint {
-      attribute = "${node.class}"
-      value     = "dmz"
-    }
-
     network {
       mode = "bridge"
 
@@ -182,10 +177,6 @@ EOH
     # Run two worker instancen, spread over the two DMZ nodes.
     count = "2"
     constraint {
-      attribute = "${node.class}"
-      value     = "dmz"
-    }
-    constraint {
       distinct_hosts = true
     }
 
@@ -298,10 +289,6 @@ EOH
     # Run two ML instancen, spread over the two DMZ nodes.
     count = "2"
     constraint {
-      attribute = "${node.class}"
-      value     = "dmz"
-    }
-    constraint {
       distinct_hosts = true
     }
 
@@ -381,11 +368,6 @@ EOH
   // --- Immich Postgres database ---
 
   group "postgres" {
-
-    constraint {
-      attribute = "${node.class}"
-      value     = "dmz"
-    }
 
     network {
       mode = "bridge"
