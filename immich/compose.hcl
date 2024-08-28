@@ -131,13 +131,13 @@ EOH
       }
 
       volume_mount {
-        volume      = "immich-homes"
-        destination = "/homes"
+        volume      = "immich-data"
+        destination = "/data"
       }
 
       volume_mount {
-        volume      = "immich-data"
-        destination = "/data"
+        volume      = "immich-homes"
+        destination = "/homes"
       }
     }
 
@@ -150,7 +150,7 @@ EOH
       }
 
       resources {
-        memory = 65
+        memory = 64
         cpu    = 100
       }
     }
@@ -162,11 +162,12 @@ EOH
       attachment_mode = "file-system"
     }
 
-    volume "immich-homes" {
+    volume "immich-homes" { # external library location
       type            = "csi"
       source          = "immich-homes"
-      access_mode     = "single-node-writer"
+      access_mode     = "multi-node-reader-only"
       attachment_mode = "file-system"
+      read_only       = true
     }
   }
 
@@ -272,6 +273,11 @@ EOH
         volume      = "immich-data"
         destination = "/data"
       }
+
+      volume_mount {
+        volume      = "immich-homes"
+        destination = "/homes"
+      }
     }
 
     volume "immich-data" {
@@ -279,6 +285,14 @@ EOH
       source          = "immich-data"
       access_mode     = "multi-node-multi-writer"
       attachment_mode = "file-system"
+    }
+
+    volume "immich-homes" { # external library location
+      type            = "csi"
+      source          = "immich-homes"
+      access_mode     = "multi-node-reader-only"
+      attachment_mode = "file-system"
+      read_only       = true
     }
   }
 

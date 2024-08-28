@@ -5,18 +5,19 @@ id          = "immich-homes"
 name        = "Immich Homes"
 
 capability {
-	access_mode = "single-node-reader"
+#	access_mode = "multi-node-multi-writer"
+	access_mode = "single-node-reader-only"
 	attachment_mode = "file-system"
 }
 
 context {
   server = "storage.home"
   share = "/volume1/homes"
-  mountPermissions = "755"
+  mountPermissions = "555"
 }
 
 mount_options {
   fs_type = "nfs"
-  mount_flags = [ "timeo=30", "vers=4.1", "nolock", "bg", "noatime", "nointr" ]
+  mount_flags = [ "timeo=30", "vers=4.1", "nolock", "sync" ]
 }
 
