@@ -134,7 +134,6 @@ EOH
         volume      = "immich-data"
         destination = "/data"
       }
-
       volume_mount {
         volume      = "immich-homes"
         destination = "/homes"
@@ -161,7 +160,6 @@ EOH
       access_mode     = "multi-node-multi-writer"
       attachment_mode = "file-system"
     }
-
     volume "immich-homes" { # external library location
       type            = "csi"
       source          = "immich-homes"
@@ -236,12 +234,12 @@ EOH
         image = "ghcr.io/immich-app/immich-server:release"
         force_pull = true
 
-        devices = [ # map Intel QuickSync to container
-          {
-            host_path = "/dev/dri"
-            container_path = "/dev/dri"
-          }
-        ]
+        // devices = [ # map Intel QuickSync to container
+        //   {
+        //     host_path = "/dev/dri"
+        //     container_path = "/dev/dri"
+        //   }
+        // ]
       }
 
       env {
@@ -273,7 +271,6 @@ EOH
         volume      = "immich-data"
         destination = "/data"
       }
-
       volume_mount {
         volume      = "immich-homes"
         destination = "/homes"
@@ -286,7 +283,6 @@ EOH
       access_mode     = "multi-node-multi-writer"
       attachment_mode = "file-system"
     }
-
     volume "immich-homes" { # external library location
       type            = "csi"
       source          = "immich-homes"
@@ -353,12 +349,12 @@ EOH
         image = "ghcr.io/immich-app/immich-machine-learning:release"
         force_pull = true
 
-        devices = [ # map Intel QuickSync to container
-          {
-            host_path = "/dev/dri"
-            container_path = "/dev/dri"
-          }
-        ]
+        // devices = [ # map Intel QuickSync to container
+        //   {
+        //     host_path = "/dev/dri"
+        //     container_path = "/dev/dri"
+        //   }
+        // ]
       }
 
       env {
@@ -459,8 +455,8 @@ EOH
       }
 
       resources {
-        memory = 384
-        cpu    = 200
+        memory = 512
+        cpu    = 400
       }
     }
  
