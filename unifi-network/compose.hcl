@@ -10,7 +10,7 @@ job "unifi-network" {
     }
 
     network {
-      port "ui" { static = 8443 }
+      port "ui" { static = 18443 }        # also changed in /data/system.properties
       port "controller" { static = 8080 }
       port "stun" { static = 3478 }
       port "discovery" { static = 10001 }
