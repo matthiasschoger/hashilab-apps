@@ -25,15 +25,11 @@ job "immich" {
         expose   = true
       }
 
-      tags = [ # dual-head to make imports easier
+      tags = [
         "dmz.enable=true",
         "dmz.consulcatalog.connect=true",
         "dmz.http.routers.immich.rule=Host(`immich.schoger.net`)",
         "dmz.http.routers.immich.entrypoints=cloudflare",
-        "traefik.enable=true",
-        "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.immich.rule=Host(`immich.lab.home`)",
-        "traefik.http.routers.immich.entrypoints=websecure",
       ]
 
       meta {
@@ -46,7 +42,7 @@ job "immich" {
               envoy_prometheus_bind_addr = "0.0.0.0:9102"
             }
 
-            upstreams {
+            upstreams { # required for Smart Search
               destination_name = "immich-ml"
               local_bind_port  = 3003
             }
@@ -59,8 +55,8 @@ job "immich" {
 
         sidecar_task {
           resources {
-            cpu    = 50
-            memory = 48
+            cpu    = 200
+            memory = 50
           }
         }
       }
@@ -87,8 +83,8 @@ job "immich" {
 
         sidecar_task {
           resources {
-            cpu    = 50
-            memory = 48
+            cpu    = 150
+            memory = 50
           }
         }
       }
@@ -126,7 +122,7 @@ EOH
       }
 
       resources {
-        memory = 512
+        memory = 800
         cpu    = 500
       }
 
@@ -146,11 +142,12 @@ EOH
 
       config {
         image = "redis:alpine"
+        force_pull = true
       }
 
       resources {
-        memory = 64
-        cpu    = 100
+        memory = 150
+        cpu    = 150
       }
     }
 
@@ -218,13 +215,13 @@ EOH
         sidecar_task {
           resources {
             cpu    = 50
-            memory = 48
+            memory = 50
           }
         }
       }
     }
 
-    # microservices is the task worker, doing all the processing async
+    # task worker, doing all the processing async
     task "server" {
       driver = "docker"
 
@@ -263,8 +260,8 @@ EOH
       }
 
       resources {
-        memory = 2048
-        cpu    = 1000
+        memory = 2500
+        cpu    = 1200
       }
 
       volume_mount {
@@ -334,7 +331,7 @@ EOH
         sidecar_task {
           resources {
             cpu    = 50
-            memory = 48
+            memory = 50
           }
         }
       }
@@ -369,8 +366,8 @@ EOH
       }
 
       resources {
-        memory = 1536
-        cpu    = 2000
+        memory = 2000
+        cpu    = 1000
       }
     }
   }
@@ -405,7 +402,7 @@ EOH
         sidecar_task {
           resources {
             cpu    = 100
-            memory = 48
+            memory = 50
           }
         }
       }
@@ -455,8 +452,8 @@ EOH
       }
 
       resources {
-        memory = 512
-        cpu    = 400
+        cpu    = 800
+        memory = 1000
       }
     }
  
