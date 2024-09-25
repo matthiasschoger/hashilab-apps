@@ -7,6 +7,8 @@ job "immich" {
     network {
       mode = "bridge"
 
+      port "immich_metrics" { to = 8081 }
+
       port "envoy_metrics_api" { to = 9102 }
       port "envoy_metrics_redis" { to = 9103 }
     }
@@ -34,6 +36,7 @@ job "immich" {
 
       meta {
         envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_api}" # make envoy metrics port available in Consul
+        metrics_port = "${NOMAD_HOST_PORT_immich_metrics}"
       }
       connect {
         sidecar_service {
@@ -107,6 +110,10 @@ job "immich" {
         IMMICH_MEDIA_LOCATION = "/data"
         TZ = "Europe/Berlin"
 
+        IMMICH_API_METRICS = true
+        IMMICH_HOST_METRICS = true
+        IMMICH_IO_METRICS = true
+        IMMICH_JOB_METRICS = true
         IMMICH_WORKERS_INCLUDE = "api"
       }
 
@@ -179,6 +186,8 @@ EOH
     network {
       mode = "bridge"
 
+      port "immich_metrics" { to = 8082 }
+
       port "envoy_metrics" { to = 9102 }
     }
 
@@ -189,6 +198,7 @@ EOH
 
       meta {
         envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
+        metrics_port = "${NOMAD_HOST_PORT_immich_metrics}"
       }
       connect {
         sidecar_service {
@@ -245,6 +255,10 @@ EOH
         IMMICH_MEDIA_LOCATION = "/data"
         TZ = "Europe/Berlin"
 
+        IMMICH_API_METRICS = true
+        IMMICH_HOST_METRICS = true
+        IMMICH_IO_METRICS = true
+        IMMICH_JOB_METRICS = true
         IMMICH_WORKERS_EXCLUDE = "api"
       }
 
