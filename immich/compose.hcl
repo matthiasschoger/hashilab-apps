@@ -27,11 +27,15 @@ job "immich" {
         expose   = true
       }
 
-      tags = [
+      tags = [                    # dual-head to be able to upload large assets (videos) when in the internal network
         "dmz.enable=true",
         "dmz.consulcatalog.connect=true",
         "dmz.http.routers.immich.rule=Host(`immich.schoger.net`)",
         "dmz.http.routers.immich.entrypoints=cloudflare",
+        "traefik.enable=true",
+        "traefik.consulcatalog.connect=true",
+        "traefik.http.routers.immich.rule=Host(`immich.schoger.net`)",
+        "traefik.http.routers.immich.entrypoints=websecure",
       ]
 
       meta {
@@ -86,7 +90,7 @@ job "immich" {
 
         sidecar_task {
           resources {
-            cpu    = 150
+            cpu    = 200
             memory = 50
           }
         }
@@ -114,6 +118,7 @@ job "immich" {
         IMMICH_HOST_METRICS = true
         IMMICH_IO_METRICS = true
         IMMICH_JOB_METRICS = true
+
         IMMICH_WORKERS_INCLUDE = "api"
       }
 
@@ -259,6 +264,7 @@ EOH
         IMMICH_HOST_METRICS = true
         IMMICH_IO_METRICS = true
         IMMICH_JOB_METRICS = true
+        
         IMMICH_WORKERS_EXCLUDE = "api"
       }
 
@@ -466,7 +472,7 @@ EOH
       }
 
       resources {
-        cpu    = 800
+        cpu    = 1000
         memory = 1000
       }
     }
