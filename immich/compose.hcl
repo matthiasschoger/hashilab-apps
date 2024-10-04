@@ -112,6 +112,7 @@ job "immich" {
         NODE_ENV              = "production"
         REDIS_HOSTNAME        = "127.0.0.1"
         IMMICH_MEDIA_LOCATION = "/data"
+
         TZ = "Europe/Berlin"
 
         IMMICH_API_METRICS = true
@@ -158,7 +159,7 @@ EOH
       }
 
       resources {
-        memory = 150
+        memory = 300
         cpu    = 150
       }
     }
@@ -246,18 +247,19 @@ EOH
         image = "ghcr.io/immich-app/immich-server:release"
         force_pull = true
 
-        // devices = [ # map Intel QuickSync to container
-        //   {
-        //     host_path = "/dev/dri"
-        //     container_path = "/dev/dri"
-        //   }
-        // ]
+        devices = [ # map Intel QuickSync to container
+          {
+            host_path = "/dev/dri"
+            container_path = "/dev/dri"
+          }
+        ]
       }
 
       env {
         NODE_ENV              = "production"
         REDIS_HOSTNAME        = "127.0.0.1"
         IMMICH_MEDIA_LOCATION = "/data"
+
         TZ = "Europe/Berlin"
 
         IMMICH_API_METRICS = true
@@ -325,8 +327,7 @@ EOH
       port "envoy_metrics" { to = 9102 }
     }
 
-    ephemeral_disk {
-      # Used to cache the machine learning model
+    ephemeral_disk { # Used to cache the machine learning model
       size    = 1500 # MB
       migrate = true
     }
@@ -366,27 +367,27 @@ EOH
         image = "ghcr.io/immich-app/immich-machine-learning:release"
         force_pull = true
 
-        // devices = [ # map Intel QuickSync to container
-        //   {
-        //     host_path = "/dev/dri"
-        //     container_path = "/dev/dri"
-        //   }
-        // ]
+        devices = [ # map Intel QuickSync to container
+          {
+            host_path = "/dev/dri"
+            container_path = "/dev/dri"
+          }
+        ]
       }
 
       env {
-        TMPDIR       = "/local"
-        MPLCONFIGDIR = "/local"
+        TMPDIR       = "/tmp"
+        MPLCONFIGDIR = "/local/mplconfig"
         IMMICH_HOST  = "localhost"
         IMMICH_PORT  = "3003"
 
-        MACHINE_LEARNING_CACHE_FOLDER = "${NOMAD_ALLOC_DIR}/data/cache"
-
         TZ           = "Europe/Berlin"
+
+        MACHINE_LEARNING_CACHE_FOLDER = "${NOMAD_ALLOC_DIR}/data/cache"
       }
 
       resources {
-        memory = 2000
+        memory = 2500
         cpu    = 1000
       }
     }
