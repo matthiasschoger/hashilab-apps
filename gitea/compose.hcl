@@ -31,7 +31,7 @@ job "gitea" {
       tags = [
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.gitea.rule=Host(`gitea.lab.home`)",
+        "traefik.http.routers.gitea.rule=Host(`gitea.lab.schoger.net`)",
         "traefik.http.routers.gitea.entrypoints=websecure"
       ]
 
@@ -69,8 +69,9 @@ job "gitea" {
       }
 
       env {
-        GITEA__webhook__ALLOWED_HOST_LIST = "private"
         TZ = "Europe/Berlin"
+
+        GITEA__webhook__ALLOWED_HOST_LIST = "private"
       }
 
       resources {

@@ -51,8 +51,6 @@ job "vaultwarden" {
       }
     }
 
-    // NOTE: This service is running in my DMZ and using a specific volume for DMZ services. 
-    //  If you like to run this normally, just point the volume to the right location.
     task "server" {
 
       driver = "docker"
@@ -64,12 +62,13 @@ job "vaultwarden" {
       }
 
       env {
+        TZ = "Europe/Berlin"
+
         ROCKET_PROFILE = "release"
         ROCKET_PORT = "80"
         WEBSOCKET_ENABLED = true
         LOG_LEVEL = "warn"
         DOMAIN = "https://bitwarden.schoger.net"
-        TZ = "Europe/Berlin"
       }
 
       resources {

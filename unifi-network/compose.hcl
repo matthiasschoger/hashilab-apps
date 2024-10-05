@@ -34,7 +34,7 @@ job "unifi-network" {
 
       tags = [
         "traefik.enable=true",
-        "traefik.http.routers.unifi-network.rule=Host(`network.lab.home`)",
+        "traefik.http.routers.unifi-network.rule=Host(`network.lab.schoger.net`)",
         "traefik.http.routers.unifi-network.entrypoints=websecure",
         "traefik.http.services.unifi-network.loadbalancer.server.scheme=https"
       ]
@@ -56,13 +56,14 @@ job "unifi-network" {
         destination = "secrets/variables.env"
         env             = true
         data            = <<EOH
+TZ = "Europe/Berlin"
+
 {{- with nomadVar "nomad/jobs/unifi-network" }}
 MONGO_PORT = "27017"
 MONGO_HOST = "unifi-mongodb.service.consul"
 MONGO_USER = "unifi"
 MONGO_PASS = "{{- .db_pass }}"
 MONGO_DBNAME = "unifi"
-TZ = "Europe/Berlin"
 {{- end }}
 EOH
       }

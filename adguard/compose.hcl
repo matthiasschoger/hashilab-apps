@@ -42,7 +42,7 @@ job "adguard" {
 
         tags = [
           "traefik.enable=true",
-          "traefik.http.routers.adguard.rule=Host(`adguard.lab.home`)",
+          "traefik.http.routers.adguard.rule=Host(`adguard.lab.schoger.net`)",
           "traefik.http.routers.adguard.entrypoints=websecure"
         ]
       }

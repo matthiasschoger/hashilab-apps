@@ -31,7 +31,7 @@ job "bookstack" {
       tags = [
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.bookstack.rule=Host(`bookstack.lab.home`)",
+        "traefik.http.routers.bookstack.rule=Host(`bookstack.lab.schoger.net`)",
         "traefik.http.routers.bookstack.entrypoints=websecure"
       ]
 
@@ -67,13 +67,14 @@ job "bookstack" {
         destination = "secrets/variables.env"
         env             = true
         data            = <<EOH
+TZ = "Europe/Berlin"
+
 {{- with nomadVar "nomad/jobs/bookstack" }}
 DB_HOST = "127.0.0.1:3306" 
 DB_USER = "bookstack"
 DB_PASS = "{{- .db_pass }}"
 DB_DATABASE = "bookstackapp"
-APP_URL = "https://bookstack.lab.home"
-TZ = "Europe/Berlin"
+APP_URL = "https://bookstack.lab.schoger.net"
 {{- end }}
 EOH
       }
@@ -114,12 +115,13 @@ EOH
         destination = "secrets/variables.env"
         env             = true
         data            = <<EOH
+TZ = "Europe/Berlin"
+
 {{- with nomadVar "nomad/jobs/bookstack" }}
 MYSQL_ROOT_PASSWORD = "{{- .db_pass }}"
 MYSQL_DATABASE = "bookstackapp"
 MYSQL_USER = "bookstack"
 MYSQL_PASSWORD = "{{- .db_pass }}"
-TZ = "Europe/Berlin"
 {{- end }}
 EOH
       }

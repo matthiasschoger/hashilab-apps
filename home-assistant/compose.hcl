@@ -34,7 +34,7 @@ job "homeassistant" {
 
         tags = [
           "traefik.enable=true",
-          "traefik.http.routers.homeassistant.rule=Host(`homeassistant.lab.home`)",
+          "traefik.http.routers.homeassistant.rule=Host(`homeassistant.lab.schoger.net`)",
           "traefik.http.routers.homeassistant.entrypoints=websecure"
         ]
       }
