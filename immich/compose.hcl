@@ -35,6 +35,7 @@ job "immich" {
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
         "traefik.http.routers.immich.rule=Host(`immich.schoger.net`)",
+        "traefik.http.routers.immich.tls.certresolver=le",
         "traefik.http.routers.immich.entrypoints=websecure",
       ]
 
@@ -151,7 +152,7 @@ EOH
 
     # Redis cache
     task "redis" {
-       driver = "docker"
+      driver = "docker"
 
       config {
         image = "redis:alpine"
