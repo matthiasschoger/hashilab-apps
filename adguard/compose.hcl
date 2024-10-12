@@ -16,6 +16,19 @@ job "adguard" {
 
     task "server" {
 
+
+      service {
+        name = "adguard-dns"
+
+        port = "dns"
+
+        check {
+          type     = "tcp"
+          interval = "5s"
+          timeout  = "5s"
+        }
+      }
+
       service {
         name = "adguard-ui"
 
