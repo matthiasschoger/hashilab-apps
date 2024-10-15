@@ -27,7 +27,7 @@ job "homeassistant" {
 
         check {
           type     = "http"
-          path     = "/"
+          path     = "/manifest.json"
           interval = "10s"
           timeout  = "2s"
         }
