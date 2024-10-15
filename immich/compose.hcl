@@ -17,11 +17,11 @@ job "immich" {
       name = "immich-api"
 
       task = "server"
-      port = 3001
+      port = 2283
 
       check {
         type     = "http"
-        path     = "/api/server-info/ping"
+        path     = "/api/server/ping"
         interval = "10s"
         timeout  = "2s"
         expose   = true
@@ -201,7 +201,7 @@ EOH
     service {
       name = "immich-worker"
 
-      port = 3002
+      port = 2283
 
       meta {
         envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
