@@ -10,7 +10,7 @@ job "unifi-network" {
     }
 
     network {
-      port "ui" { static = 18443 }        # also changed in /data/system.properties
+      port "ui" { static = 8443 }        # also changed in /data/system.properties
       port "controller" { static = 8080 }
       port "stun" { static = 3478 }
       port "discovery" { static = 10001 }
@@ -42,8 +42,6 @@ job "unifi-network" {
 
     task "network" {
       driver = "docker"
-
-      // user = "1026:100" # matthias:users
 
       config {
         image = "lscr.io/linuxserver/unifi-network-application:latest"
@@ -110,26 +108,22 @@ EOH
     task "mongodb" {
       driver = "docker"
 
-      # proper user id is required for MongoDB
-      user = "1026:100" # matthias:users
-
       # backs up the MongoDB database and removes all files in the backup folder which are older than 3 days
       action "backup-mongodb" {
         command = "/bin/sh"
         args    = ["-c", <<EOF
-mongodump --gzip --archive=/storage/backup/backup.$(date +"%Y%m%d%H%M").gz
+mongodump --gzip --archive=/data/backup/backup.$(date +"%Y%m%d%H%M").gz
 echo "cleaning up backup files older than 3 days ..."
-find /storage/backup/* -mtime +3 -exec rm {} \;
+find /data/backup/* -mtime +3 -exec rm {} \;
 EOF
         ]
       }
 
       config {
-        image = "mongo:4.4.29" # latest MongoDB version supported by the Unifi Network application
+        image = "mongo:7.0.14"
+        command = "mongod"
 
-        args = ["--config", "/local/config.yaml"]
-
-        ports = ["mongodb"]
+        args = ["--config", "/local/mongod.conf"]
 
         volumes = [
           "secrets/entrypoint:/docker-entrypoint-initdb.d:ro",
@@ -142,7 +136,7 @@ EOF
 
       volume_mount {
         volume      = "unifi-mongo"
-        destination = "/storage"
+        destination = "/data"
       }
 
       template {
@@ -157,10 +151,20 @@ EOH
 
       # If using nfs, the share must preserve user:group and not sqash access rights
       template {
-        destination = "local/config.yaml"
+        destination = "local/mongod.conf"
         data = <<EOH
+net:
+#  bindIp: 127.0.0.1
+  bindIp: 0.0.0.0
 storage:
-   dbPath: "/storage/db"
+  dbPath: /data/db
+  directoryPerDB: true
+  wiredTiger:
+    engineConfig:
+      directoryForIndexes: true
+      journalCompressor: snappy
+    collectionConfig:
+      blockCompressor: snappy
 
 #systemLog:
 #  verbosity: 1 # log level Debug1
@@ -168,7 +172,7 @@ EOH
       }
 
       resources {
-        memory = 700
+        memory = 384
         cpu    = 200
       }
     }

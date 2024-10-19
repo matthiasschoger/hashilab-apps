@@ -19,6 +19,5 @@ context {
 
 mount_options {
   fs_type = "nfs"
-  mount_flags = [ "timeo=30", "vers=4.1", "nolock", "bg", "hard", "noatime", "nointr" ]
+  mount_flags = [ "timeo=30", "vers=4.1", "bg", "hard", "nolock", "noatime", "nointr" ]
 }
-
