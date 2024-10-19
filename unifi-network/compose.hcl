@@ -112,9 +112,9 @@ EOH
       action "backup-mongodb" {
         command = "/bin/sh"
         args    = ["-c", <<EOF
-mongodump --gzip --archive=/data/backup/backup.$(date +"%Y%m%d%H%M").gz
+mongodump --gzip --archive=/storage/backup/backup.$(date +"%Y%m%d%H%M").gz
 echo "cleaning up backup files older than 3 days ..."
-find /data/backup/* -mtime +3 -exec rm {} \;
+find /storage/backup/* -mtime +3 -exec rm {} \;
 EOF
         ]
       }
@@ -136,7 +136,7 @@ EOF
 
       volume_mount {
         volume      = "unifi-mongo"
-        destination = "/data"
+        destination = "/storage"
       }
 
       template {
@@ -157,7 +157,7 @@ net:
 #  bindIp: 127.0.0.1
   bindIp: 0.0.0.0
 storage:
-  dbPath: /data/db
+  dbPath: /storage/db
   directoryPerDB: true
   wiredTiger:
     engineConfig:
