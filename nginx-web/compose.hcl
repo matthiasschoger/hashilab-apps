@@ -17,7 +17,7 @@ job "nginx" {
 
       check {
         type     = "http"
-        path     = "/alive"
+        path     = "/alive"  # you need that file on the nginx CSI share 
         interval = "10s"
         timeout  = "2s"
         expose   = true # required for Connect
@@ -51,8 +51,6 @@ job "nginx" {
       }
     }
 
-    // NOTE: This service is running in my DMZ and using a specific volume for DMZ services. 
-    //  If you like to run this normally, just point the volume to the right location.
     task "server" {
 
       driver = "docker"
@@ -68,10 +66,32 @@ job "nginx" {
       }
 
       template {
-        data        = file("default.conf")
         destination = "local/conf.d/default.conf"
         change_mode   = "signal"
         change_signal = "SIGHUP"
+
+        data = <<EOH
+# www.schoger.net
+server {
+    server_name www.schoger.net;
+
+    location / {
+        root  /usr/share/nginx/content/www.schoger.net;
+    }
+
+    # show index page as error page
+    error_page 400 404 500 502 503 504 /index.html;
+    location = /index.html {
+        root    /usr/share/nginx/content/www.schoger.net;
+     }
+}
+
+# redirect from schoger.net to www.schoger.net
+server {
+        server_name schoger.net;
+        return 301 $scheme://www.schoger.net$request_uri;
+}
+EOH
       }
 
       resources {
