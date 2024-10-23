@@ -10,26 +10,28 @@ job "unifi-network" {
     }
 
     network {
-      port "ui" { static = 8443 }        # also changed in /data/system.properties
-      port "controller" { static = 8080 }
-      port "stun" { static = 3478 }
-      port "discovery" { static = 10001 }
+      mode = "bridge"
+
+      port "https" { to = 8443 }
+      port "stun" { to = 3478 }       # udp 
+      port "discovery" { to = 10001 } # udp
+
       port "discovery-l2" { static = 1900 }
       port "speedtest" { static = 6789 }
+
+      port "envoy_metrics" { to = 9102 }
     }
 
     service {
-      name = "unifi-network"
+      name = "unifi-network-https"
 
-      port = "ui"
+      port = "https"
+#      port = 8443
 
       check {
-        type            = "http"
-        protocol        = "https"
-        tls_skip_verify = true
-        path            = "/status"
-        interval        = "10s"
-        timeout         = "2s"
+        type     = "tcp"
+        interval = "5s"
+        timeout  = "5s"
       }
 
       tags = [
@@ -40,14 +42,48 @@ job "unifi-network" {
       ]
     }
 
+    service {
+      name = "unifi-network-inform"
+
+      port = 8080
+
+      connect {
+        sidecar_service {
+          proxy {
+            config {
+              envoy_prometheus_bind_addr = "0.0.0.0:9102"
+            }
+          }
+        }
+
+        sidecar_task {
+          resources {
+            cpu    = 50
+            memory = 64
+          }
+        }
+      }
+    }
+
+    # STUN port (UDP), tunneled by NGINX in consul-ingres
+    service {
+      name = "unifi-network-stun"
+
+      port = "stun"
+    }
+
+    # Discover port (UDP), tunneled by NGINX in consul-ingres
+    service {
+      name = "unifi-network-discovery"
+
+      port = "discovery"
+    }
+
     task "network" {
       driver = "docker"
 
       config {
         image = "lscr.io/linuxserver/unifi-network-application:latest"
-
-        network_mode = "host"
-        ports = ["ui","controller","stun","discovery","discovery-l2","speedtest"]
       }
 
       template {
