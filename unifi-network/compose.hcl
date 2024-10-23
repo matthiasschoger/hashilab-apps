@@ -41,6 +41,7 @@ job "unifi-network" {
     }
 
     # Discover port, required to discover Unifi devices on the network
+    # Don't forget to set the "Inform Host" in Settings->System->Advanced to your ingress IP (floating IP managed by keepalived)
     service {
       name = "unifi-network-inform"
 
@@ -90,8 +91,8 @@ job "unifi-network" {
 TZ = "Europe/Berlin"
 
 {{- with nomadVar "nomad/jobs/unifi-network" }}
-MONGO_PORT = "27017"
 MONGO_HOST = "localhost"
+MONGO_PORT = "27017"
 MONGO_USER = "unifi"
 MONGO_PASS = "{{- .db_pass }}"
 MONGO_DBNAME = "unifi"
@@ -164,7 +165,6 @@ EOH
         data = <<EOH
 net:
   bindIp: 127.0.0.1
-#  bindIp: 0.0.0.0
 storage:
   dbPath: /storage/db
   directoryPerDB: true
