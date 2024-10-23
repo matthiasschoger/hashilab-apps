@@ -16,17 +16,15 @@ job "unifi-network" {
       port "stun" { to = 3478 }       # udp 
       port "discovery" { to = 10001 } # udp
 
-      port "discovery-l2" { static = 1900 }
-      port "speedtest" { static = 6789 }
-
-      port "envoy_metrics" { to = 9102 }
+#      port "discovery-l2" { static = 1900 } # udp
+#      port "speedtest" { static = 6789 }
     }
 
+    # Main UI port. Can't get it to work with Consul Connect since the traffic is https
     service {
       name = "unifi-network-https"
 
       port = "https"
-#      port = 8443
 
       check {
         type     = "tcp"
@@ -42,6 +40,7 @@ job "unifi-network" {
       ]
     }
 
+    # Discover port, required to discover Unifi devices on the network
     service {
       name = "unifi-network-inform"
 
@@ -50,9 +49,7 @@ job "unifi-network" {
       connect {
         sidecar_service {
           proxy {
-            config {
-              envoy_prometheus_bind_addr = "0.0.0.0:9102"
-            }
+            config {}
           }
         }
 
@@ -65,14 +62,14 @@ job "unifi-network" {
       }
     }
 
-    # STUN port (UDP), tunneled by NGINX in consul-ingres
+    # STUN port (UDP), proxied by NGINX in consul-ingres
     service {
       name = "unifi-network-stun"
 
       port = "stun"
     }
 
-    # Discover port (UDP), tunneled by NGINX in consul-ingres
+    # Discover port (UDP), proxied by NGINX in consul-ingres
     service {
       name = "unifi-network-discovery"
 
@@ -94,7 +91,7 @@ TZ = "Europe/Berlin"
 
 {{- with nomadVar "nomad/jobs/unifi-network" }}
 MONGO_PORT = "27017"
-MONGO_HOST = "unifi-mongodb.service.consul"
+MONGO_HOST = "localhost"
 MONGO_USER = "unifi"
 MONGO_PASS = "{{- .db_pass }}"
 MONGO_DBNAME = "unifi"
@@ -119,28 +116,9 @@ EOH
       access_mode     = "single-node-writer"
       attachment_mode = "file-system"
     }
-  }
 
 
-  group "mongodb" {
-
-    constraint {
-      attribute = "${node.class}"
-      value     = "compute"
-    }
-
-    network {
-      mode = "bridge"
-
-      port "mongodb" { static = 27017 }
-    }
-
-    service {
-      name = "unifi-mongodb"
-
-      port = "mongodb"
-    }
-
+    # embedded MongoDB database
     task "mongodb" {
       driver = "docker"
 
@@ -170,11 +148,6 @@ EOF
         TZ = "Europe/Berlin"
       }
 
-      volume_mount {
-        volume      = "unifi-mongo"
-        destination = "/storage"
-      }
-
       template {
         destination = "secrets/entrypoint/init-mongo.js"
         data = <<EOH
@@ -190,8 +163,8 @@ EOH
         destination = "local/mongod.conf"
         data = <<EOH
 net:
-#  bindIp: 127.0.0.1
-  bindIp: 0.0.0.0
+  bindIp: 127.0.0.1
+#  bindIp: 0.0.0.0
 storage:
   dbPath: /storage/db
   directoryPerDB: true
@@ -210,6 +183,11 @@ EOH
       resources {
         memory = 256
         cpu    = 200
+      }
+
+      volume_mount {
+        volume      = "unifi-mongo"
+        destination = "/storage"
       }
     }
  
