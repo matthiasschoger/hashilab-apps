@@ -103,6 +103,7 @@ job "unifi-network" {
     }
 
     # Discovery-L2 port (UDP), proxied by NGINX in consul-ingres
+    # Used to "Make application discoverable on L2 network" in the UniFi Network settings.
     service {
       name = "unifi-network-discovery-l2"
 
