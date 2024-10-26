@@ -13,11 +13,10 @@ job "unifi-network" {
       mode = "bridge"
 
       port "https" { to = 8443 }
+
       port "stun" { to = 3478 }       # udp 
       port "discovery" { to = 10001 } # udp
-
-#      port "discovery-l2" { static = 1900 } # udp
-#      port "speedtest" { static = 6789 }
+      port "discovery-l2" { to = 1900 } # udp
     }
 
     # Main UI port. Can't get it to work with Consul Connect since the traffic is https
@@ -27,9 +26,13 @@ job "unifi-network" {
       port = "https"
 
       check {
-        type     = "tcp"
-        interval = "5s"
-        timeout  = "5s"
+        type            = "http"
+        protocol        = "https"
+        tls_skip_verify = true
+        path            = "/status"
+        interval        = "10s"
+        timeout         = "2s"
+#        expose          = true
       }
 
       tags = [
@@ -40,12 +43,34 @@ job "unifi-network" {
       ]
     }
 
-    # Discover port, required to discover Unifi devices on the network
+    # Inform port, required to discover Unifi devices on the network
     # Don't forget to set the "Inform Host" in Settings->System->Advanced to your ingress IP (floating IP managed by keepalived)
     service {
       name = "unifi-network-inform"
 
       port = 8080
+
+      connect {
+        sidecar_service {
+          proxy {
+            config {}
+          }
+        }
+
+        sidecar_task {
+          resources {
+            cpu    = 50
+            memory = 64
+          }
+        }
+      }
+    }
+
+    # Speedtest port
+    service {
+      name = "unifi-network-speedtest"
+
+      port = 6789
 
       connect {
         sidecar_service {
@@ -70,11 +95,18 @@ job "unifi-network" {
       port = "stun"
     }
 
-    # Discover port (UDP), proxied by NGINX in consul-ingres
+    # Discovery port (UDP), proxied by NGINX in consul-ingres
     service {
       name = "unifi-network-discovery"
 
       port = "discovery"
+    }
+
+    # Discovery-L2 port (UDP), proxied by NGINX in consul-ingres
+    service {
+      name = "unifi-network-discovery-l2"
+
+      port = "discovery-l2"
     }
 
     task "network" {
