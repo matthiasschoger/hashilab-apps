@@ -404,6 +404,17 @@ EOH
 
       port = 5432
 
+      # check {
+      #   name     = "Check Postgres is ready"
+      #   type     = "script"
+      #   task     = "server"
+
+      #   command  = "/bin/bash"
+      #   args     = ["-c", "pg_isready"]
+      #   interval = "300s"
+      #   timeout  = "2s"
+      # }
+
       meta {
         envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
       }
