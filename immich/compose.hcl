@@ -116,10 +116,8 @@ job "immich" {
 
         TZ = "Europe/Berlin"
 
-        IMMICH_API_METRICS = true
-        IMMICH_HOST_METRICS = true
-        IMMICH_IO_METRICS = true
-        IMMICH_JOB_METRICS = true
+        IMMICH_TELEMETRY_INCLUDE = "all"
+#        IMMICH_TELEMETRY_EXCLUDE = "host"
 
         IMMICH_WORKERS_INCLUDE = "api"
       }
@@ -155,8 +153,7 @@ EOH
       driver = "docker"
 
       config {
-        image = "redis:alpine"
-        force_pull = true
+        image = "redis:6.2-alpine"
       }
 
       resources {
@@ -263,10 +260,8 @@ EOH
 
         TZ = "Europe/Berlin"
 
-        IMMICH_API_METRICS = true
-        IMMICH_HOST_METRICS = true
-        IMMICH_IO_METRICS = true
-        IMMICH_JOB_METRICS = true
+        IMMICH_TELEMETRY_INCLUDE = "all"
+#        IMMICH_TELEMETRY_EXCLUDE = "host"
         
         IMMICH_WORKERS_EXCLUDE = "api"
       }
