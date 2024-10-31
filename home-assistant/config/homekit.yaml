@@ -1,7 +1,7 @@
 
   - name: Home Assistant Bridge
-    port: {{ env "NOMAD_HOST_PORT_homekit" }}
-    advertise_ip: "{{ env "NOMAD_IP_homekit" }}"
+    port: 21063
+    advertise_ip: "192.168.0.3"
     filter:
       include_domains:
         - button

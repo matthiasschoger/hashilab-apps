@@ -1,6 +1,7 @@
 
   default: info
-#  logs:
+  logs:
+    homeassistant.setup: warn
 #    homeassistant.components.http: debug
 #    homeassistant.components.homekit: debug
 #    pyhap: debug
