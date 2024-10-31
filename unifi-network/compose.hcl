@@ -12,35 +12,56 @@ job "unifi-network" {
     network {
       mode = "bridge"
 
-      port "https" { to = 8443 }
+      port "envoy_metrics_ui" { to = 9102 }
+      port "envoy_metrics_inform" { to = 9103 }
+      port "envoy_metrics_speedtest" { to = 9104 }
 
       port "stun" { to = 3478 }       # udp 
       port "discovery" { to = 10001 } # udp
       port "discovery-l2" { to = 1900 } # udp
     }
 
-    # Main UI port. Can't get it to work with Consul Connect since the traffic is https
     service {
-      name = "unifi-network-https"
+      name = "unifi-network-ui"
 
-      port = "https"
+      port = 8888 # NGINX proxy endpoint which strips TLS from the connection
 
       check {
         type            = "http"
-        protocol        = "https"
-        tls_skip_verify = true
         path            = "/status"
         interval        = "10s"
         timeout         = "2s"
-#        expose          = true
+        expose          = true
       }
 
       tags = [
         "traefik.enable=true",
+        "traefik.consulcatalog.connect=true",
         "traefik.http.routers.unifi-network.rule=Host(`network.lab.schoger.net`)",
         "traefik.http.routers.unifi-network.entrypoints=websecure",
-        "traefik.http.services.unifi-network.loadbalancer.server.scheme=https"
       ]
+
+      meta { # make envoy metrics port available in Consul
+        envoy_metrics_port_ui = "${NOMAD_HOST_PORT_envoy_metrics_ui}" 
+        envoy_metrics_port_inform = "${NOMAD_HOST_PORT_envoy_metrics}"
+        envoy_metrics_port_speedtest = "${NOMAD_HOST_PORT_envoy_metrics}"
+      }
+      connect {
+        sidecar_service {
+          proxy {
+            config {
+              envoy_prometheus_bind_addr = "0.0.0.0:9102"
+            }
+          }
+        }
+
+        sidecar_task {
+          resources {
+            cpu    = 50
+            memory = 48
+          }
+        }
+      }
     }
 
     # Inform port, required to discover Unifi devices on the network
@@ -53,7 +74,9 @@ job "unifi-network" {
       connect {
         sidecar_service {
           proxy {
-            config {}
+            config {
+              envoy_prometheus_bind_addr = "0.0.0.0:9103"
+            }
           }
         }
 
@@ -75,7 +98,9 @@ job "unifi-network" {
       connect {
         sidecar_service {
           proxy {
-            config {}
+            config {
+              envoy_prometheus_bind_addr = "0.0.0.0:9104"
+            }
           }
         }
 
@@ -229,6 +254,61 @@ EOH
       source          = "unifi-mongo"
       access_mode     = "single-node-writer"
       attachment_mode = "file-system"
+    }
+
+
+    # NGINX to strip https from the UI endpoint (8443)
+    task "nginx" {
+
+      driver = "docker"
+
+      config {
+        image           = "nginxinc/nginx-unprivileged:alpine"
+        volumes         = ["local/nginx.conf:/etc/nginx/conf.d/default.conf"]
+      }
+
+      template {
+        data        = <<_EOF
+map $http_upgrade $connection_upgrade {  
+    default upgrade;
+    ''      close;
+}
+
+server {
+  listen 127.0.0.1:8888;
+  server_name _;
+  server_tokens off;
+  proxy_set_header Origin "";
+  proxy_set_header Authorization "";
+
+  proxy_http_version 1.1;
+  proxy_set_header Upgrade $http_upgrade;
+  proxy_set_header Connection $connection_upgrade;
+  proxy_set_header Host $host;
+  proxy_socket_keepalive on;
+  client_max_body_size 100m;
+
+  set_real_ip_from 127.0.0.1;
+  real_ip_header X-Forwarded-For;
+  real_ip_recursive on;
+
+  # Main console
+  location / {
+    if ($request_method !~ ^(GET|HEAD|POST|PUT|DELETE)$ ) {
+      return 405;
+    }
+    proxy_pass https://localhost:8443;
+  }
+}
+_EOF
+        destination = "local/nginx.conf"
+      }
+
+
+      resources {
+        cpu    = 20
+        memory = 15
+      }
     }
   }
 }

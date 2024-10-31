@@ -27,7 +27,7 @@ job "immich" {
         expose   = true
       }
 
-      tags = [                    # dual-head to be able to upload large assets (videos) when in the internal network
+      tags = [ # dual-head to be able to upload large assets (videos) when in the internal network
         "dmz.enable=true",
         "dmz.consulcatalog.connect=true",
         "dmz.http.routers.immich.rule=Host(`immich.schoger.net`)",
