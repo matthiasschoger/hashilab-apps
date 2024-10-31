@@ -4,11 +4,6 @@ job "adguard" {
 
   group "adguard" {
 
-    constraint {
-      attribute = "${node.class}"
-      value     = "compute"
-    }
-
     network {
       port "http" { to = 80 }
       port "dns" { to = 53 }

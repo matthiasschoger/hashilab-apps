@@ -4,11 +4,6 @@ job "unifi-network" {
 
   group "network" {
 
-    constraint {
-      attribute = "${node.class}"
-      value     = "compute"
-    }
-
     network {
       mode = "bridge"
 

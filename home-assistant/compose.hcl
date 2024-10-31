@@ -4,11 +4,6 @@ job "homeassistant" {
 
   group "homeassistant" {
 
-    constraint {
-      attribute = "${node.class}"
-      value     = "compute"
-    }
-
     network {
 #      mode = "bridge"
 

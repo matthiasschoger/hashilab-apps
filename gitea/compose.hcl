@@ -4,11 +4,6 @@ job "gitea" {
 
   group "gitea" {
 
-    constraint {
-      attribute = "${node.class}"
-      value     = "compute"
-    }
-
     network {
       mode = "bridge"
 

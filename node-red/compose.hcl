@@ -4,11 +4,6 @@ job "node-red" {
 
   group "node-red" {
 
-    constraint {
-      attribute = "${node.class}"
-      value     = "compute"
-    }
-
     network {
       mode = "bridge"
 
