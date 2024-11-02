@@ -24,12 +24,12 @@ To keep the jobs manageable, I've split them into three repositories
 The "apps" repository defines end-user applications running on the cluster. Used by me and my family to manage our home automations, mobile phone images and family passwords.
 
 - adguard - DNS filering to make sure that tracking and ads are limited to a minimum on our home network. Some magic is involved in core-dns to make sure that DNS still works if the adguard service is down.
-- bookstack - My internal wiki where I keep all the notes to my setup.
+- bookstack - My internal wiki where I keep all the notes for my setup.
 - gitea - Local git which keeps all my IaC code.
 - grafana - Fancy dashboards for all your graph-p*rn needs.
-- home-assistant - Currently mainly used to bridge my IoT hardware to Homekit.
+- home-assistant - Mainly used to bridge my IoT hardware and OpenWeatherMap to Homekit.
 - immich - Awesome image management tool which handles image backup and management for the family. Great example how to scale a complex application in a Nomad/Consul cluster.
-- nginx-web - Static web page if you happen to stumble across my domain.
+- nginx-web - Static web page if you should happen to stumble across my domain.
 - node-red - More home automation.
 - unifi-network - Controller application for the Unifi network stack from Ubiquiti Networks. Was quite tricky to set up in a HA environment, please check consul-ingress for UDP forwarding.
 - vaultwarden - Password management for the family.
