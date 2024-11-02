@@ -26,6 +26,7 @@ The "apps" repository defines end-user applications running on the cluster. Used
 - adguard - DNS filering to make sure that tracking and ads are limited to a minimum on our home network. Some magic is involved in core-dns to make sure that DNS still works if the adguard service is down.
 - bookstack - My internal wiki where I keep all the notes to my setup.
 - gitea - Local git which keeps all my IaC code.
+- grafana - Fancy dashboards for all your graph-p*rn needs.
 - home-assistant - Currently mainly used to bridge my IoT hardware to Homekit.
 - immich - Awesome image management tool which handles image backup and management for the family. Great example how to scale a complex application in a Nomad/Consul cluster.
 - nginx-web - Static web page if you happen to stumble across my domain.
