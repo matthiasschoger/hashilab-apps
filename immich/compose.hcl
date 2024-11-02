@@ -4,6 +4,12 @@ job "immich" {
 
   group "api" {
 
+    ephemeral_disk {
+      # Persistent data for Redis. Nomad will try to preserve the disk between job updates
+      size    = 300 # MB
+      migrate = true
+    }
+
     network {
       mode = "bridge"
 
@@ -154,6 +160,15 @@ EOH
 
       config {
         image = "redis:6.2-alpine"
+
+        args = [ "/local/redis.conf" ]
+      }
+
+      template {
+        destination = "local/redis.conf"
+        data        = <<EOH
+dir {{ env "NOMAD_ALLOC_DIR" }}/data
+EOH
       }
 
       resources {
