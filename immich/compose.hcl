@@ -167,6 +167,8 @@ EOH
       template {
         destination = "local/redis.conf"
         data        = <<EOH
+save 10 1 # save every 10 seconds if at least one key has changed
+
 dir {{ env "NOMAD_ALLOC_DIR" }}/data
 EOH
       }
