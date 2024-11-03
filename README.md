@@ -14,14 +14,14 @@ My main goals for my new homelab were the following
 - Scratch my technical itch. Since I move into a sales position right before Covid, I needed some tech stuff to do.
 
 To keep the jobs manageable, I've split them into three repositories
-- [hashilab-core](https://github.com/matthiasschoger/hashilab-core): Basic infrastructure which contains load-balancing, reverse proxy, DNS and ingress management
-- [hashilab-support](https://github.com/matthiasschoger/hashilab-support): Additional operational stuff like metrics management and visualization, maintenance tasks and much more stuff to run the cluster more effienctly
-- [hashilab-apps](https://github.com/matthiasschoger/hashilab-apps): End-user apps like Vaultwarden or Immich
+- [hashilab-core](https://github.com/matthiasschoger/hashilab-core): Basic infrastructure which contains load-balancing, reverse proxy, DNS and ingress management.
+- [hashilab-support](https://github.com/matthiasschoger/hashilab-support): Additional operational stuff like metrics management, Cloudflare tunnel, maintenance tasks and much more stuff to run the cluster more effienctly.
+- [hashilab-apps](https://github.com/matthiasschoger/hashilab-apps): End-user apps like Vaultwarden or Immich.
 
 
 <h2>Hashilab-apps</h2>
 
-The "apps" repository defines end-user applications running on the cluster. Used by me and my family to manage our home automations, mobile phone images and family passwords.
+The "apps" repository defines end-user applications running on the cluster. Used by me and my family to manage our home automations, photos on our mobile phones and family passwords.
 
 - adguard - DNS filering to make sure that tracking and ads are limited to a minimum on our home network. Some magic is involved in [core-dns](https://github.com/matthiasschoger/hashilab-core/tree/master/core-dns) to make sure that DNS still works if the adguard service is down.
 - bookstack - My internal wiki where I keep all the notes for my setup.
