@@ -64,6 +64,10 @@ job "immich" {
               destination_name = "immich-postgres"
               local_bind_port  = 5432
             }
+            upstreams { # email notifications
+              destination_name = "protonmail-smtp"
+              local_bind_port  = 25
+            }
           }
         }
 
@@ -108,8 +112,6 @@ job "immich" {
     task "server" {
       driver = "docker"
 
-      user = "1026:100" # matthias:users
-    
       config {
         image = "ghcr.io/immich-app/immich-server:release"
         force_pull = true
@@ -121,6 +123,10 @@ job "immich" {
         IMMICH_MEDIA_LOCATION = "/data"
 
         TZ = "Europe/Berlin"
+
+        # user and group ID
+        PUID = 1026
+        PGID = 100
 
         IMMICH_TELEMETRY_INCLUDE = "all"
 #        IMMICH_TELEMETRY_EXCLUDE = "host"
@@ -256,8 +262,6 @@ EOH
     task "server" {
       driver = "docker"
 
-      user = "1026:100" # matthias:users
-
       config {
         image = "ghcr.io/immich-app/immich-server:release"
         force_pull = true
@@ -274,6 +278,10 @@ EOH
         NODE_ENV              = "production"
         REDIS_HOSTNAME        = "127.0.0.1"
         IMMICH_MEDIA_LOCATION = "/data"
+
+        # user and group ID
+        PUID = 1026
+        PGID = 100
 
         TZ = "Europe/Berlin"
 
