@@ -11,8 +11,8 @@ job "unifi-network" {
       port "envoy_metrics_inform" { to = 9103 }
       port "envoy_metrics_speedtest" { to = 9104 }
 
-      port "stun" { to = 3478 }       # udp 
-      port "discovery" { to = 10001 } # udp
+      port "stun" { to = 3478 }        # udp 
+      port "discovery" { to = 10001 }  # udp
       port "discovery-l2" { to = 1900 } # udp
     }
 
@@ -37,15 +37,17 @@ job "unifi-network" {
       ]
 
       meta { # make envoy metrics port available in Consul
-        envoy_metrics_port_ui = "${NOMAD_HOST_PORT_envoy_metrics_ui}" 
-        envoy_metrics_port_inform = "${NOMAD_HOST_PORT_envoy_metrics}"
-        envoy_metrics_port_speedtest = "${NOMAD_HOST_PORT_envoy_metrics}"
+        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_ui}" 
       }
       connect {
         sidecar_service {
           proxy {
             config {
               envoy_prometheus_bind_addr = "0.0.0.0:9102"
+            }
+            upstreams {
+              destination_name = "unifi-mongodb"
+              local_bind_port  = 27017
             }
           }
         }
@@ -66,6 +68,9 @@ job "unifi-network" {
 
       port = 8080
 
+      meta { # make envoy metrics port available in Consul
+        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_inform}"
+      }
       connect {
         sidecar_service {
           proxy {
@@ -90,6 +95,9 @@ job "unifi-network" {
 
       port = 6789
 
+      meta { # make envoy metrics port available in Consul
+        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_speedtest}"
+      }
       connect {
         sidecar_service {
           proxy {
@@ -130,7 +138,7 @@ job "unifi-network" {
       port = "discovery-l2"
     }
 
-    task "network" {
+    task "server" {
       driver = "docker"
 
       config {
@@ -172,8 +180,90 @@ EOH
     }
 
 
-    # embedded MongoDB database
-    task "mongodb" {
+    # NGINX to strip https from the UI endpoint (8443), required to make Consul Connect happy
+    task "nginx" {
+
+      driver = "docker"
+
+      config {
+        image           = "nginxinc/nginx-unprivileged:alpine"
+        volumes         = ["local/nginx.conf:/etc/nginx/conf.d/default.conf"]
+      }
+
+      template {
+        data        = <<_EOF
+map $http_upgrade $connection_upgrade {  
+    default upgrade;
+    ''      close;
+}
+
+server {
+  listen 127.0.0.1:8888;
+
+  proxy_http_version 1.1;
+  proxy_set_header Upgrade $http_upgrade;
+  proxy_set_header Connection $connection_upgrade;
+  proxy_set_header Host $host;
+  proxy_socket_keepalive on;
+  client_max_body_size 100m;
+
+  set_real_ip_from 127.0.0.1;
+  real_ip_header X-Forwarded-For;
+  real_ip_recursive on;
+
+  # Main console
+  location / {
+    proxy_pass https://localhost:8443;
+  }
+}
+_EOF
+        destination = "local/nginx.conf"
+      }
+
+      resources {
+        cpu    = 20
+        memory = 15
+      }
+    }
+  }
+
+
+  # MongoDB, which stores metrics and application data
+  group "mongodb" {
+
+    network {
+      mode = "bridge"
+
+      port "envoy_metrics" { to = 9102 }
+    }
+
+    service {
+      name = "unifi-mongodb"
+
+      port = 27017
+
+      meta { # make envoy metrics port available in Consul
+        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}"
+      }
+      connect {
+        sidecar_service {
+          proxy {
+            config {
+              envoy_prometheus_bind_addr = "0.0.0.0:9102"
+            }
+          }
+        }
+
+        sidecar_task {
+          resources {
+            cpu    = 50
+            memory = 48
+          }
+        }
+      }
+    }
+
+    task "server" {
       driver = "docker"
 
       # backs up the MongoDB database and removes all files in the backup folder which are older than 3 days
@@ -188,7 +278,7 @@ EOF
       }
 
       config {
-        image = "mongo:7.0.14"
+        image = "mongo:7.0.15"
         command = "mongod"
 
         args = ["--config", "/local/mongod.conf"]
@@ -228,7 +318,8 @@ storage:
     collectionConfig:
       blockCompressor: snappy
 
-#systemLog:
+systemLog:
+  verbosity: 0
 #  verbosity: 1 # log level Debug1
 EOH
       }
@@ -249,61 +340,6 @@ EOH
       source          = "unifi-mongo"
       access_mode     = "single-node-writer"
       attachment_mode = "file-system"
-    }
-
-
-    # NGINX to strip https from the UI endpoint (8443)
-    task "nginx" {
-
-      driver = "docker"
-
-      config {
-        image           = "nginxinc/nginx-unprivileged:alpine"
-        volumes         = ["local/nginx.conf:/etc/nginx/conf.d/default.conf"]
-      }
-
-      template {
-        data        = <<_EOF
-map $http_upgrade $connection_upgrade {  
-    default upgrade;
-    ''      close;
-}
-
-server {
-  listen 127.0.0.1:8888;
-  server_name _;
-  server_tokens off;
-  proxy_set_header Origin "";
-  proxy_set_header Authorization "";
-
-  proxy_http_version 1.1;
-  proxy_set_header Upgrade $http_upgrade;
-  proxy_set_header Connection $connection_upgrade;
-  proxy_set_header Host $host;
-  proxy_socket_keepalive on;
-  client_max_body_size 100m;
-
-  set_real_ip_from 127.0.0.1;
-  real_ip_header X-Forwarded-For;
-  real_ip_recursive on;
-
-  # Main console
-  location / {
-    if ($request_method !~ ^(GET|HEAD|POST|PUT|DELETE)$ ) {
-      return 405;
-    }
-    proxy_pass https://localhost:8443;
-  }
-}
-_EOF
-        destination = "local/nginx.conf"
-      }
-
-
-      resources {
-        cpu    = 20
-        memory = 15
-      }
     }
   }
 }

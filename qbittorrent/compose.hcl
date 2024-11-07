@@ -80,10 +80,10 @@ job "qbittorrent" {
         destination = "/config"
       }
 
-      # volume_mount {
-      #   volume      = "servarr"
-      #   destination = "/servarr"
-      # }
+      volume_mount {
+        volume      = "servarr"
+        destination = "/servarr"
+      }
     }
 
     volume "qbittorrent" {
@@ -93,11 +93,11 @@ job "qbittorrent" {
       attachment_mode = "file-system"
     }
 
-    # volume "servarr" {
-    #   type            = "csi"
-    #   source          = "servarr"
-    #   access_mode     = "multi-node-multi-writer"
-    #   attachment_mode = "file-system"
-    # }
+    volume "servarr" {
+      type            = "csi"
+      source          = "servarr"
+      access_mode     = "multi-node-multi-writer"
+      attachment_mode = "file-system"
+    }
   }
 }
