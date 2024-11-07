@@ -242,6 +242,15 @@ _EOF
 
       port = 27017
 
+      check {
+        type     = "script"
+        command  = "sh"
+        args     = ["-c", "/usr/bin/mongosh --eval 'db.runCommand(\"ping\").ok'"]
+        interval = "10s"
+        timeout  = "2s"
+        task     = "server"
+      }
+
       meta { # make envoy metrics port available in Consul
         envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}"
       }
@@ -325,7 +334,7 @@ EOH
       }
 
       resources {
-        memory = 256
+        memory = 384
         cpu    = 200
       }
 
