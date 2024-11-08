@@ -1,3 +1,7 @@
+variable "base_domain" {
+  default = "missing.environment.variable"
+}
+
 job "grafana" {
   datacenters = ["home"]
   type = "service"
@@ -18,7 +22,7 @@ job "grafana" {
       tags = [
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.grafana.rule=Host(`grafana.lab.schoger.net`)",
+        "traefik.http.routers.grafana.rule=Host(`grafana.lab.${var.base_domain}`)",
         "traefik.http.routers.grafana.entrypoints=websecure"
       ]
 

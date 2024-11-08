@@ -1,3 +1,7 @@
+variable "base_domain" {
+  default = "missing.environment.variable"
+}
+
 job "gitea" {
   datacenters = ["home"]
   type        = "service"
@@ -26,18 +30,15 @@ job "gitea" {
       tags = [
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.gitea.rule=Host(`gitea.lab.schoger.net`)",
+        "traefik.http.routers.gitea.rule=Host(`gitea.lab.${var.base_domain}`)",
         "traefik.http.routers.gitea.entrypoints=websecure"
       ]
 
-      meta {
-        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
-      }
+      meta { envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" }
       connect {
         sidecar_service {
           proxy {
             config {
-              protocol = "http"
               envoy_prometheus_bind_addr = "0.0.0.0:9102"
             }
           }
@@ -57,10 +58,6 @@ job "gitea" {
 
       config {
         image = "gitea/gitea:latest"
-
-        volumes = [
-          "/etc/ssl/certs:/etc/ssl/certs:ro"    # use TLS certs from host OS, including the Schoger Home cert
-        ]      
       }
 
       env {

@@ -1,3 +1,7 @@
+variable "base_domain" {
+  default = "missing.environment.variable"
+}
+
 job "nginx" {
   datacenters = ["dmz"]
   type        = "service"
@@ -26,7 +30,7 @@ job "nginx" {
       tags = [
         "dmz.enable=true",
         "dmz.consulcatalog.connect=true",
-        "dmz.http.routers.nginx.rule=Host(`schoger.net`) || Host(`www.schoger.net`)",
+        "dmz.http.routers.nginx.rule=Host(`schoger.net`) || Host(`www.${var.base_domain}`)",
         "dmz.http.routers.nginx.entrypoints=cloudflare",
       ]
 

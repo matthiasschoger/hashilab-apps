@@ -1,3 +1,7 @@
+variable "base_domain" {
+  default = "missing.environment.variable"
+}
+
 job "node-red" {
   datacenters = ["home"]
   type        = "service"
@@ -26,7 +30,7 @@ job "node-red" {
       tags = [
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.node-red.rule=Host(`node-red.lab.schoger.net`)",
+        "traefik.http.routers.node-red.rule=Host(`node-red.lab.${var.base_domain}`)",
         "traefik.http.routers.node-red.entrypoints=websecure"
       ]
 

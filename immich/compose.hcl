@@ -1,3 +1,7 @@
+variable "base_domain" {
+  default = "missing.environment.variable"
+}
+
 job "immich" {
   datacenters = ["dmz"]
   type        = "service"
@@ -36,11 +40,11 @@ job "immich" {
       tags = [ # dual-head to be able to upload large assets (videos) when in the internal network
         "dmz.enable=true",
         "dmz.consulcatalog.connect=true",
-        "dmz.http.routers.immich.rule=Host(`immich.schoger.net`)",
+        "dmz.http.routers.immich.rule=Host(`immich.${var.base_domain}`)",
         "dmz.http.routers.immich.entrypoints=cloudflare",
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.immich.rule=Host(`immich.schoger.net`)",
+        "traefik.http.routers.immich.rule=Host(`immich.${var.base_domain}`)",
         "traefik.http.routers.immich.tls.certresolver=le",
         "traefik.http.routers.immich.entrypoints=websecure",
       ]
@@ -460,7 +464,7 @@ EOH
       action "backup-postgres" {
         command = "/bin/sh"
         args    = ["-c", <<EOF
-pg_dumpall -U "$POSTGRES_USER" | gzip > /var/lib/postgresql/data/backup/backup.$(date +"%Y%m%d%H%M").sql.gz
+pg_dumpall -U "$POSTGRES_USER" | gzip --rsyncable > /var/lib/postgresql/data/backup/backup.$(date +"%Y%m%d%H%M").sql.gz
 echo "cleaning up backup files older than 3 days ..."
 find /var/lib/postgresql/data/backup/* -mtime +3 -exec rm {} \;
 EOF

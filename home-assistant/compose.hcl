@@ -1,3 +1,7 @@
+variable "base_domain" {
+  default = "missing.environment.variable"
+}
+
 job "homeassistant" {
   datacenters = ["home"]
   type        = "service"
@@ -29,7 +33,7 @@ job "homeassistant" {
 
         tags = [
           "traefik.enable=true",
-          "traefik.http.routers.homeassistant.rule=Host(`homeassistant.lab.schoger.net`)",
+          "traefik.http.routers.homeassistant.rule=Host(`homeassistant.lab.${var.base_domain}`)",
           "traefik.http.routers.homeassistant.entrypoints=websecure"
         ]
       }

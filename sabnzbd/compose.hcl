@@ -1,3 +1,7 @@
+variable "base_domain" {
+  default = "missing.environment.variable"
+}
+
 job "sabnzbd" {
   datacenters = ["dmz"]
   type        = "service"
@@ -26,7 +30,7 @@ job "sabnzbd" {
       tags = [
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.sabnzbd.rule=Host(`sabnzbd.lab.schoger.net`)",
+        "traefik.http.routers.sabnzbd.rule=Host(`sabnzbd.lab.${var.base_domain}`)",
         "traefik.http.routers.sabnzbd.entrypoints=websecure"
       ]
 

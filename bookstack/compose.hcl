@@ -1,3 +1,7 @@
+variable "base_domain" {
+  default = "missing.environment.variable"
+}
+
 job "bookstack" {
   datacenters = ["home"]
   type        = "service"
@@ -26,7 +30,7 @@ job "bookstack" {
       tags = [
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.bookstack.rule=Host(`bookstack.lab.schoger.net`)",
+        "traefik.http.routers.bookstack.rule=Host(`bookstack.lab.${var.base_domain}`)",
         "traefik.http.routers.bookstack.entrypoints=websecure"
       ]
 

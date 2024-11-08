@@ -1,3 +1,7 @@
+variable "base_domain" {
+  default = "missing.environment.variable"
+}
+
 job "qbittorrent" {
   datacenters = ["dmz"]
   type        = "service"
@@ -26,7 +30,7 @@ job "qbittorrent" {
       tags = [
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.lab.schoger.net`)",
+        "traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.lab.${var.base_domain}`)",
         "traefik.http.routers.qbittorrent.entrypoints=websecure"
       ]
 

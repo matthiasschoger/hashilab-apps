@@ -1,3 +1,7 @@
+variable "base_domain" {
+  default = "missing.environment.variable"
+}
+
 job "adguard" {
   datacenters = ["home"]
   type        = "service"
@@ -38,7 +42,7 @@ job "adguard" {
 
         tags = [
           "traefik.enable=true",
-          "traefik.http.routers.adguard.rule=Host(`adguard.lab.schoger.net`)",
+          "traefik.http.routers.adguard.rule=Host(`adguard.lab.${var.base_domain}`)",
           "traefik.http.routers.adguard.entrypoints=websecure"
         ]
       }

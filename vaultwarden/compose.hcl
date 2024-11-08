@@ -1,3 +1,7 @@
+variable "base_domain" {
+  default = "missing.environment.variable"
+}
+
 job "vaultwarden" {
   datacenters = ["dmz"]
   type        = "service"
@@ -26,7 +30,7 @@ job "vaultwarden" {
       tags = [
         "dmz.enable=true",
         "dmz.consulcatalog.connect=true",
-        "dmz.http.routers.vaultwarden.rule=Host(`bitwarden.schoger.net`)",
+        "dmz.http.routers.vaultwarden.rule=Host(`bitwarden.${var.base_domain}`)",
         "dmz.http.routers.vaultwarden.entrypoints=cloudflare"
       ]
 

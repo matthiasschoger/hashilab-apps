@@ -1,3 +1,7 @@
+variable "base_domain" {
+  default = "missing.environment.variable"
+}
+
 job "unifi-network" {
   datacenters = ["home"]
   type        = "service"
@@ -32,7 +36,7 @@ job "unifi-network" {
       tags = [
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.unifi-network.rule=Host(`network.lab.schoger.net`)",
+        "traefik.http.routers.unifi-network.rule=Host(`network.lab.${var.base_domain}`)",
         "traefik.http.routers.unifi-network.entrypoints=websecure",
       ]
 
