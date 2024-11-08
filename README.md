@@ -9,8 +9,8 @@ With k8s, it felt to me like I was reciting the rotes of the church of Helm, wit
 <h2>Goals of this project</h2>
 
 My main goals for my new homelab were the following
-- Resiliency - which means high-availablity to me. I want to shut down or lose any node, and my cluster should heal itself, with all services being available again.
-- I'm a sucker for graph p*rn, and want to have as much insight as possible into what my homelab is currently doing.
+- High-Availablity - I want to shut down or lose any node, and my cluster should heal itself. With all services being available again after a couple of seconds.
+- Observability - I'm a sucker for graph p*rn, and want to have as much insight as possible into what my homelab is currently doing.
 - Scratch my technical itch. Since I move into a sales position right before Covid, I needed some tech stuff to do.
 
 To keep the jobs manageable, I've split them into three repositories
@@ -34,6 +34,9 @@ The "apps" repository defines end-user applications running on the cluster. Used
 - unifi-network - Controller application for the Unifi network stack from Ubiquiti Networks. Was quite tricky to set up in a HA environment, please check [consul-ingress](https://github.com/matthiasschoger/hashilab-core/tree/master/consul-ingress) for UDP forwarding.
 - vaultwarden - Password management for the family.
 
-Note: Before deploying a job file, you should set the following environment variable on the deploying machine
+<h2>Deployment Notes</h2>
+
+Before deploying a job file, you should set the following environment variable on the deploying machine
 - NOMAD_VAR_base_domain=domain.tld
+
 where 'domain.tld' is the domain you are using.
