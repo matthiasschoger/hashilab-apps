@@ -33,3 +33,7 @@ The "apps" repository defines end-user applications running on the cluster. Used
 - node-red - More home automation.
 - unifi-network - Controller application for the Unifi network stack from Ubiquiti Networks. Was quite tricky to set up in a HA environment, please check [consul-ingress](https://github.com/matthiasschoger/hashilab-core/tree/master/consul-ingress) for UDP forwarding.
 - vaultwarden - Password management for the family.
+
+Note: Before deploying a job file, you should set the following environment variable on the deploying machine
+- NOMAD_VAR_base_domain=domain.tld
+where 'domain.tld' is the domain you are using.
