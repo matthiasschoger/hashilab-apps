@@ -30,7 +30,7 @@ job "nginx" {
       tags = [
         "dmz.enable=true",
         "dmz.consulcatalog.connect=true",
-        "dmz.http.routers.nginx.rule=Host(`schoger.net`) || Host(`www.${var.base_domain}`)",
+        "dmz.http.routers.nginx.rule=Host(`${var.base_domain}`) || Host(`www.${var.base_domain}`)",
         "dmz.http.routers.nginx.entrypoints=cloudflare",
       ]
 
@@ -75,25 +75,25 @@ job "nginx" {
         change_signal = "SIGHUP"
 
         data = <<EOH
-# www.schoger.net
+# www.domain.tld
 server {
-    server_name www.schoger.net;
+    server_name www.${var.base_domain};
 
     location / {
-        root  /usr/share/nginx/content/www.schoger.net;
+        root  /usr/share/nginx/content/www.${var.base_domain};
     }
 
     # show index page as error page
     error_page 400 404 500 502 503 504 /index.html;
     location = /index.html {
-        root    /usr/share/nginx/content/www.schoger.net;
+        root    /usr/share/nginx/content/www.${var.base_domain};
      }
 }
 
-# redirect from schoger.net to www.schoger.net
+# redirect from domain.tld to www.domain.tld
 server {
-        server_name schoger.net;
-        return 301 $scheme://www.schoger.net$request_uri;
+        server_name ${var.base_domain};
+        return 301 $scheme://www.${var.base_domain}$request_uri;
 }
 EOH
       }

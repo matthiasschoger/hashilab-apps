@@ -73,7 +73,7 @@ DB_HOST = "127.0.0.1:3306"
 DB_USER = "bookstack"
 DB_PASS = "{{- .db_pass }}"
 DB_DATABASE = "bookstackapp"
-APP_URL = "https://bookstack.lab.schoger.net"
+APP_URL = "https://bookstack.lab.${var.base_domain}"
 {{- end }}
 EOH
       }

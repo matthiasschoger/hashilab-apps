@@ -72,7 +72,7 @@ job "vaultwarden" {
         ROCKET_PORT = "80"
         WEBSOCKET_ENABLED = true
         LOG_LEVEL = "warn"
-        DOMAIN = "https://bitwarden.schoger.net"
+        DOMAIN = "https://bitwarden.${var.base_domain}"
       }
 
       resources {
