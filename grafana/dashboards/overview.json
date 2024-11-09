@@ -3072,11 +3072,11 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "nomad_client_allocs_cpu_total_percent{job=\"nomad\", task!~\"connect-proxy.+\"}\n",
+          "expr": "nomad_client_allocs_cpu_total_percent{task!~\"connect-proxy.+\"}\n",
           "format": "time_series",
           "instant": false,
           "interval": "",
-          "legendFormat": "{{ exported_job }} - {{ task_group }} - {{ task }}",
+          "legendFormat": "{{instance}} - {{ exported_job }} - {{ task_group }} - {{ task }}",
           "refId": "A"
         }
       ],
@@ -3181,11 +3181,11 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "(nomad_client_allocs_memory_usage{job=\"nomad\", task!~\"connect-proxy.+\"}\n- \nnomad_client_allocs_memory_cache{job=\"nomad\", task!~\"connect-proxy.+\"})\n/\nnomad_client_allocs_memory_allocated{job=\"nomad\", task!~\"connect-proxy.+\"} * 100",
+          "expr": "(nomad_client_allocs_memory_usage{task!~\"connect-proxy.+\"}\n- \nnomad_client_allocs_memory_cache{task!~\"connect-proxy.+\"})\n/\nnomad_client_allocs_memory_allocated{task!~\"connect-proxy.+\"} * 100",
           "format": "time_series",
           "instant": false,
           "interval": "",
-          "legendFormat": "{{ exported_job }} - {{ task_group }} - {{ task }}",
+          "legendFormat": "{{instance}} - {{ exported_job }} - {{ task_group }} - {{ task }}",
           "refId": "A"
         }
       ],
@@ -3607,10 +3607,10 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "irate(envoy_cluster_upstream_cx_tx_bytes_total{consul_destination_service!=\"\"} [$__rate_interval:])",
+          "expr": "sum(rate(envoy_cluster_upstream_cx_tx_bytes_total{consul_destination_service!=\"\"} [$__rate_interval:])) by (consul_source_service, consul_destination_service, instance)",
           "hide": false,
           "interval": "1m",
-          "legendFormat": "{{consul_source_service}} → {{consul_destination_service}}",
+          "legendFormat": "{{instance}} - {{consul_source_service}} → {{consul_destination_service}}",
           "range": true,
           "refId": "A"
         },
@@ -3620,10 +3620,10 @@
             "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
           },
           "editorMode": "code",
-          "expr": "irate(traefik_service_requests_bytes_total{} [$__rate_interval:])",
+          "expr": "rate(traefik_service_requests_bytes_total{} [$__rate_interval:])",
           "hide": false,
           "instant": false,
-          "legendFormat": "traefik → {{service}}",
+          "legendFormat": "{{instance}} - traefik → {{service}}",
           "range": true,
           "refId": "B"
         }
@@ -3731,10 +3731,10 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "irate(envoy_cluster_upstream_cx_rx_bytes_total{consul_destination_service!=\"\"} [$__rate_interval:])",
+          "expr": "sum (irate(envoy_cluster_upstream_cx_rx_bytes_total{consul_destination_service!=\"\"} [$__rate_interval:]))  by (consul_source_service, consul_destination_service, instance)",
           "hide": false,
           "interval": "1m",
-          "legendFormat": "{{consul_destination_service}} → {{consul_source_service}}",
+          "legendFormat": "{{instance}} - {{consul_destination_service}} → {{consul_source_service}}",
           "range": true,
           "refId": "A"
         },
@@ -3744,10 +3744,11 @@
             "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
           },
           "editorMode": "code",
-          "expr": "irate(traefik_service_responses_bytes_total{} [$__rate_interval:])",
+          "expr": "sum (rate(traefik_service_responses_bytes_total{} [$__rate_interval:]))  by (service, instance)",
           "hide": false,
           "instant": false,
-          "legendFormat": "{{service}} → traefik",
+          "interval": "",
+          "legendFormat": "{{instance}} - {{service}} → traefik",
           "range": true,
           "refId": "B"
         }
@@ -3774,6 +3775,6 @@
   "timezone": "",
   "title": "1. Overview",
   "uid": "cacaa9a6-7789-48b4-8ff6-aa27f03895c8",
-  "version": 116,
+  "version": 122,
   "weekStart": ""
 }
