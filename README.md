@@ -31,7 +31,7 @@ The "apps" repository defines end-user applications running on the cluster. Used
 - immich - Awesome image management tool which handles image backup and management for the family. Great example how to scale a complex application in a Nomad/Consul cluster.
 - nginx-web - Static web page if you should happen to stumble across my domain.
 - node-red - More home automation.
-- unifi-network - Controller application for the Unifi network stack from Ubiquiti Networks. Was quite tricky to set up in a HA environment, please check [consul-ingress](https://github.com/matthiasschoger/hashilab-core/tree/master/consul-ingress) for UDP forwarding.
+- unifi-network - Controller application for the Unifi network stack from Ubiquiti Networks. Was quite tricky to set up in a HA environment, please check [consul-ingress](https://github.com/matthiasschoger/hashilab-core/tree/master/consul-ingress) for UDP ingress management.
 - vaultwarden - Password management for the family.
 
 <h2>Deployment Notes</h2>
@@ -40,3 +40,5 @@ Before deploying a job file, you should set the following environment variable o
 - NOMAD_VAR_base_domain=domain.tld
 
 where 'domain.tld' is the domain you are using.
+
+In addition, quite a few sensitive settings like passwords and email are stored in Nomad variables. Search for "nomadVar" to find the relevant locations.
