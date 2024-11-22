@@ -12,7 +12,7 @@ capability {
 context {
   server = "storage.home"
   share = "/volume2/homelab"
-  subDir = "adguard/conf"
+  subDir = "adguard"
   mountPermissions = "0"  
 }
 
