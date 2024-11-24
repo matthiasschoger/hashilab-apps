@@ -15,7 +15,7 @@ job "bookstack" {
     }
 
     service {
-      name = "bookstack"
+      name = "bookstack-server"
 
       port = 80
 
@@ -42,6 +42,11 @@ job "bookstack" {
           proxy {
             config {
               envoy_prometheus_bind_addr = "0.0.0.0:9102"
+            }
+
+            upstreams {
+              destination_name = "bookstack-mariadb"
+              local_bind_port  = 3306
             }
           }
         }
@@ -89,7 +94,59 @@ EOH
       }
     }
 
-    task "mariadb" {
+    volume "bookstack-app" {
+      type            = "csi"
+      source          = "bookstack-app"
+      access_mode     = "single-node-writer"
+      attachment_mode = "file-system"
+    }
+  }
+
+
+  group "mariadb" {
+
+    network {
+      mode = "bridge"
+
+      port "envoy_metrics" { to = 9102 }
+    }
+
+    service {
+      name = "bookstack-mariadb"
+
+      port = 3306
+
+      check {
+        type     = "script"
+        command  = "sh"
+        args     = ["-c", "/usr/bin/mysql --user=$MYSQL_USER --password=$MYSQL_PASSWORD --execute \"SHOW DATABASES;\""]
+        interval = "10s"
+        timeout  = "2s"
+        task     = "server"
+      }
+
+      meta {
+        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
+      }
+      connect {
+        sidecar_service {
+          proxy {
+            config {
+              envoy_prometheus_bind_addr = "0.0.0.0:9102"
+            }
+          }
+        }
+
+        sidecar_task {
+          resources {
+            cpu    = 50
+            memory = 64
+          }
+        }
+      }
+    }
+
+    task "server" {
       driver = "docker"
 
       config {
@@ -134,13 +191,6 @@ EOH
         volume      = "bookstack-db"
         destination = "/config"
       }
-    }
-
-    volume "bookstack-app" {
-      type            = "csi"
-      source          = "bookstack-app"
-      access_mode     = "single-node-writer"
-      attachment_mode = "file-system"
     }
 
     volume "bookstack-db" {
