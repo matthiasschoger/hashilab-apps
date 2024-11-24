@@ -433,6 +433,15 @@ EOH
 
       port = 5432
 
+      check {
+        type     = "script"
+        command  = "sh"
+        args     = ["-c", "psql -U $POSTGRES_USER -d immich  -c 'SELECT 1' || exit 1"]
+        interval = "10s"
+        timeout  = "2s"
+        task     = "server"
+      }
+
       meta {
         envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
       }
