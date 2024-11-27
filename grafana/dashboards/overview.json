@@ -252,7 +252,7 @@
           }
         ]
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -386,7 +386,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -458,7 +458,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -717,7 +717,7 @@
           }
         ]
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -953,7 +953,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -1103,7 +1103,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -1199,6 +1199,32 @@
           "legendFormat": "Dmz2",
           "range": true,
           "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "100*(1 - node_filesystem_avail_bytes{instance=\"proxmox1.home\",mountpoint=\"/\"} / node_filesystem_size_bytes{instance=\"proxmox1.home\",mountpoint=\"/\"})",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Proxmox1",
+          "range": true,
+          "refId": "F"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "100*(1 - node_filesystem_avail_bytes{instance=\"proxmox2.home\",mountpoint=\"/\"} / node_filesystem_size_bytes{instance=\"proxmox2.home\",mountpoint=\"/\"})",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Proxmox2",
+          "range": true,
+          "refId": "G"
         }
       ],
       "title": "Storage Usage",
@@ -1291,7 +1317,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -1376,6 +1402,18 @@
           "legendFormat": "Dmz2",
           "range": true,
           "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "rate(node_disk_io_time_seconds_total{instance=\"storage.home\", device=\"usb1\"}[$__rate_interval])",
+          "hide": false,
+          "legendFormat": "NAS External",
+          "range": true,
+          "refId": "F"
         }
       ],
       "title": "Disk Utilization",
@@ -1463,7 +1501,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -1564,7 +1602,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -1645,6 +1683,256 @@
         }
       ],
       "title": "CPU Usage",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 26
+      },
+      "id": 25,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "avg(node_hwmon_temp_celsius{instance=\"proxmox1.home\"})",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "proxmox1.home",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "avg(node_hwmon_temp_celsius{instance=\"proxmox2.home\"})",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "proxmox2.home",
+          "range": true,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "avg(node_hwmon_temp_celsius{instance=\"storage.home\"})",
+          "instant": false,
+          "legendFormat": "storage.home",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Temperature",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "rotrpm"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 26
+      },
+      "id": 26,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "node_hwmon_fan_rpm{instance=\"storage.home\"}",
+          "instant": false,
+          "legendFormat": "storage.home",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "node_hwmon_fan_rpm{instance=\"proxmox1.home\"}",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "proxmox1.home",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "node_hwmon_fan_rpm{instance=\"proxmox2.home\"}",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "proxmox2.home",
+          "range": true,
+          "refId": "C"
+        }
+      ],
+      "title": "Fan Speed",
       "type": "timeseries"
     },
     {
@@ -1811,7 +2099,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 26
+        "y": 33
       },
       "id": 18,
       "options": {
@@ -1827,7 +2115,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -2071,7 +2359,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 26
+        "y": 33
       },
       "id": 19,
       "options": {
@@ -2087,7 +2375,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -2331,7 +2619,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 33
+        "y": 40
       },
       "id": 21,
       "options": {
@@ -2347,7 +2635,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -2591,7 +2879,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 33
+        "y": 40
       },
       "id": 22,
       "options": {
@@ -2607,7 +2895,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -2693,7 +2981,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 40
+        "y": 47
       },
       "id": 4,
       "panels": [],
@@ -2827,7 +3115,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 41
+        "y": 48
       },
       "id": 11,
       "options": {
@@ -2848,7 +3136,7 @@
           }
         ]
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -3041,7 +3329,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 49
+        "y": 56
       },
       "id": 5,
       "options": {
@@ -3063,7 +3351,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -3150,7 +3438,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 61
+        "y": 68
       },
       "id": 6,
       "options": {
@@ -3172,7 +3460,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -3257,7 +3545,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 73
+        "y": 80
       },
       "id": 23,
       "options": {
@@ -3279,7 +3567,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -3364,7 +3652,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 82
+        "y": 89
       },
       "id": 24,
       "options": {
@@ -3386,7 +3674,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -3412,7 +3700,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 91
+        "y": 98
       },
       "id": 14,
       "panels": [],
@@ -3444,7 +3732,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 92
+        "y": 99
       },
       "id": 17,
       "interval": "1m",
@@ -3487,7 +3775,7 @@
           "unit": "dtdurationms"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -3575,7 +3863,7 @@
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 102
+        "y": 109
       },
       "id": 15,
       "interval": "1m",
@@ -3598,7 +3886,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -3699,7 +3987,7 @@
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 116
+        "y": 123
       },
       "id": 16,
       "interval": "1m",
@@ -3722,7 +4010,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
           "datasource": {
@@ -3758,7 +4046,7 @@
       "type": "timeseries"
     }
   ],
-  "preload": false,
+  "preload": true,
   "refresh": "5s",
   "schemaVersion": 40,
   "tags": [
@@ -3775,6 +4063,6 @@
   "timezone": "",
   "title": "1. Overview",
   "uid": "cacaa9a6-7789-48b4-8ff6-aa27f03895c8",
-  "version": 122,
+  "version": 131,
   "weekStart": ""
 }
