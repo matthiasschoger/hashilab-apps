@@ -297,7 +297,7 @@ EOF
         args = ["--config", "/local/mongod.conf"]
 
         volumes = [
-          "secrets/entrypoint:/docker-entrypoint-initdb.d:ro",
+          "secrets/initdb:/docker-entrypoint-initdb.d:ro",
         ]      
       }
 
@@ -306,7 +306,7 @@ EOF
       }
 
       template {
-        destination = "secrets/entrypoint/init-mongo.js"
+        destination = "secrets/initdb/init-mongo.js"
         data = <<EOH
 {{- with nomadVar "nomad/jobs/unifi-network" }}
 db.getSiblingDB("unifi").createUser({user: "unifi", pwd: "{{- .db_pass }}", roles: [{role: "dbOwner", db: "unifi"}]});
@@ -315,7 +315,6 @@ db.getSiblingDB("unifi_stat").createUser({user: "unifi", pwd: "{{- .db_pass }}",
 EOH
       }
 
-      # If using nfs, the share must preserve user:group and not sqash access rights
       template {
         destination = "local/mongod.conf"
         data = <<EOH
@@ -338,10 +337,11 @@ EOH
       }
 
       resources {
-        memory = 384
-        cpu    = 200
+        memory = 512
+        cpu    = 300
       }
 
+      # If using nfs, the share must preserve user:group and not sqash access rights
       volume_mount {
         volume      = "unifi-mongo"
         destination = "/storage"
