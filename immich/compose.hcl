@@ -353,7 +353,7 @@ EOH
     }
 
     ephemeral_disk { # Used to cache the machine learning model
-      size    = 1500 # MB
+      size    = 3000 # MB
       migrate = true
     }
 
