@@ -194,6 +194,10 @@ EOH
         volumes         = ["local/nginx.conf:/etc/nginx/conf.d/default.conf"]
       }
 
+      env {
+        TZ = "Europe/Berlin"
+      }
+
       template {
         data        = <<_EOF
 map $http_upgrade $connection_upgrade {  
@@ -211,13 +215,8 @@ server {
   proxy_socket_keepalive on;
   client_max_body_size 100m;
 
-  set_real_ip_from 127.0.0.1;
-  real_ip_header X-Forwarded-For;
-  real_ip_recursive on;
-
-  # Main console
   location / {
-    proxy_pass https://localhost:8443;
+    proxy_pass https://localhost:8443; # Main Unifi console
   }
 }
 _EOF
