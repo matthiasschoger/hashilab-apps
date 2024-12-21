@@ -336,8 +336,8 @@ EOH
       }
 
       resources {
-        memory = 512
-        cpu    = 300
+        memory = 768
+        cpu    = 600
       }
 
       # If using nfs, the share must preserve user:group and not sqash access rights
