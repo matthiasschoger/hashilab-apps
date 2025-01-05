@@ -290,7 +290,7 @@ EOF
       }
 
       config {
-        image = "mongo:7.0.15"
+        image = "mongo:7.0.16"
         command = "mongod"
 
         args = ["--config", "/local/mongod.conf"]
