@@ -21,7 +21,7 @@ job "nginx" {
 
       check {
         type     = "http"
-        path     = "/alive"  # you need that file on the nginx CSI share 
+        path     = "/alive"
         interval = "10s"
         timeout  = "2s"
         expose   = true # required for Connect
