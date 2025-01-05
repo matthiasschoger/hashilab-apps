@@ -88,6 +88,11 @@ server {
     location = /index.html {
         root    /usr/share/nginx/content/www.${var.base_domain};
      }
+
+    location /alive { # for the Consul health check
+      default_type text/plain;
+      return 200;
+    }
 }
 
 # redirect from domain.tld to www.domain.tld
