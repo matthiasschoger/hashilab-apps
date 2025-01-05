@@ -68,10 +68,6 @@ job "immich" {
               destination_name = "immich-postgres"
               local_bind_port  = 5432
             }
-            upstreams { # email notifications
-              destination_name = "protonmail-smtp"
-              local_bind_port  = 25
-            }
           }
         }
 
