@@ -2,7 +2,7 @@ variable "base_domain" {
   default = "missing.environment.variable"
 }
 
-job "homeassistant" {
+job "home-assistant" {
   datacenters = ["home"]
   type        = "service"
 
@@ -17,26 +17,26 @@ job "homeassistant" {
       port "mDNS" { static = 5353 }      # used by HomeKit
     }
 
-    task "server" {
+    service {
+      name = "home-assistant"
 
-      service {
-        name = "homeassistant"
+      port = "http"
 
-        port = "http"
-
-        check {
-          type     = "http"
-          path     = "/manifest.json"
-          interval = "10s"
-          timeout  = "2s"
-        }
-
-        tags = [
-          "traefik.enable=true",
-          "traefik.http.routers.homeassistant.rule=Host(`homeassistant.lab.${var.base_domain}`)",
-          "traefik.http.routers.homeassistant.entrypoints=websecure"
-        ]
+      check {
+        type     = "http"
+        path     = "/manifest.json"
+        interval = "10s"
+        timeout  = "2s"
       }
+
+      tags = [
+        "traefik.enable=true",
+        "traefik.http.routers.homeassistant.rule=Host(`homeassistant.lab.${var.base_domain}`)",
+        "traefik.http.routers.homeassistant.entrypoints=websecure"
+      ]
+    }
+
+    task "server" {
 
       driver = "docker"
 
