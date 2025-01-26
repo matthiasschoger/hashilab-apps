@@ -252,7 +252,7 @@
           }
         ]
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -386,7 +386,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -458,7 +458,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -717,7 +717,7 @@
           }
         ]
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -839,7 +839,7 @@
         "type": "prometheus",
         "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
       },
-      "description": "Spikes on this graph that are missing from the LAN graph indicate gateway-originated traffic, like a scheduled speed test. Rx is on the negative axis.",
+      "description": "Spikes on this graph that are missing from the LAN graph indicate gateway-originated traffic, like a scheduled speed test.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -953,7 +953,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -1103,7 +1103,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -1317,7 +1317,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -1446,7 +1446,7 @@
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
+            "lineInterpolation": "smooth",
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
@@ -1501,7 +1501,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -1546,7 +1546,7 @@
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
+            "lineInterpolation": "smooth",
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
@@ -1602,7 +1602,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -1712,7 +1712,7 @@
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
+            "lineInterpolation": "smooth",
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
@@ -1748,7 +1748,7 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 12,
+        "w": 24,
         "x": 0,
         "y": 26
       },
@@ -1766,7 +1766,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -1807,132 +1807,7 @@
           "refId": "A"
         }
       ],
-      "title": "Temperature",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 15,
-            "gradientMode": "opacity",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "rotrpm"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 26
-      },
-      "id": 26,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "maxHeight": 600,
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "pluginVersion": "11.3.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "node_hwmon_fan_rpm{instance=\"storage.home\"}",
-          "instant": false,
-          "legendFormat": "storage.home",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "node_hwmon_fan_rpm{instance=\"proxmox1.home\"}",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "proxmox1.home",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "node_hwmon_fan_rpm{instance=\"proxmox2.home\"}",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "proxmox2.home",
-          "range": true,
-          "refId": "C"
-        }
-      ],
-      "title": "Fan Speed",
+      "title": "CPU Temperature",
       "type": "timeseries"
     },
     {
@@ -2115,7 +1990,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -2375,7 +2250,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -2635,7 +2510,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -2895,7 +2770,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -2983,9 +2858,9 @@
         "x": 0,
         "y": 47
       },
-      "id": 4,
+      "id": 28,
       "panels": [],
-      "title": "Nomad Allocations",
+      "title": "Service Metrics",
       "type": "row"
     },
     {
@@ -2996,14 +2871,41 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "custom": {
-            "align": "auto",
-            "cellOptions": {
-              "type": "auto"
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
             },
-            "inspect": false
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "mappings": [],
           "thresholds": {
@@ -3020,123 +2922,28 @@
             ]
           }
         },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Blocked"
-            },
-            "properties": [
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "mode": "basic",
-                  "type": "color-background"
-                }
-              },
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "red",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Migrating"
-            },
-            "properties": [
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "mode": "basic",
-                  "type": "color-background"
-                }
-              },
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-yellow",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Pending"
-            },
-            "properties": [
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "mode": "basic",
-                  "type": "color-background"
-                }
-              },
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-yellow",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Running"
-            },
-            "properties": [
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "mode": "basic",
-                  "type": "color-background"
-                }
-              },
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-green",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
-        "h": 8,
+        "h": 9,
         "w": 24,
         "x": 0,
         "y": 48
       },
-      "id": 11,
+      "id": 26,
       "options": {
-        "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
         },
-        "showHeader": true,
-        "sortBy": [
-          {
-            "desc": false,
-            "displayName": "Client"
-          }
-        ]
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -3144,123 +2951,127 @@
             "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
           },
           "editorMode": "code",
-          "exemplar": false,
-          "expr": "nomad_client_allocations_blocked{}",
-          "format": "table",
-          "instant": true,
+          "exemplar": true,
+          "expr": "sum by (reason) (cs_alerts{})",
           "interval": "",
-          "legendFormat": "blocked",
+          "legendFormat": "{{reason}}",
+          "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "nomad_client_allocations_migrating{}",
-          "format": "table",
-          "hide": false,
-          "instant": true,
-          "interval": "",
-          "legendFormat": "migrating",
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "nomad_client_allocations_pending{}",
-          "format": "table",
-          "hide": false,
-          "instant": true,
-          "interval": "",
-          "legendFormat": "pending",
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "nomad_client_allocations_running{}",
-          "format": "table",
-          "hide": false,
-          "instant": true,
-          "interval": "",
-          "legendFormat": "running",
-          "refId": "D"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "nomad_client_allocations_start{}",
-          "format": "table",
-          "hide": false,
-          "instant": true,
-          "interval": "",
-          "legendFormat": "start",
-          "refId": "E"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "nomad_client_allocations_terminal{}",
-          "format": "table",
-          "hide": false,
-          "instant": true,
-          "interval": "",
-          "legendFormat": "terminal",
-          "refId": "F"
         }
       ],
-      "title": "Allocations",
-      "transformations": [
-        {
-          "id": "seriesToColumns",
-          "options": {
-            "byField": "instance"
+      "title": "CrowdSec: Alerts per Scenario",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+      },
+      "description": "amount of photos and videos over time",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "right",
+            "axisSoftMin": 9000,
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 30,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
           }
         },
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "pattern": "instance|Value .*"
-            }
-          }
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 57
+      },
+      "id": 27,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
         },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.4.0",
+      "targets": [
         {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "Value #A": "Blocked",
-              "Value #B": "Migrating",
-              "Value #C": "Pending",
-              "Value #D": "Running",
-              "Value #F": "Terminated",
-              "instance": "Client"
-            }
-          }
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "delta(immich_server_stats_photos_by_users[1w]) + delta(immich_server_stats_videos_by_users[1w])",
+          "legendFormat": "{{firstName}}",
+          "range": true,
+          "refId": "A"
         }
       ],
-      "type": "table"
+      "title": "Assets Growth",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 65
+      },
+      "id": 4,
+      "panels": [],
+      "title": "Nomad Allocations",
+      "type": "row"
     },
     {
       "datasource": {
@@ -3329,7 +3140,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 56
+        "y": 66
       },
       "id": 5,
       "options": {
@@ -3351,21 +3162,25 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
           },
+          "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": true,
-          "expr": "nomad_client_allocs_cpu_total_percent{task!~\"connect-proxy.+\"}\n",
+          "expr": "nomad_client_allocs_cpu_total_percent{task!~\"connect-proxy.+\", instance=~\"$instance\", exported_job=~\"$job\"}",
           "format": "time_series",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "instant": false,
           "interval": "",
           "legendFormat": "{{instance}} - {{ exported_job }} - {{ task_group }} - {{ task }}",
-          "refId": "A"
+          "refId": "A",
+          "useBackend": false
         }
       ],
       "title": "CPU %",
@@ -3438,7 +3253,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 68
+        "y": 78
       },
       "id": 6,
       "options": {
@@ -3460,7 +3275,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -3469,7 +3284,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "(nomad_client_allocs_memory_usage{task!~\"connect-proxy.+\"}\n- \nnomad_client_allocs_memory_cache{task!~\"connect-proxy.+\"})\n/\nnomad_client_allocs_memory_allocated{task!~\"connect-proxy.+\"} * 100",
+          "expr": "(nomad_client_allocs_memory_usage{task!~\"connect-proxy.+\", instance=~\"$instance\", exported_job=~\"$job\"}\n- \nnomad_client_allocs_memory_cache{task!~\"connect-proxy.+\", instance=~\"$instance\", exported_job=~\"$job\"})\n/\nnomad_client_allocs_memory_allocated{task!~\"connect-proxy.+\", instance=~\"$instance\", exported_job=~\"$job\"} * 100",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -3545,7 +3360,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 80
+        "y": 90
       },
       "id": 23,
       "options": {
@@ -3567,7 +3382,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -3652,7 +3467,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 89
+        "y": 99
       },
       "id": 24,
       "options": {
@@ -3674,7 +3489,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -3700,7 +3515,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 98
+        "y": 108
       },
       "id": 14,
       "panels": [],
@@ -3732,7 +3547,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 99
+        "y": 109
       },
       "id": 17,
       "interval": "1m",
@@ -3775,7 +3590,7 @@
           "unit": "dtdurationms"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -3784,7 +3599,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(rate(envoy_cluster_external_upstream_rq_time_bucket{}[$__rate_interval])) by (le)",
+          "expr": "sum(rate(envoy_cluster_external_upstream_rq_time_bucket{instance=~\"$instance\"}[$__rate_interval])) by (le)",
           "format": "heatmap",
           "interval": "1m",
           "legendFormat": "{{le}}",
@@ -3863,7 +3678,7 @@
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 109
+        "y": 119
       },
       "id": 15,
       "interval": "1m",
@@ -3886,7 +3701,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -3895,7 +3710,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(rate(envoy_cluster_upstream_cx_tx_bytes_total{consul_destination_service!=\"\"} [$__rate_interval:])) by (consul_source_service, consul_destination_service, instance)",
+          "expr": "sum(rate(envoy_cluster_upstream_cx_tx_bytes_total{consul_destination_service!=\"\", instance=~\"$instance\"} [$__rate_interval:])) by (consul_source_service, consul_destination_service, instance)",
           "hide": false,
           "interval": "1m",
           "legendFormat": "{{instance}} - {{consul_source_service}} → {{consul_destination_service}}",
@@ -3908,7 +3723,7 @@
             "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
           },
           "editorMode": "code",
-          "expr": "rate(traefik_service_requests_bytes_total{} [$__rate_interval:])",
+          "expr": "rate(traefik_service_requests_bytes_total{instance=~\"$instance\"} [$__rate_interval:])",
           "hide": false,
           "instant": false,
           "legendFormat": "{{instance}} - traefik → {{service}}",
@@ -3987,7 +3802,7 @@
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 123
+        "y": 133
       },
       "id": 16,
       "interval": "1m",
@@ -4010,7 +3825,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.3.1",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -4019,7 +3834,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum (irate(envoy_cluster_upstream_cx_rx_bytes_total{consul_destination_service!=\"\"} [$__rate_interval:]))  by (consul_source_service, consul_destination_service, instance)",
+          "expr": "sum (irate(envoy_cluster_upstream_cx_rx_bytes_total{consul_destination_service!=\"\", instance=~\"$instance\"} [$__rate_interval:]))  by (consul_source_service, consul_destination_service, instance)",
           "hide": false,
           "interval": "1m",
           "legendFormat": "{{instance}} - {{consul_destination_service}} → {{consul_source_service}}",
@@ -4032,7 +3847,7 @@
             "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
           },
           "editorMode": "code",
-          "expr": "sum (rate(traefik_service_responses_bytes_total{} [$__rate_interval:]))  by (service, instance)",
+          "expr": "sum (rate(traefik_service_responses_bytes_total{instance=~\"$instance\"} [$__rate_interval:]))  by (service, instance)",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -4047,13 +3862,64 @@
     }
   ],
   "preload": true,
-  "refresh": "5s",
+  "refresh": "10s",
   "schemaVersion": 40,
   "tags": [
     "Homelab"
   ],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "definition": "label_values({job=\"nomad\"},instance)",
+        "includeAll": true,
+        "label": "Instance",
+        "multi": true,
+        "name": "instance",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values({job=\"nomad\"},instance)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "definition": "label_values(exported_job)",
+        "includeAll": true,
+        "label": "Job",
+        "multi": true,
+        "name": "job",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(exported_job)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      }
+    ]
   },
   "time": {
     "from": "now-24h",
@@ -4063,6 +3929,6 @@
   "timezone": "",
   "title": "1. Overview",
   "uid": "cacaa9a6-7789-48b4-8ff6-aa27f03895c8",
-  "version": 131,
+  "version": 166,
   "weekStart": ""
 }
