@@ -15,8 +15,8 @@ job "unifi-network" {
       port "envoy_metrics_inform" { to = 9103 }
       port "envoy_metrics_speedtest" { to = 9104 }
 
-      port "stun" { to = 3478 }        # udp 
-      port "discovery" { to = 10001 }  # udp
+      port "stun" { to = 3478 }         # udp 
+      port "discovery" { to = 10001 }   # udp
       port "discovery-l2" { to = 1900 } # udp
     }
 
@@ -37,7 +37,7 @@ job "unifi-network" {
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
         "traefik.http.routers.unifi-network.rule=Host(`network.lab.${var.base_domain}`)",
-        "traefik.http.routers.unifi-network.entrypoints=websecure",
+        "traefik.http.routers.unifi-network.entrypoints=websecure"
       ]
 
       meta { # make envoy metrics port available in Consul
@@ -290,7 +290,7 @@ EOF
       }
 
       config {
-        image = "mongo:7.0.16"
+        image = "mongo:7.0"
         command = "mongod"
 
         args = ["--config", "/local/mongod.conf"]
