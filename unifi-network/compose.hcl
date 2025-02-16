@@ -184,13 +184,13 @@ EOH
     }
 
 
-    # NGINX to strip https from the UI endpoint (8443), required to make Consul Connect happy
+    # NGINX to strip https from the UI endpoint (8443). Required to make Consul Connect happy
     task "nginx" {
 
       driver = "docker"
 
       config {
-        image           = "nginxinc/nginx-unprivileged:alpine"
+        image           = "nginx:latest"
         volumes         = ["local/nginx.conf:/etc/nginx/conf.d/default.conf"]
       }
 
