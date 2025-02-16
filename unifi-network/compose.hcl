@@ -215,6 +215,8 @@ server {
   proxy_socket_keepalive on;
   client_max_body_size 100m;
 
+  access_log /dev/null; # comment out if necessary
+
   location / {
     proxy_pass https://localhost:8443; # Main Unifi console
   }
