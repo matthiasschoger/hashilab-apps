@@ -119,7 +119,7 @@ EOH
       check {
         type     = "script"
         command  = "sh"
-        args     = ["-c", "/usr/bin/mysql --user=$MYSQL_USER --password=$MYSQL_PASSWORD --execute \"SHOW DATABASES;\""]
+        args     = ["-c", "/usr/bin/mariadb --user=$MYSQL_USER --password=$MYSQL_PASSWORD --execute \"SHOW DATABASES;\""]
         interval = "10s"
         timeout  = "2s"
         task     = "server"
@@ -150,7 +150,7 @@ EOH
       driver = "docker"
 
       config {
-        image = "linuxserver/mariadb:latest"
+        image = "lscr.io/linuxserver/mariadb:11.4.4"
       }
 
       # backs up the MariaDB database and removes all files in the backup folder which are older than 3 days
@@ -164,9 +164,6 @@ EOH
         ]
       }
 
-      # health check
-      # "/usr/bin/mysql --user=foo --password=foo --execute \"SHOW DATABASES;\""
-      
       template {
         destination = "secrets/variables.env"
         env             = true
@@ -183,7 +180,7 @@ EOH
       }
 
       resources {
-        memory = 200
+        memory = 384
         cpu    = 100
       }
 
