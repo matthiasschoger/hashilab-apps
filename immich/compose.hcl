@@ -6,22 +6,13 @@ job "immich" {
   datacenters = ["dmz"]
   type        = "service"
 
-  group "api" {
-
-    ephemeral_disk {
-      # Persistent data for Redis. Nomad will try to preserve the disk between job updates
-      size    = 300 # MB
-      migrate = true
-    }
+  group "api-server" {
 
     network {
       mode = "bridge"
 
-      port "immich_metrics" { to = 8081 }
-
-      port "envoy_metrics_api" { to = 9102 }
-      port "envoy_metrics_redis" { to = 9103 }
-      port "envoy_metrics_exporter" { to = 9104 }
+      port "envoy_metrics_api" { to = 9101 }
+      port "envoy_metrics_exporter" { to = 9102 }
     }
 
     service {
@@ -52,13 +43,12 @@ job "immich" {
 
       meta {
         envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_api}" # make envoy metrics port available in Consul
-        metrics_port = "${NOMAD_HOST_PORT_immich_metrics}"
       }
       connect {
         sidecar_service {
           proxy {
             config {
-              envoy_prometheus_bind_addr = "0.0.0.0:9102"
+              envoy_prometheus_bind_addr = "0.0.0.0:9101"
             }
 
             upstreams { # required for Smart Search
@@ -68,6 +58,10 @@ job "immich" {
             upstreams {
               destination_name = "immich-postgres"
               local_bind_port  = 5432
+            }
+            upstreams {
+              destination_name = "immich-redis"
+              local_bind_port  = 6379
             }
           }
         }
@@ -94,7 +88,7 @@ job "immich" {
         sidecar_service {
           proxy {
             config {
-              envoy_prometheus_bind_addr = "0.0.0.0:9104"
+              envoy_prometheus_bind_addr = "0.0.0.0:9102"
             }
           }
         }
@@ -103,34 +97,6 @@ job "immich" {
           resources {
             cpu    = 50
             memory = 64
-          }
-        }
-      }
-    }
-
-    # Immich is using Redis to communicate with the worker microservices
-    service {
-      name = "immich-redis"
-
-      task = "redis"
-      port = 6379
-
-      meta {
-        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_redis}" # make envoy metrics port available in Consul
-      }
-      connect {
-        sidecar_service {
-          proxy {
-            config {
-              envoy_prometheus_bind_addr = "0.0.0.0:9103"
-            }
-          }
-        }
-
-        sidecar_task {
-          resources {
-            cpu    = 200
-            memory = 50
           }
         }
       }
@@ -218,31 +184,6 @@ EOH
       }
     }
 
-    # Redis cache
-    task "redis" {
-      driver = "docker"
-
-      config {
-        image = "redis:6.2-alpine"
-
-        args = [ "/local/redis.conf" ]
-      }
-
-      template {
-        destination = "local/redis.conf"
-        data        = <<EOH
-save 10 1 # save every 10 seconds if at least one key has changed
-
-dir {{ env "NOMAD_ALLOC_DIR" }}/data
-EOH
-      }
-
-      resources {
-        memory = 300
-        cpu    = 150
-      }
-    }
-
     volume "immich-data" {
       type            = "csi"
       source          = "immich-data"
@@ -271,8 +212,6 @@ EOH
     network {
       mode = "bridge"
 
-      port "immich_metrics" { to = 8082 }
-
       port "envoy_metrics" { to = 9102 }
     }
 
@@ -283,7 +222,6 @@ EOH
 
       meta {
         envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
-        metrics_port = "${NOMAD_HOST_PORT_immich_metrics}"
       }
       connect {
         sidecar_service {
@@ -472,19 +410,27 @@ EOH
     }
   }
 
-  // --- Immich Postgres database ---
+  // --- Immich Postgres database and Redis instance ---
 
-  group "postgres" {
+  group "backend" {
+
+    ephemeral_disk {
+      # Persistent data for Redis. Nomad will try to preserve the disk between job updates
+      size    = 300 # MB
+      migrate = true
+    }
 
     network {
       mode = "bridge"
 
-      port "envoy_metrics" { to = 9102 }
+      port "envoy_metrics_postgres" { to = 9101 }
+      port "envoy_metrics_redis" { to = 9102 }
     }
 
     service {
       name = "immich-postgres"
 
+      task = "postgres"
       port = 5432
 
       check {
@@ -493,17 +439,16 @@ EOH
         args     = ["-c", "psql -U $POSTGRES_USER -d immich  -c 'SELECT 1' || exit 1"]
         interval = "10s"
         timeout  = "2s"
-        task     = "server"
       }
 
       meta {
-        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
+        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_postgres}" # make envoy metrics port available in Consul
       }
       connect {
         sidecar_service {
           proxy {
             config {
-              envoy_prometheus_bind_addr = "0.0.0.0:9102"
+              envoy_prometheus_bind_addr = "0.0.0.0:9101"
             }
           }
         }
@@ -517,7 +462,35 @@ EOH
       }
     }
 
-    task "server" {
+    # Immich is using Redis to communicate with the worker microservices
+    service {
+      name = "immich-redis"
+
+      task = "redis"
+      port = 6379
+
+      meta {
+        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_redis}" # make envoy metrics port available in Consul
+      }
+      connect {
+        sidecar_service {
+          proxy {
+            config {
+              envoy_prometheus_bind_addr = "0.0.0.0:9102"
+            }
+          }
+        }
+
+        sidecar_task {
+          resources {
+            cpu    = 200
+            memory = 50
+          }
+        }
+      }
+    }
+
+    task "postgres" {
       driver = "docker"
 
       # proper user id is required 
@@ -566,6 +539,31 @@ EOH
       }
     }
  
+     # Redis cache, used as an event queue to schedule jobs
+    task "redis" {
+      driver = "docker"
+
+      config {
+        image = "redis:6.2-alpine"
+
+        args = [ "/local/redis.conf" ]
+      }
+
+      template {
+        destination = "local/redis.conf"
+        data        = <<EOH
+save 10 1 # save every 10 seconds if at least one key has changed
+
+dir {{ env "NOMAD_ALLOC_DIR" }}/data
+EOH
+      }
+
+      resources {
+        memory = 300
+        cpu    = 150
+      }
+    }
+
     volume "immich-postgres" {
       type            = "csi"
       source          = "immich-postgres"
