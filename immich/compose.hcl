@@ -21,6 +21,7 @@ job "immich" {
 
       port "envoy_metrics_api" { to = 9102 }
       port "envoy_metrics_redis" { to = 9103 }
+      port "envoy_metrics_exporter" { to = 9104 }
     }
 
     service {
@@ -75,6 +76,33 @@ job "immich" {
           resources {
             cpu    = 200
             memory = 50
+          }
+        }
+      }
+    }
+
+    # Unpoller port to get network metrics into Prometheus
+    service {
+      name = "immich-exporter"
+
+      port = 8000
+
+      meta { # make envoy metrics port available in Consul
+        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_exporter}"
+      }
+      connect {
+        sidecar_service {
+          proxy {
+            config {
+              envoy_prometheus_bind_addr = "0.0.0.0:9104"
+            }
+          }
+        }
+
+        sidecar_task {
+          resources {
+            cpu    = 50
+            memory = 64
           }
         }
       }
@@ -157,6 +185,36 @@ EOH
       volume_mount {
         volume      = "immich-homes"
         destination = "/homes"
+      }
+    }
+
+    # Immich exporter for Prometheus
+    task "immich-exporter" {
+      driver = "docker"
+
+      config {
+        image = "friendlyfriend/prometheus-immich-exporter:latest"
+      }
+
+      env {
+        TZ = "Europe/Berlin"
+      }
+
+      template {
+        destination = "secrets/immich.env"
+        env             = true
+        data            = <<EOH
+{{- with nomadVar "nomad/jobs/immich" }}
+IMMICH_HOST      = localhost
+IMMICH_PORT      = 2283
+IMMICH_API_TOKEN = "{{- .immich_api_key }}"
+{{- end }}
+EOH
+      }
+
+      resources {
+        cpu    = 50
+        memory = 48
       }
     }
 
