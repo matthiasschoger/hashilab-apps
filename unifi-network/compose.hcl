@@ -14,6 +14,7 @@ job "unifi-network" {
       port "envoy_metrics_ui" { to = 9102 }
       port "envoy_metrics_inform" { to = 9103 }
       port "envoy_metrics_speedtest" { to = 9104 }
+      port "envoy_metrics_unpoller" { to = 9105 }
 
       port "stun" { to = 3478 }         # udp 
       port "discovery" { to = 10001 }   # udp
@@ -107,6 +108,33 @@ job "unifi-network" {
           proxy {
             config {
               envoy_prometheus_bind_addr = "0.0.0.0:9104"
+            }
+          }
+        }
+
+        sidecar_task {
+          resources {
+            cpu    = 50
+            memory = 64
+          }
+        }
+      }
+    }
+
+    # Unpoller port to get network metrics into Prometheus
+    service {
+      name = "unifi-network-unpoller"
+
+      port = 9130
+
+      meta { # make envoy metrics port available in Consul
+        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_unpoller}"
+      }
+      connect {
+        sidecar_service {
+          proxy {
+            config {
+              envoy_prometheus_bind_addr = "0.0.0.0:9105"
             }
           }
         }
@@ -228,6 +256,55 @@ _EOF
       resources {
         cpu    = 20
         memory = 15
+      }
+    }
+
+    # Unifi exporter for Prometheus
+    task "unifi-exporter" {
+      driver = "docker"
+
+      config {
+        image = "ghcr.io/unpoller/unpoller:latest"
+
+        args  = [
+          "--config=/local/unpoller.yaml"
+        ]
+      }
+
+      env {
+        TZ = "Europe/Berlin"
+      }
+
+      template {
+        destination = "/local/unpoller.yaml"
+        data = <<EOH
+poller:
+  debug: false
+  quiet: true
+
+prometheus:
+  disable:       false
+  http_listen:   "0.0.0.0:9130"
+
+unifi:
+  dynamic: true
+  defaults:
+    url:  "https://localhost:8443"
+{{- with nomadVar "nomad/jobs/unifi-network" }}
+    user: {{ .unifi_user }}
+    pass: {{ .unifi_pass }}
+{{- end }}
+    sites:
+      - all
+    timeout: 60s
+    save_dpi:    true
+    save_sites:  true
+    hash_pii:    false
+EOH
+      }
+      resources {
+        cpu    = 50
+        memory = 48
       }
     }
   }
