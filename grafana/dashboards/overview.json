@@ -252,7 +252,7 @@
           }
         ]
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -386,7 +386,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -458,7 +458,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -717,7 +717,7 @@
           }
         ]
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -948,12 +948,13 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "maxHeight": 600,
           "mode": "multi",
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -961,7 +962,7 @@
             "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
           },
           "editorMode": "code",
-          "expr": "rate(unpoller_device_wan_receive_bytes_total{}[$__rate_interval]) * 8",
+          "expr": "sum(rate(unpoller_device_wan_receive_bytes_total{}[$__rate_interval]) * 8) without (source)",
           "interval": "",
           "legendFormat": "Bytes Rx",
           "range": true,
@@ -973,37 +974,11 @@
             "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
           },
           "editorMode": "code",
-          "expr": "rate(unpoller_device_wan_transmit_bytes_total{}[$__rate_interval]) * 8",
+          "expr": "sum(rate(unpoller_device_wan_transmit_bytes_total{}[$__rate_interval]) * 8) without (source)",
           "interval": "",
           "legendFormat": "Bytes Tx",
           "range": true,
           "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "unpoller_device_wan_transmit_rate_bytes{}",
-          "hide": true,
-          "interval": "",
-          "legendFormat": "Bytes Tx",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "unpoller_device_wan_receive_rate_bytes{}",
-          "hide": true,
-          "interval": "",
-          "legendFormat": "Bytes Rx",
-          "range": true,
-          "refId": "D"
         }
       ],
       "title": "WAN Throughput",
@@ -1098,12 +1073,13 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "maxHeight": 600,
           "mode": "multi",
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -1312,12 +1288,13 @@
           "sortDesc": true
         },
         "tooltip": {
+          "hideZeros": false,
           "maxHeight": 600,
           "mode": "multi",
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -1496,12 +1473,13 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "maxHeight": 600,
           "mode": "multi",
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -1597,12 +1575,13 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "maxHeight": 600,
           "mode": "multi",
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -1761,12 +1740,13 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "maxHeight": 600,
           "mode": "multi",
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -1985,12 +1965,13 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "maxHeight": 600,
           "mode": "multi",
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -2245,12 +2226,13 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "maxHeight": 600,
           "mode": "multi",
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -2505,12 +2487,13 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "maxHeight": 600,
           "mode": "multi",
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -2765,12 +2748,13 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "maxHeight": 600,
           "mode": "multi",
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -2868,6 +2852,7 @@
         "type": "prometheus",
         "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2879,7 +2864,6 @@
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
-            "axisSoftMin": 0,
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
@@ -2891,11 +2875,12 @@
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
+            "lineInterpolation": "smooth",
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
-              "type": "linear"
+              "log": 2,
+              "type": "log"
             },
             "showPoints": "auto",
             "spanNulls": false,
@@ -2920,30 +2905,40 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "binBps"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 9,
-        "w": 24,
+        "w": 12,
         "x": 0,
         "y": 48
       },
-      "id": 26,
+      "id": 29,
+      "interval": "1m",
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
+          "calcs": [
+            "lastNotNull",
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Mean",
+          "sortDesc": true
         },
         "tooltip": {
+          "hideZeros": false,
+          "maxHeight": 600,
           "mode": "multi",
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -2951,15 +2946,127 @@
             "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
           },
           "editorMode": "code",
-          "exemplar": true,
-          "expr": "sum by (reason) (cs_alerts{})",
-          "interval": "",
-          "legendFormat": "{{reason}}",
+          "expr": "sum without (code, protocol, method, instance) (rate(traefik_service_requests_bytes_total{instance=~\"dmz.*\"} [$__rate_interval:]))",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "internet → {{service_name}}",
           "range": true,
-          "refId": "A"
+          "refId": "B"
         }
       ],
-      "title": "CrowdSec: Alerts per Scenario",
+      "title": "Incoming Internet Traffic",
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "log": 2,
+              "type": "log"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "binBps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 48
+      },
+      "id": 30,
+      "interval": "1m",
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "sortBy": "Mean",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "sum without (code, protocol, method, instance) (rate(traefik_service_responses_bytes_total{instance=~\"dmz.*\"} [$__rate_interval:]))",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{service_name}} → internet",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Outgoing Internet Traffic",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -3024,8 +3131,8 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 24,
+        "h": 9,
+        "w": 12,
         "x": 0,
         "y": 57
       },
@@ -3038,12 +3145,13 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "maxHeight": 600,
           "mode": "multi",
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -3057,7 +3165,107 @@
           "refId": "A"
         }
       ],
-      "title": "Assets Growth",
+      "title": "Immich Assets Growth",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 57
+      },
+      "id": 26,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum by (reason) (cs_alerts{})",
+          "interval": "",
+          "legendFormat": "{{reason}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "CrowdSec: Alerts per Scenario",
       "type": "timeseries"
     },
     {
@@ -3066,7 +3274,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 65
+        "y": 66
       },
       "id": 4,
       "panels": [],
@@ -3140,7 +3348,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 66
+        "y": 67
       },
       "id": 5,
       "options": {
@@ -3157,12 +3365,13 @@
           "sortDesc": true
         },
         "tooltip": {
+          "hideZeros": false,
           "maxHeight": 600,
           "mode": "multi",
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -3253,7 +3462,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 78
+        "y": 79
       },
       "id": 6,
       "options": {
@@ -3270,12 +3479,13 @@
           "sortDesc": true
         },
         "tooltip": {
+          "hideZeros": false,
           "maxHeight": 600,
           "mode": "multi",
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -3360,7 +3570,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 90
+        "y": 91
       },
       "id": 23,
       "options": {
@@ -3378,11 +3588,12 @@
           "sortDesc": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -3467,7 +3678,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 99
+        "y": 100
       },
       "id": 24,
       "options": {
@@ -3485,11 +3696,12 @@
           "sortDesc": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -3515,7 +3727,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 108
+        "y": 109
       },
       "id": 14,
       "panels": [],
@@ -3547,7 +3759,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 109
+        "y": 110
       },
       "id": 17,
       "interval": "1m",
@@ -3590,7 +3802,7 @@
           "unit": "dtdurationms"
         }
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -3678,7 +3890,7 @@
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 119
+        "y": 120
       },
       "id": 15,
       "interval": "1m",
@@ -3696,12 +3908,13 @@
           "sortDesc": true
         },
         "tooltip": {
+          "hideZeros": false,
           "maxHeight": 600,
           "mode": "multi",
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -3802,7 +4015,7 @@
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 133
+        "y": 134
       },
       "id": 16,
       "interval": "1m",
@@ -3820,12 +4033,13 @@
           "sortDesc": true
         },
         "tooltip": {
+          "hideZeros": false,
           "maxHeight": 600,
           "mode": "multi",
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.4.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": {
@@ -3847,11 +4061,11 @@
             "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
           },
           "editorMode": "code",
-          "expr": "sum (rate(traefik_service_responses_bytes_total{instance=~\"$instance\"} [$__rate_interval:]))  by (service, instance)",
+          "expr": "sum (rate(traefik_service_responses_bytes_total{instance=~\"$instance\"} [$__rate_interval:]))  by (service_name, instance)",
           "hide": false,
           "instant": false,
           "interval": "",
-          "legendFormat": "{{instance}} - {{service}} → traefik",
+          "legendFormat": "{{instance}} - {{service_name}} → traefik",
           "range": true,
           "refId": "B"
         }
@@ -3871,9 +4085,7 @@
     "list": [
       {
         "current": {
-          "text": [
-            "All"
-          ],
+          "text": "All",
           "value": [
             "$__all"
           ]
@@ -3896,9 +4108,7 @@
       },
       {
         "current": {
-          "text": [
-            "All"
-          ],
+          "text": "All",
           "value": [
             "$__all"
           ]
@@ -3929,6 +4139,6 @@
   "timezone": "",
   "title": "1. Overview",
   "uid": "cacaa9a6-7789-48b4-8ff6-aa27f03895c8",
-  "version": 166,
+  "version": 186,
   "weekStart": ""
 }
