@@ -287,9 +287,9 @@ prometheus:
   http_listen:   "0.0.0.0:9130"
 
 unifi:
-  dynamic: true
   defaults:
     url:  "https://localhost:8443"
+    verify_ssl: false
 {{- with nomadVar "nomad/jobs/unifi-network" }}
     user: {{ .unifi_user }}
     pass: {{ .unifi_pass }}
