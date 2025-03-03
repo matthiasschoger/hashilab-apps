@@ -255,7 +255,7 @@ _EOF
 
       resources {
         cpu    = 20
-        memory = 15
+        memory = 48
       }
     }
 
