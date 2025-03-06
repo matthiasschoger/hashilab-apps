@@ -67,7 +67,8 @@ job "unifi-network" {
     }
 
     # Inform port, required to discover Unifi devices on the network
-    # Don't forget to set the "Inform Host" in Settings->System->Advanced to your ingress IP (floating IP managed by keepalived)
+    # Don't forget to either set the "Inform Host" in Settings->System->Advanced to your ingress IP (floating IP managed by keepalived)
+    #  or create a DNS entry for 'unifi' which points to your ingress
     service {
       name = "unifi-network-inform"
 
