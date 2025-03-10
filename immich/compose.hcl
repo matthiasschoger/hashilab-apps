@@ -299,7 +299,7 @@ EOH
       }
 
       resources {
-        memory = 2500
+        memory = 3000
         cpu    = 1200
       }
 
@@ -383,13 +383,6 @@ EOH
       config {
         image = "ghcr.io/immich-app/immich-machine-learning:release"
         force_pull = true
-
-        devices = [ # map Intel QuickSync to container
-          {
-            host_path = "/dev/dri"
-            container_path = "/dev/dri"
-          }
-        ]
       }
 
       env {
