@@ -262,7 +262,7 @@ EOH
         image = "ghcr.io/immich-app/immich-server:release"
         force_pull = true
 
-        devices = [ # map Intel QuickSync to container
+        devices = [ # map Intel QuickSync to container, allowing for hardware encoding
           {
             host_path = "/dev/dri"
             container_path = "/dev/dri"
@@ -300,7 +300,7 @@ EOH
 
       resources {
         memory = 3000
-        cpu    = 1200
+        cpu    = 2000
       }
 
       volume_mount {
@@ -398,7 +398,7 @@ EOH
 
       resources {
         memory = 2500
-        cpu    = 1000
+        cpu    = 2000
       }
     }
   }
@@ -461,6 +461,14 @@ EOH
 
       task = "redis"
       port = 6379
+
+      check {
+        type     = "script"
+        command  = "sh"
+        args     = ["-c", "redis-cli ping || exit 1"]
+        interval = "10s"
+        timeout  = "2s"
+      }
 
       meta {
         envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_redis}" # make envoy metrics port available in Consul
