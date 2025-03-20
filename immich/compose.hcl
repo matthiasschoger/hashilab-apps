@@ -11,8 +11,9 @@ job "immich" {
     network {
       mode = "bridge"
 
-      port "envoy_metrics_api" { to = 9101 }
-      port "envoy_metrics_exporter" { to = 9102 }
+      port "immich_exporter_metrics" { to = 8000 }
+      
+      port "envoy_metrics" { to = 9101 }
     }
 
     service {
@@ -42,7 +43,7 @@ job "immich" {
       ]
 
       meta {
-        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_api}" # make envoy metrics port available in Consul
+        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
       }
       connect {
         sidecar_service {
@@ -51,8 +52,8 @@ job "immich" {
               envoy_prometheus_bind_addr = "0.0.0.0:9101"
             }
 
-            upstreams { # required for Smart Search
-              destination_name = "immich-ml"
+            upstreams {
+              destination_name = "immich-ml" # required for Smart Search
               local_bind_port  = 3003
             }
             upstreams {
@@ -82,23 +83,7 @@ job "immich" {
       port = 8000
 
       meta { # make envoy metrics port available in Consul
-        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_exporter}"
-      }
-      connect {
-        sidecar_service {
-          proxy {
-            config {
-              envoy_prometheus_bind_addr = "0.0.0.0:9102"
-            }
-          }
-        }
-
-        sidecar_task {
-          resources {
-            cpu    = 50
-            memory = 64
-          }
-        }
+        metrics_port = "${NOMAD_HOST_PORT_immich_exporter_metrics}"
       }
     }
 

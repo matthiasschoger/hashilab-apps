@@ -14,7 +14,8 @@ job "unifi-network" {
       port "envoy_metrics_ui" { to = 9102 }
       port "envoy_metrics_inform" { to = 9103 }
       port "envoy_metrics_speedtest" { to = 9104 }
-      port "envoy_metrics_unpoller" { to = 9105 }
+
+      port "unpoller_metrics" { to = 9130 }
 
       port "stun" { to = 3478 }         # udp 
       port "discovery" { to = 10001 }   # udp
@@ -129,23 +130,7 @@ job "unifi-network" {
       port = 9130
 
       meta { # make envoy metrics port available in Consul
-        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_unpoller}"
-      }
-      connect {
-        sidecar_service {
-          proxy {
-            config {
-              envoy_prometheus_bind_addr = "0.0.0.0:9105"
-            }
-          }
-        }
-
-        sidecar_task {
-          resources {
-            cpu    = 50
-            memory = 64
-          }
-        }
+        metrics_port = "${NOMAD_HOST_PORT_unpoller_metrics}"
       }
     }
 
