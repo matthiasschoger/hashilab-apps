@@ -356,8 +356,9 @@ EOF
 
       config {
         image = "mongo:7.0"
-        command = "mongod"
+        force_pull = true
 
+        command = "mongod"
         args = ["--config", "/local/mongod.conf"]
 
         volumes = [
