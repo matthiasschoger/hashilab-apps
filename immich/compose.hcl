@@ -61,7 +61,7 @@ job "immich" {
               local_bind_port  = 5432
             }
             upstreams {
-              destination_name = "immich-redis"
+              destination_name = "immich-valkey"
               local_bind_port  = 6379
             }
           }
@@ -224,7 +224,7 @@ EOH
               local_bind_port  = 5432
             }
             upstreams {
-              destination_name = "immich-redis"
+              destination_name = "immich-valkey"
               local_bind_port  = 6379
             }
           }
@@ -442,9 +442,9 @@ EOH
 
     # Immich is using Redis to communicate with the worker microservices
     service {
-      name = "immich-redis"
+      name = "immich-valkey"
 
-      task = "redis"
+      task = "valkey"
       port = 6379
 
       check {
@@ -526,26 +526,27 @@ EOH
     }
  
      # Redis cache, used as an event queue to schedule jobs
-    task "redis" {
+    task "valkey" {
       driver = "docker"
 
       config {
-        image = "redis:6.2-alpine"
+        image = "valkey/valkey:8-bookworm"
 
-        args = [ "/local/redis.conf" ]
+        args = [ "/local/valkey.conf" ]
       }
 
       template {
-        destination = "local/redis.conf"
+        destination = "local/valkey.conf"
         data        = <<EOH
-save 10 1 # save every 10 seconds if at least one key has changed
+# save every 60 seconds if at least 100 keys have changed
+save 60 100
 
 dir {{ env "NOMAD_ALLOC_DIR" }}/data
 EOH
       }
 
       resources {
-        memory = 300
+        memory = 200
         cpu    = 150
       }
     }
