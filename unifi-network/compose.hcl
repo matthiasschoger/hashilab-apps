@@ -18,6 +18,7 @@ job "unifi-network" {
       port "unpoller_metrics" { to = 9130 }
 
       port "stun" { to = 3478 }         # udp 
+      port "syslog" { to = 5514 }       # udp, remote syslog
       port "discovery" { to = 10001 }   # udp
       port "discovery-l2" { to = 1900 } # udp
     }
@@ -139,6 +140,13 @@ job "unifi-network" {
       name = "unifi-network-stun"
 
       port = "stun"
+    }
+
+    # Remote syslog port (UDP), proxied by NGINX in consul-ingres
+    service {
+      name = "unifi-network-syslog"
+
+      port = "syslog"
     }
 
     # Discovery port (UDP), proxied by NGINX in consul-ingres
