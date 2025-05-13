@@ -75,6 +75,28 @@ job "vaultwarden" {
         DOMAIN = "https://bitwarden.${var.base_domain}"
       }
 
+      # see https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page#secure-the-admin_token
+      #  remember to delete the admin_token key from config.json
+      #  your password is the password you provided while generating the argon2 token
+      template {
+        destination = "secrets/variables.env"
+        env         = true
+        perms       = 400
+        data        = <<EOH
+{{- with nomadVar "nomad/jobs/vaultwarden" }}
+ADMIN_TOKEN = {{- .admin_token }}
+{{- end }}
+
+TZ = "Europe/Berlin"
+
+ROCKET_PROFILE = "release"
+ROCKET_PORT = "80"
+WEBSOCKET_ENABLED = true
+LOG_LEVEL = "info"
+DOMAIN = "https://bitwarden.${var.base_domain}"
+EOH
+      }
+
       resources {
         memory = 128
         cpu    = 100
