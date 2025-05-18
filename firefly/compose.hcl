@@ -21,7 +21,7 @@ job "firefly" {
 
       check {
         type     = "http"
-        path     = "/status"
+        path     = "/health"
         interval = "10s"
         timeout  = "2s"
         expose   = true # required for Connect
@@ -67,62 +67,14 @@ job "firefly" {
         image = "fireflyiii/core:latest"
       }
 
-      # template {
-      #   destination = "secrets/firefly.stack.env"
-      #   env         = true
-      #   data        = file("firefly.stack.env")
-      # }
+      env {
+        TZ = "Europe/Berlin"
+      }
 
       template {
-        destination = "secrets/variables.env"
-        env             = true
-        data            = <<EOH
-TZ = "Europe/Berlin"
-
-# see https://raw.githubusercontent.com/firefly-iii/firefly-iii/main/.env.example
-{{- with nomadVar "nomad/jobs/firefly" }}
-SITE_OWNER="{{ .email_receipient }}"
-APP_KEY=39wLmTtBi92jNiDPAH95sVrVvQMn7tKs
-
-DEFAULT_LANGUAGE=en_US
-DEFAULT_LOCALE=de_DE
-TZ=Europe/Berlin
-
-TRUSTED_PROXIES=192.168.0.3
-
-DB_CONNECTION=mysql
-DB_HOST=localhost
-DB_PORT=3306
-DB_DATABASE=firefly
-DB_USERNAME=firefly
-DB_PASSWORD = "{{- .db_pass }}"
-
-# If you want Firefly III to email you, update these settings
-# For instructions, see: https://docs.firefly-iii.org/how-to/firefly-iii/advanced/notifications/#email
-# If you use Docker or similar, you can set these variables from a file by appending them with _FILE
-MAIL_MAILER=log
-MAIL_HOST=smtp.lab.${var.base_domain}
-MAIL_PORT=1025
-MAIL_FROM="{{ .email_user }}"
-MAIL_USERNAME="{{ .email_user }}"
-MAIL_PASSWORD="{{ .email_pass }}"
-
-# Set this value to true if you want to set the location of certain things, like transactions.
-# Since this involves an external service, it's optional and disabled by default.
-ENABLE_EXTERNAL_MAP=true
-
-# The map will default to this location:
-MAP_DEFAULT_LAT=51.983333
-MAP_DEFAULT_LONG=5.916667
-MAP_DEFAULT_ZOOM=6
-
-# For more info: https://docs.firefly-iii.org/how-to/firefly-iii/advanced/cron/
-STATIC_CRON_TOKEN="{{ .cron_token }}"
-
-APP_URL="https://firefly.lab.${var.base_domain}"
-{{- end }}
-
-EOH
+        destination = "secrets/stack.env"
+        env         = true
+        data        = file("stack.env")
       }
 
       resources {
@@ -135,6 +87,29 @@ EOH
         destination = "/var/www/html/storage/upload"
       }
     }
+
+    # task "importer" {
+    #   driver = "docker"
+
+    #   config {
+    #     image = "fireflyiii/data-importer:latest"
+    #   }
+
+    #   env {
+    #     TZ = "Europe/Berlin"
+    #   }
+
+    #   template {
+    #     destination = "secrets/stack.env"
+    #     env         = true
+    #     data        = file("stack.env")
+    #   }
+
+    #   resources {
+    #     memory = 200
+    #     cpu    = 100
+    #   }
+    # }
 
     volume "firefly-app" {
       type            = "csi"
@@ -158,14 +133,14 @@ EOH
 
       port = 3306
 
-      # check {
-      #   type     = "script"
-      #   command  = "sh"
-      #   args     = ["-c", "/usr/bin/mariadb --user=$MYSQL_USER --password=$MYSQL_PASSWORD --execute \"SHOW DATABASES;\""]
-      #   interval = "10s"
-      #   timeout  = "2s"
-      #   task     = "server"
-      # }
+      check {
+        type     = "script"
+        command  = "sh"
+        args     = ["-c", "/usr/bin/mariadb --user=$MYSQL_USER --password=$MYSQL_PASSWORD --execute \"SHOW DATABASES;\""]
+        interval = "10s"
+        timeout  = "2s"
+        task     = "server"
+      }
 
       meta {
         envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
@@ -218,6 +193,7 @@ TZ = "Europe/Berlin"
 MYSQL_ROOT_PASSWORD = "{{- .db_pass }}"
 MYSQL_USER = "firefly"
 MYSQL_PASSWORD = "{{- .db_pass }}"
+MYSQL_DATABASE = firefly
 {{- end }}
 EOH
       }
