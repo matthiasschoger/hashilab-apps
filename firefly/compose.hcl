@@ -79,7 +79,7 @@ job "firefly" {
 
       resources {
         memory = 200
-        cpu    = 100
+        cpu    = 500
       }
 
       volume_mount {
@@ -87,29 +87,6 @@ job "firefly" {
         destination = "/var/www/html/storage/upload"
       }
     }
-
-    # task "importer" {
-    #   driver = "docker"
-
-    #   config {
-    #     image = "fireflyiii/data-importer:latest"
-    #   }
-
-    #   env {
-    #     TZ = "Europe/Berlin"
-    #   }
-
-    #   template {
-    #     destination = "secrets/stack.env"
-    #     env         = true
-    #     data        = file("stack.env")
-    #   }
-
-    #   resources {
-    #     memory = 200
-    #     cpu    = 100
-    #   }
-    # }
 
     volume "firefly-app" {
       type            = "csi"
@@ -119,6 +96,82 @@ job "firefly" {
     }
   }
 
+  group "importer" {
+
+    network {
+      mode = "bridge"
+
+      port "envoy_metrics" { to = 9102 }
+    }
+
+    service {
+      name = "firefly-importer"
+
+      port = 8080
+
+      check {
+        type     = "http"
+        path     = "/health"
+        interval = "10s"
+        timeout  = "2s"
+        expose   = true # required for Connect
+      }
+
+      tags = [
+        "traefik.enable=true",
+        "traefik.consulcatalog.connect=true",
+        "traefik.http.routers.firefly-importer.rule=Host(`firefly-importer.lab.${var.base_domain}`)",
+        "traefik.http.routers.firefly-importer.entrypoints=websecure"
+      ]
+
+      meta {
+        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
+      }
+      connect {
+        sidecar_service {
+          proxy {
+            config {
+              envoy_prometheus_bind_addr = "0.0.0.0:9102"
+            }
+            upstreams {
+              destination_name = "firefly-server"
+              local_bind_port  = 80
+            }
+          }
+        }
+
+        sidecar_task {
+          resources {
+            cpu    = 50
+            memory = 64
+          }
+        }
+      }
+    }
+
+    task "importer" {
+      driver = "docker"
+
+      config {
+        image = "fireflyiii/data-importer:latest"
+      }
+
+      env {
+        TZ = "Europe/Berlin"
+      }
+
+      template {
+        destination = "secrets/stack.env"
+        env         = true
+        data        = file("stack.env")
+      }
+
+      resources {
+        memory = 200
+        cpu    = 200
+      }
+    }
+  }
 
   group "mariadb" {
 
@@ -200,7 +253,7 @@ EOH
 
       resources {
         memory = 384
-        cpu    = 100
+        cpu    = 200
       }
 
       volume_mount {
