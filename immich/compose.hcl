@@ -479,9 +479,6 @@ EOH
     task "postgres" {
       driver = "docker"
 
-      # proper user id is required 
-      user = "1026:100" # matthias:users
-
       # backs up the Postgres database and removes all files in the backup folder which are older than 3 days.
       action "backup-postgres" {
         command = "/bin/sh"
@@ -494,7 +491,8 @@ EOF
       }
 
       config {
-         image = "tensorchord/pgvecto-rs:pg14-v0.2.1"
+#         image = "ghcr.io/immich-app/postgres:16-vectorchord0.3.0" # FIXME: Update to v16
+         image = "ghcr.io/immich-app/postgres:14-vectorchord0.3.0"
       }
 
       env {
@@ -507,9 +505,10 @@ EOF
         perms       = 400
         data        = <<EOH
 {{- with nomadVar "nomad/jobs/immich" }}
-POSTGRES_PASSWORD = {{- .db_pass }}
-POSTGRES_USER     = {{- .db_user }}
-DB_URL            = postgres://{{- .db_user }}:{{- .db_pass }}@127.0.0.1:5432/immich
+POSTGRES_PASSWORD    = {{- .db_pass }}
+POSTGRES_USER        = {{- .db_user }}
+DB_URL               = postgres://{{- .db_user }}:{{- .db_pass }}@127.0.0.1:5432/immich
+POSTGRES_INITDB_ARGS = '--data-checksums'
 {{- end }}
 EOH
       }
