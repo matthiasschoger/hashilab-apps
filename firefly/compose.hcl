@@ -231,7 +231,7 @@ job "firefly" {
         args    = ["-c", <<EOH
 mariadb-dump -u firefly --password=$MYSQL_PASSWORD --all-databases | gzip > /var/lib/mysql/backup/backup.$(date +"%Y%m%d%H%M").gz
 echo "cleaning up backup files older than 3 days ..."
-find /config/backup/* -mtime +3 -exec rm {} \;
+find /var/lib/mysql//backup/* -mtime +3 -exec rm {} \;
 EOH
         ]
       }
