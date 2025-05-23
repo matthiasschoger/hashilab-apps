@@ -173,6 +173,113 @@ job "firefly" {
     }
   }
 
+  group "fints" {
+
+    network {
+      mode = "bridge"
+
+      port "envoy_metrics" { to = 9102 }
+    }
+
+    service {
+      name = "firefly-fints"
+
+      port = 8080
+
+      # check {
+      #   type     = "http"
+      #   path     = "/health"
+      #   interval = "10s"
+      #   timeout  = "2s"
+      #   expose   = true # required for Connect
+      # }
+
+      tags = [
+        "traefik.enable=true",
+        "traefik.consulcatalog.connect=true",
+        "traefik.http.routers.fints.rule=Host(`fints.lab.${var.base_domain}`)",
+        "traefik.http.routers.fints.entrypoints=websecure"
+      ]
+
+      meta {
+        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
+      }
+      connect {
+        sidecar_service {
+          proxy {
+            config {
+              envoy_prometheus_bind_addr = "0.0.0.0:9102"
+            }
+            upstreams {
+              destination_name = "firefly-server"
+              local_bind_port  = 80
+            }
+          }
+        }
+
+        sidecar_task {
+          resources {
+            cpu    = 50
+            memory = 64
+          }
+        }
+      }
+    }
+
+    task "importer" {
+      driver = "docker"
+
+      config {
+        image = "benkl/firefly-iii-fints-importer:latest"
+
+        volumes = [ 
+          "secrets/giro.json:/data/configurations/giro.json",
+          "secrets/kk_matthias.json:/data/configurations/kk_matthias.json"
+        ]
+      }
+
+      env {
+        TZ = "Europe/Berlin"
+      }
+
+      template {
+        destination = "secrets/giro.json"
+        data            = <<EOH
+{{- with nomadVar "nomad/jobs/firefly" }}
+{
+  "bank_username": "{{ .fints_bank_user }}",
+  "bank_password": "{{ .fints_bank_password }}",
+  "bank_code": "{{ .fints_bank_blz }}",
+  "bank_url": "{{ .fints_bank_api_url }}",
+  "bank_2fa": "{{ .fints_bank_2fa }}",
+  "bank_2fa_device": "",
+  "bank_fints_persistence": "",
+  "firefly_url": "localhost:80",
+  "firefly_access_token": "{{ .importer_token }}",
+  "skip_transaction_review": "false",
+  "__description_regex_comment__": "To disable the regex search & replace of the transaction description, set both to an empty string.",
+  "description_regex_match": "/^(Übertrag \\/ Überweisung|Lastschrift \\/ Belastung)(.*)(END-TO-END-REF.*|Karte.*|KFN.*)(Ref\\..*)$/mi",
+  "description_regex_replace": "$2 [$1 | $3 | $4]",
+  "auto_submit_form_via_js": "false",
+  "choose_account_automation":
+  {
+    "bank_account_iban": "{{ .fints_firefly_account_iban }}",
+    "firefly_account_id": "{{ .fints_firefly_account_id }}",
+    "__from_to_comment__": "The following values will be passed directly into DateTime. Set them to null to choose them manually during import process.",
+    "from": "now - 7 days",
+    "to": "now"
+  }
+}{{- end }}
+EOH
+      }
+
+      resources {
+        memory = 200
+        cpu    = 200
+      }
+    }
+  }
+
   group "mariadb" {
 
     network {
