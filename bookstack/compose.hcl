@@ -150,7 +150,7 @@ EOH
       driver = "docker"
 
       config {
-        image = "lscr.io/linuxserver/mariadb:11.4.4"
+        image = "lscr.io/linuxserver/mariadb:11.4.5"
       }
 
       # backs up the MariaDB database and removes all files in the backup folder which are older than 3 days
