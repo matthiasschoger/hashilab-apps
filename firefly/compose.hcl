@@ -186,13 +186,13 @@ job "firefly" {
 
       port = 8080
 
-      # check {
-      #   type     = "http"
-      #   path     = "/health"
-      #   interval = "10s"
-      #   timeout  = "2s"
-      #   expose   = true # required for Connect
-      # }
+      check {
+        type     = "http"
+        path     = "/health"
+        interval = "10s"
+        timeout  = "2s"
+        expose   = true # required for Connect
+      }
 
       tags = [
         "traefik.enable=true",
@@ -233,8 +233,18 @@ job "firefly" {
         image = "benkl/firefly-iii-fints-importer:latest"
 
         volumes = [ 
-          "secrets/giro.json:/data/configurations/giro.json",
-          "secrets/kk_matthias.json:/data/configurations/kk_matthias.json"
+          "secrets/giro.json:/data/configurations/giro.json"
+        ]
+      }
+
+      # updates the transactions of the account(s)
+      action "update-transactions" {
+        command = "/bin/sh"
+        args    = ["-c", <<EOH
+echo "updating transactions"
+curl -X GET 'http://localhost:8080/?automate=true&config=giro.json'
+echo "finished updating the transactions"
+EOH
         ]
       }
 
