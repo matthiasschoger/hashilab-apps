@@ -233,7 +233,8 @@ job "firefly" {
         image = "benkl/firefly-iii-fints-importer:latest"
 
         volumes = [ 
-          "secrets/giro.json:/data/configurations/giro.json"
+          "secrets/giro.json:/data/configurations/giro.json",
+          # "secrets/kk_matthias.json:/data/configurations/kk_matthias.json"
         ]
       }
 
@@ -243,7 +244,7 @@ job "firefly" {
         args    = ["-c", <<EOH
 echo "updating transactions"
 curl -X GET 'http://localhost:8080/?automate=true&config=giro.json'
-echo "finished updating the transactions"
+echo "finished updating transactions"
 EOH
         ]
       }
