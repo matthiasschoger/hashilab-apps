@@ -363,8 +363,6 @@ EOH
     task "server" {
       driver = "docker"
 
-      user = "1026:100" # matthias:users
-
       config {
         image = "ghcr.io/immich-app/immich-machine-learning:release"
         force_pull = true
