@@ -489,8 +489,7 @@ EOF
       }
 
       config {
-#         image = "ghcr.io/immich-app/postgres:16-vectorchord0.3.0" # FIXME: Update to v16
-         image = "ghcr.io/immich-app/postgres:14-vectorchord0.3.0"
+         image = "ghcr.io/immich-app/postgres:14-vectorchord0.4.2"
       }
 
       env {
@@ -528,6 +527,7 @@ EOH
 
       config {
         image = "valkey/valkey:8-bookworm"
+        force_pull = true
 
         args = [ "/local/valkey.conf" ]
       }
