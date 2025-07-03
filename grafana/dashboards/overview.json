@@ -54,8 +54,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -184,8 +183,7 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "semi-dark-green",
-                      "value": null
+                      "color": "semi-dark-green"
                     },
                     {
                       "color": "semi-dark-yellow",
@@ -252,7 +250,7 @@
           }
         ]
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -349,8 +347,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": null
+                "color": "rgba(245, 54, 54, 0.9)"
               },
               {
                 "color": "green",
@@ -386,7 +383,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -422,8 +419,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "red",
-                "value": null
+                "color": "red"
               },
               {
                 "color": "green",
@@ -458,7 +454,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -476,6 +472,280 @@
       ],
       "title": "Nomad tolerance",
       "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "id": 25,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "avg(node_hwmon_temp_celsius{instance=\"proxmox1.home\"})",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "proxmox1.home",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "avg(node_hwmon_temp_celsius{instance=\"proxmox2.home\"})",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "proxmox2.home",
+          "range": true,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "avg(node_hwmon_temp_celsius{instance=\"storage.home\"})",
+          "instant": false,
+          "legendFormat": "storage.home",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "CPU Temperature",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+      },
+      "description": "Spikes on this graph that are missing from the LAN graph indicate gateway-originated traffic, like a scheduled speed test.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "bits / second",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/Tx$/"
+            },
+            "properties": [
+              {
+                "id": "custom.transform",
+                "value": "negative-Y"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byValue",
+              "options": {
+                "op": "gte",
+                "reducer": "allIsNull",
+                "value": 0
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": true,
+                  "viz": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 0,
+        "y": 6
+      },
+      "id": 20,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(unpoller_device_wan_receive_bytes_total{}[$__rate_interval]) * 8)",
+          "interval": "",
+          "legendFormat": "Bytes Rx",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(unpoller_device_wan_transmit_bytes_total{}[$__rate_interval]) * 8)",
+          "interval": "",
+          "legendFormat": "Bytes Tx",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "WAN Throughput",
+      "type": "timeseries"
     },
     {
       "datasource": {
@@ -508,8 +778,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -695,8 +964,8 @@
       "gridPos": {
         "h": 10,
         "w": 12,
-        "x": 12,
-        "y": 1
+        "x": 0,
+        "y": 11
       },
       "id": 10,
       "options": {
@@ -717,7 +986,7 @@
           }
         ]
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -839,150 +1108,90 @@
         "type": "prometheus",
         "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
       },
-      "description": "Spikes on this graph that are missing from the LAN graph indicate gateway-originated traffic, like a scheduled speed test.",
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
           "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "bits / second",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
+            "align": "left",
+            "cellOptions": {
+              "type": "auto"
             },
-            "insertNulls": false,
-            "lineInterpolation": "smooth",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "filterable": false,
+            "inspect": false
           },
-          "links": [],
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
+                "color": "green"
               }
             ]
           },
-          "unit": "bps"
+          "unit": "none"
         },
-        "overrides": [
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 11
+      },
+      "id": 31,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
           {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "/Tx$/"
-            },
-            "properties": [
-              {
-                "id": "custom.transform",
-                "value": "negative-Y"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byValue",
-              "options": {
-                "op": "gte",
-                "reducer": "allIsNull",
-                "value": 0
-              }
-            },
-            "properties": [
-              {
-                "id": "custom.hideFrom",
-                "value": {
-                  "legend": true,
-                  "tooltip": true,
-                  "viz": false
-                }
-              }
-            ]
+            "desc": false,
+            "displayName": "instance"
           }
         ]
       },
-      "gridPos": {
-        "h": 5,
-        "w": 12,
-        "x": 0,
-        "y": 6
-      },
-      "id": 20,
-      "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "maxHeight": 600,
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum(rate(unpoller_device_wan_receive_bytes_total{}[$__rate_interval]) * 8) without (source)",
+          "exemplar": true,
+          "expr": "node_uname_info{}",
+          "format": "table",
+          "hide": false,
+          "instant": true,
           "interval": "",
-          "legendFormat": "Bytes Rx",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "sum(rate(unpoller_device_wan_transmit_bytes_total{}[$__rate_interval]) * 8) without (source)",
-          "interval": "",
-          "legendFormat": "Bytes Tx",
-          "range": true,
-          "refId": "B"
+          "legendFormat": "__auto",
+          "refId": "Status"
         }
       ],
-      "title": "WAN Throughput",
-      "type": "timeseries"
+      "title": "OS Versions",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "byVariable": false,
+            "include": {
+              "names": [
+                "instance",
+                "release",
+                "sysname"
+              ]
+            }
+          }
+        }
+      ],
+      "type": "table"
     },
     {
       "datasource": {
@@ -1041,8 +1250,7 @@
             "mode": "percentage",
             "steps": [
               {
-                "color": "transparent",
-                "value": null
+                "color": "transparent"
               },
               {
                 "color": "semi-dark-yellow",
@@ -1062,7 +1270,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 11
+        "y": 21
       },
       "id": 12,
       "options": {
@@ -1079,7 +1287,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -1258,8 +1466,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1275,7 +1482,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 11
+        "y": 21
       },
       "id": 13,
       "options": {
@@ -1294,7 +1501,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -1445,8 +1652,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1462,7 +1668,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 19
+        "y": 29
       },
       "id": 2,
       "options": {
@@ -1479,7 +1685,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -1487,7 +1693,7 @@
             "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
           },
           "editorMode": "code",
-          "expr": "(node_memory_MemTotal_bytes{} - node_memory_MemFree_bytes{} - (node_memory_Cached_bytes{} + node_memory_Buffers_bytes{} + node_memory_SReclaimable_bytes{})) / node_memory_MemTotal_bytes{} * 100",
+          "expr": "(node_memory_MemTotal_bytes{instance=~\"$instance\"} - node_memory_MemFree_bytes{instance=~\"$instance\"} - (node_memory_Cached_bytes{instance=~\"$instance\"} + node_memory_Buffers_bytes{instance=~\"$instance\"} + node_memory_SReclaimable_bytes{instance=~\"$instance\"})) / node_memory_MemTotal_bytes{instance=~\"$instance\"} * 100",
           "instant": false,
           "legendFormat": "{{instance}}",
           "range": true,
@@ -1546,8 +1752,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1563,7 +1768,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 19
+        "y": 29
       },
       "id": 1,
       "maxDataPoints": 100,
@@ -1581,7 +1786,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -1589,205 +1794,14 @@
             "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
           },
           "editorMode": "code",
-          "expr": "(sum by(instance) (irate(node_cpu_seconds_total{mode!=\"idle\"}[$__rate_interval])) * 100) / on(instance) sum by(instance) (irate(node_cpu_seconds_total{}[$__rate_interval]))",
+          "expr": "(sum by(instance) (irate(node_cpu_seconds_total{mode!=\"idle\", instance=~\"$instance\"}[$__rate_interval])) * 100) / on(instance) sum by(instance) (irate(node_cpu_seconds_total{instance=~\"$instance\"}[$__rate_interval]))",
           "instant": false,
           "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "(sum by(instance) (irate(node_cpu_seconds_total{instance=\"master.home\", mode!=\"idle\"}[$__rate_interval])) * 100) / on(instance) sum by(instance) (irate(node_cpu_seconds_total{instance=\"master.home\"}[$__rate_interval]))",
-          "hide": true,
-          "instant": false,
-          "legendFormat": "Master",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "(sum by(instance) (irate(node_cpu_seconds_total{instance=\"compute1.home\", mode!=\"idle\"}[$__rate_interval])) * 100) / on(instance) sum by(instance) (irate(node_cpu_seconds_total{instance=\"compute1.home\"}[$__rate_interval]))",
-          "hide": true,
-          "instant": false,
-          "legendFormat": "Compute1",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "(sum by(instance) (irate(node_cpu_seconds_total{instance=\"compute2.home\", mode!=\"idle\"}[$__rate_interval])) * 100) / on(instance) sum by(instance) (irate(node_cpu_seconds_total{instance=\"compute2.home\"}[$__rate_interval]))",
-          "hide": true,
-          "instant": false,
-          "legendFormat": "Compute2",
-          "range": true,
-          "refId": "D"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "(sum by(instance) (irate(node_cpu_seconds_total{instance=\"dmz1.home\", mode!=\"idle\"}[$__rate_interval])) * 100) / on(instance) sum by(instance) (irate(node_cpu_seconds_total{instance=\"dmz1.home\"}[$__rate_interval])) ",
-          "hide": true,
-          "instant": false,
-          "legendFormat": "Dmz1",
-          "range": true,
-          "refId": "E"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "(sum by(instance) (irate(node_cpu_seconds_total{instance=\"dmz2.home\", mode!=\"idle\"}[$__rate_interval])) * 100) / on(instance) sum by(instance) (irate(node_cpu_seconds_total{instance=\"dmz2.home\"}[$__rate_interval])) ",
-          "hide": true,
-          "instant": false,
-          "legendFormat": "Dmz2",
-          "range": true,
-          "refId": "F"
         }
       ],
       "title": "CPU Usage",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 15,
-            "gradientMode": "opacity",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "smooth",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "celsius"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 24,
-        "x": 0,
-        "y": 26
-      },
-      "id": 25,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "maxHeight": 600,
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "pluginVersion": "11.5.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "avg(node_hwmon_temp_celsius{instance=\"proxmox1.home\"})",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "proxmox1.home",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "avg(node_hwmon_temp_celsius{instance=\"proxmox2.home\"})",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "proxmox2.home",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "avg(node_hwmon_temp_celsius{instance=\"storage.home\"})",
-          "instant": false,
-          "legendFormat": "storage.home",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "CPU Temperature",
       "type": "timeseries"
     },
     {
@@ -1846,8 +1860,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1954,7 +1967,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 33
+        "y": 36
       },
       "id": 18,
       "options": {
@@ -1971,7 +1984,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -2107,8 +2120,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2215,7 +2227,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 33
+        "y": 36
       },
       "id": 19,
       "options": {
@@ -2232,7 +2244,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -2368,8 +2380,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2476,7 +2487,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 40
+        "y": 43
       },
       "id": 21,
       "options": {
@@ -2493,7 +2504,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -2629,8 +2640,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2737,7 +2747,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 40
+        "y": 43
       },
       "id": 22,
       "options": {
@@ -2754,7 +2764,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -2840,7 +2850,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 47
+        "y": 50
       },
       "id": 28,
       "panels": [],
@@ -2897,8 +2907,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2914,7 +2923,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 48
+        "y": 51
       },
       "id": 29,
       "interval": "1m",
@@ -2938,7 +2947,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -3008,8 +3017,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3025,7 +3033,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 48
+        "y": 51
       },
       "id": 30,
       "interval": "1m",
@@ -3049,7 +3057,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -3117,13 +3125,13 @@
               "mode": "off"
             }
           },
+          "decimals": 0,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -3134,7 +3142,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 57
+        "y": 60
       },
       "id": 27,
       "options": {
@@ -3151,7 +3159,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -3159,13 +3167,13 @@
             "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
           },
           "editorMode": "code",
-          "expr": "delta(immich_server_stats_photos_by_users[1w]) + delta(immich_server_stats_videos_by_users[1w])",
+          "expr": "sum without (instance) (delta(immich_server_stats_photos_by_users[1w])) + sum without (instance) (delta(immich_server_stats_videos_by_users[1w]))",
           "legendFormat": "{{firstName}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Immich Assets Growth",
+      "title": "Immich Assets Growth (last week)",
       "type": "timeseries"
     },
     {
@@ -3217,8 +3225,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3233,7 +3240,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 57
+        "y": 60
       },
       "id": 26,
       "options": {
@@ -3249,7 +3256,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -3274,7 +3281,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 66
+        "y": 69
       },
       "id": 4,
       "panels": [],
@@ -3331,8 +3338,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3348,7 +3354,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 67
+        "y": 70
       },
       "id": 5,
       "options": {
@@ -3361,7 +3367,7 @@
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true,
-          "sortBy": "Last *",
+          "sortBy": "Mean",
           "sortDesc": true
         },
         "tooltip": {
@@ -3371,7 +3377,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -3445,8 +3451,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3462,7 +3467,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 79
+        "y": 82
       },
       "id": 6,
       "options": {
@@ -3475,7 +3480,7 @@
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true,
-          "sortBy": "Last *",
+          "sortBy": "Mean",
           "sortDesc": true
         },
         "tooltip": {
@@ -3485,7 +3490,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -3553,8 +3558,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3570,7 +3574,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 91
+        "y": 94
       },
       "id": 23,
       "options": {
@@ -3584,7 +3588,7 @@
           "displayMode": "table",
           "placement": "right",
           "showLegend": true,
-          "sortBy": "Last *",
+          "sortBy": "Mean",
           "sortDesc": true
         },
         "tooltip": {
@@ -3593,7 +3597,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -3661,8 +3665,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3678,7 +3681,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 100
+        "y": 103
       },
       "id": 24,
       "options": {
@@ -3692,7 +3695,7 @@
           "displayMode": "table",
           "placement": "right",
           "showLegend": true,
-          "sortBy": "Last *",
+          "sortBy": "Mean",
           "sortDesc": true
         },
         "tooltip": {
@@ -3701,7 +3704,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -3727,7 +3730,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 109
+        "y": 112
       },
       "id": 14,
       "panels": [],
@@ -3759,7 +3762,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 110
+        "y": 113
       },
       "id": 17,
       "interval": "1m",
@@ -3802,7 +3805,7 @@
           "unit": "dtdurationms"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -3873,8 +3876,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3890,7 +3892,7 @@
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 120
+        "y": 123
       },
       "id": 15,
       "interval": "1m",
@@ -3904,7 +3906,7 @@
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true,
-          "sortBy": "Last *",
+          "sortBy": "Mean",
           "sortDesc": true
         },
         "tooltip": {
@@ -3914,7 +3916,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -3939,7 +3941,7 @@
           "expr": "rate(traefik_service_requests_bytes_total{instance=~\"$instance\"} [$__rate_interval:])",
           "hide": false,
           "instant": false,
-          "legendFormat": "{{instance}} - traefik → {{service}}",
+          "legendFormat": "{{instance}} - traefik → {{service_name}}",
           "range": true,
           "refId": "B"
         }
@@ -3998,8 +4000,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -4015,7 +4016,7 @@
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 134
+        "y": 137
       },
       "id": 16,
       "interval": "1m",
@@ -4029,7 +4030,7 @@
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true,
-          "sortBy": "Last *",
+          "sortBy": "Mean",
           "sortDesc": true
         },
         "tooltip": {
@@ -4039,7 +4040,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.2",
       "targets": [
         {
           "datasource": {
@@ -4077,7 +4078,7 @@
   ],
   "preload": true,
   "refresh": "10s",
-  "schemaVersion": 40,
+  "schemaVersion": 41,
   "tags": [
     "Homelab"
   ],
@@ -4090,7 +4091,7 @@
             "$__all"
           ]
         },
-        "definition": "label_values({job=\"nomad\"},instance)",
+        "definition": "label_values(node_memory_MemTotal_bytes,instance)",
         "includeAll": true,
         "label": "Instance",
         "multi": true,
@@ -4098,7 +4099,7 @@
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values({job=\"nomad\"},instance)",
+          "query": "label_values(node_memory_MemTotal_bytes,instance)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
@@ -4139,6 +4140,5 @@
   "timezone": "",
   "title": "1. Overview",
   "uid": "cacaa9a6-7789-48b4-8ff6-aa27f03895c8",
-  "version": 186,
-  "weekStart": ""
+  "version": 207
 }
