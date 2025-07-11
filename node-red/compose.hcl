@@ -76,14 +76,14 @@ job "node-red" {
       }
 
       volume_mount {
-        volume      = "node-red"
+        volume      = "nodered"
         destination = "/data"
       }
     }
 
-    volume "node-red" {
+    volume "nodered" {
       type            = "csi"
-      source          = "node-red"
+      source          = "nodered"
       access_mode     = "single-node-writer"
       attachment_mode = "file-system"
     }

@@ -17,5 +17,5 @@ context {
 
 mount_options {
   fs_type = "nfs"
-  mount_flags = [ "timeo=30", "vers=4.1", "nolock", "sync" ]
+  mount_flags = [ "soft", "async" ]
 }
