@@ -16,11 +16,6 @@ job "unifi-network" {
       port "envoy_metrics_speedtest" { to = 9104 }
 
       port "unpoller_metrics" { to = 9130 }
-
-      port "stun" { to = 3478 }         # udp 
-      port "syslog" { to = 5514 }       # udp, remote syslog
-      port "discovery" { to = 10001 }   # udp
-      port "discovery-l2" { to = 1900 } # udp
     }
 
     service {
@@ -133,35 +128,6 @@ job "unifi-network" {
       meta { # make envoy metrics port available in Consul
         metrics_port = "${NOMAD_HOST_PORT_unpoller_metrics}"
       }
-    }
-
-    # STUN port (UDP), proxied by NGINX in consul-ingres
-    service {
-      name = "unifi-network-stun"
-
-      port = "stun"
-    }
-
-    # Remote syslog port (UDP), proxied by NGINX in consul-ingres
-    service {
-      name = "unifi-network-syslog"
-
-      port = "syslog"
-    }
-
-    # Discovery port (UDP), proxied by NGINX in consul-ingres
-    service {
-      name = "unifi-network-discovery"
-
-      port = "discovery"
-    }
-
-    # Discovery-L2 port (UDP), proxied by NGINX in consul-ingres
-    # Used to "Make application discoverable on L2 network" in the UniFi Network settings.
-    service {
-      name = "unifi-network-discovery-l2"
-
-      port = "discovery-l2"
     }
 
     task "server" {
