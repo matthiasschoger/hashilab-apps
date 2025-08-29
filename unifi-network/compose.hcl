@@ -323,7 +323,7 @@ EOH
         args    = ["-c", <<EOF
 mongodump --gzip --archive=/storage/backup/backup.$(date +"%Y%m%d%H%M").gz
 echo "cleaning up backup files older than 3 days ..."
-find /storage/backup/* -mtime +3 -exec rm {} \;
+find /storage/backup -maxdepth 1 -type f -printf '%T@ %p\n' | sort -nr | tail -n +4 | cut -d' ' -f2- | xargs -r rm --
 EOF
         ]
       }

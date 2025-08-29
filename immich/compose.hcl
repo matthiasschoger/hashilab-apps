@@ -483,7 +483,7 @@ EOH
         args    = ["-c", <<EOF
 pg_dumpall -U "$POSTGRES_USER" | gzip --rsyncable > /var/lib/postgresql/data/backup/backup.$(date +"%Y%m%d%H%M").sql.gz
 echo "cleaning up backup files older than 3 days ..."
-find /var/lib/postgresql/data/backup/* -mtime +3 -exec rm {} \;
+find /var/lib/postgresql/data/backup -maxdepth 1 -type f -printf '%T@ %p\n' | sort -nr | tail -n +4 | cut -d' ' -f2- | xargs -r rm --
 EOF
         ]
       }
