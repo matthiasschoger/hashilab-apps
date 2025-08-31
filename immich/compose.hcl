@@ -69,7 +69,7 @@ job "immich" {
 
         sidecar_task {
           resources {
-            cpu    = 200
+            cpu    = 48
             memory = 50
           }
         }
@@ -126,7 +126,7 @@ EOH
 
       resources {
         memory = 800
-        cpu    = 500
+        cpu    = 512
       }
 
       volume_mount {
@@ -164,7 +164,7 @@ EOH
       }
 
       resources {
-        cpu    = 50
+        cpu    = 48
         memory = 48
       }
     }
@@ -285,7 +285,7 @@ EOH
 
       resources {
         memory = 3000
-        cpu    = 2000
+        cpu    = 512
       }
 
       volume_mount {
@@ -353,7 +353,7 @@ EOH
 
         sidecar_task {
           resources {
-            cpu    = 50
+            cpu    = 48
             memory = 50
           }
         }
@@ -381,7 +381,7 @@ EOH
 
       resources {
         memory = 2500
-        cpu    = 2000
+        cpu    = 512
       }
     }
   }
@@ -431,7 +431,7 @@ EOH
 
         sidecar_task {
           resources {
-            cpu    = 100
+            cpu    = 48
             memory = 50
           }
         }
@@ -467,7 +467,7 @@ EOH
 
         sidecar_task {
           resources {
-            cpu    = 200
+            cpu    = 48
             memory = 50
           }
         }
@@ -516,7 +516,7 @@ EOH
       }
 
       resources {
-        cpu    = 1000
+        cpu    = 1024
         memory = 1000
       }
     }
