@@ -489,7 +489,7 @@ EOF
       }
 
       config {
-         image = "ghcr.io/immich-app/postgres:14-vectorchord0.4.2"
+         image = "ghcr.io/immich-app/postgres:14-vectorchord0.4.3"
       }
 
       env {
