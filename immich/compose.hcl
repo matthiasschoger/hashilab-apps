@@ -141,8 +141,12 @@ EOH
 
     # Immich exporter for Prometheus
     task "immich-exporter" {
-      driver = "docker"
+      lifecycle {
+        hook = "prestart"
+        sidecar = true
+      }
 
+      driver = "docker"
       config {
         image = "friendlyfriend/prometheus-immich-exporter:latest"
       }

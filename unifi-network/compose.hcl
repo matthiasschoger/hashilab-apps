@@ -174,9 +174,12 @@ EOH
 
     # NGINX to strip https from the UI endpoint (8443). Required to make Consul Connect happy
     task "nginx" {
+      lifecycle {
+        hook = "prestart"
+        sidecar = true
+      }
 
       driver = "docker"
-
       config {
         image           = "nginx:latest"
         volumes         = ["local/nginx.conf:/etc/nginx/conf.d/default.conf"]
@@ -221,8 +224,12 @@ _EOF
 
     # Unifi exporter for Prometheus
     task "unifi-exporter" {
-      driver = "docker"
+      lifecycle {
+        hook = "prestart"
+        sidecar = true
+      }
 
+      driver = "docker"
       config {
         image = "ghcr.io/unpoller/unpoller:latest"
 
