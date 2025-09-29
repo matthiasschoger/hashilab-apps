@@ -54,7 +54,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               }
             ]
           },
@@ -183,7 +184,8 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "semi-dark-green"
+                      "color": "semi-dark-green",
+                      "value": 0
                     },
                     {
                       "color": "semi-dark-yellow",
@@ -250,7 +252,7 @@
           }
         ]
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -318,6 +320,7 @@
           }
         }
       ],
+      "transparent": true,
       "type": "table"
     },
     {
@@ -347,7 +350,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)"
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": 0
               },
               {
                 "color": "green",
@@ -383,7 +387,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -401,6 +405,7 @@
         }
       ],
       "title": "Consul tolerance",
+      "transparent": true,
       "type": "stat"
     },
     {
@@ -419,7 +424,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "red"
+                "color": "red",
+                "value": 0
               },
               {
                 "color": "green",
@@ -454,7 +460,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -463,7 +469,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "nomad_nomad_autopilot_failure_tolerance{job=\"nomad\"}",
+          "expr": "min(nomad_nomad_autopilot_failure_tolerance{job=\"nomad\"})",
           "instant": true,
           "interval": "",
           "legendFormat": "fault tolerance",
@@ -471,6 +477,7 @@
         }
       ],
       "title": "Nomad tolerance",
+      "transparent": true,
       "type": "stat"
     },
     {
@@ -521,7 +528,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -554,7 +562,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -595,7 +603,8 @@
           "refId": "A"
         }
       ],
-      "title": "CPU Temperature",
+      "title": "CPU Temperatures",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -648,7 +657,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -717,7 +727,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -745,7 +755,100 @@
         }
       ],
       "title": "WAN Throughput",
+      "transparent": true,
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "left",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 0,
+        "y": 11
+      },
+      "id": 31,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "instance"
+          }
+        ]
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "node_uname_info{}",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "__auto",
+          "refId": "Status"
+        }
+      ],
+      "title": "OS Versions",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "byVariable": false,
+            "include": {
+              "names": [
+                "instance",
+                "release",
+                "sysname"
+              ]
+            }
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "table"
     },
     {
       "datasource": {
@@ -778,7 +881,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -962,9 +1066,9 @@
         ]
       },
       "gridPos": {
-        "h": 10,
+        "h": 11,
         "w": 12,
-        "x": 0,
+        "x": 12,
         "y": 11
       },
       "id": 10,
@@ -986,7 +1090,7 @@
           }
         ]
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -1101,96 +1205,7 @@
           }
         }
       ],
-      "type": "table"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "align": "left",
-            "cellOptions": {
-              "type": "auto"
-            },
-            "filterable": false,
-            "inspect": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 12,
-        "y": 11
-      },
-      "id": 31,
-      "options": {
-        "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "enablePagination": false,
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": true,
-        "sortBy": [
-          {
-            "desc": false,
-            "displayName": "instance"
-          }
-        ]
-      },
-      "pluginVersion": "12.0.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "node_uname_info{}",
-          "format": "table",
-          "hide": false,
-          "instant": true,
-          "interval": "",
-          "legendFormat": "__auto",
-          "refId": "Status"
-        }
-      ],
-      "title": "OS Versions",
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "byVariable": false,
-            "include": {
-              "names": [
-                "instance",
-                "release",
-                "sysname"
-              ]
-            }
-          }
-        }
-      ],
+      "transparent": true,
       "type": "table"
     },
     {
@@ -1250,7 +1265,8 @@
             "mode": "percentage",
             "steps": [
               {
-                "color": "transparent"
+                "color": "transparent",
+                "value": 0
               },
               {
                 "color": "semi-dark-yellow",
@@ -1270,7 +1286,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 21
+        "y": 22
       },
       "id": 12,
       "options": {
@@ -1287,7 +1303,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -1390,12 +1406,38 @@
             "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
           },
           "editorMode": "code",
+          "expr": "100*(1 - node_filesystem_avail_bytes{instance=\"nixos.home\",mountpoint=\"/\"} / node_filesystem_size_bytes{instance=\"nixos.home\",mountpoint=\"/\"})",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Nixos",
+          "range": true,
+          "refId": "I"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "100*(1 - node_filesystem_avail_bytes{instance=\"proxmox0.home\",mountpoint=\"/\"} / node_filesystem_size_bytes{instance=\"proxmox0.home\",mountpoint=\"/\"})",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Proxmox0",
+          "range": true,
+          "refId": "F"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
           "expr": "100*(1 - node_filesystem_avail_bytes{instance=\"proxmox1.home\",mountpoint=\"/\"} / node_filesystem_size_bytes{instance=\"proxmox1.home\",mountpoint=\"/\"})",
           "hide": false,
           "instant": false,
           "legendFormat": "Proxmox1",
           "range": true,
-          "refId": "F"
+          "refId": "H"
         },
         {
           "datasource": {
@@ -1412,6 +1454,7 @@
         }
       ],
       "title": "Storage Usage",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -1466,7 +1509,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -1482,7 +1526,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 21
+        "y": 22
       },
       "id": 13,
       "options": {
@@ -1501,7 +1545,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -1601,6 +1645,7 @@
         }
       ],
       "title": "Disk Utilization",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -1652,7 +1697,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -1668,7 +1714,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 29
+        "y": 30
       },
       "id": 2,
       "options": {
@@ -1685,7 +1731,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -1701,6 +1747,7 @@
         }
       ],
       "title": "Memory usage",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -1752,7 +1799,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -1768,7 +1816,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 29
+        "y": 30
       },
       "id": 1,
       "maxDataPoints": 100,
@@ -1786,7 +1834,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -1802,6 +1850,7 @@
         }
       ],
       "title": "CPU Usage",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -1860,7 +1909,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -1967,7 +2017,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 36
+        "y": 37
       },
       "id": 18,
       "options": {
@@ -1984,7 +2034,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -2062,6 +2112,7 @@
         }
       ],
       "title": "CPU Details - compute1.home",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -2120,7 +2171,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -2227,7 +2279,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 36
+        "y": 37
       },
       "id": 19,
       "options": {
@@ -2244,7 +2296,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -2322,6 +2374,7 @@
         }
       ],
       "title": "CPU Details - compute2.home",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -2380,7 +2433,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -2487,7 +2541,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 43
+        "y": 44
       },
       "id": 21,
       "options": {
@@ -2504,7 +2558,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -2582,6 +2636,7 @@
         }
       ],
       "title": "CPU Details - dmz1.home",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -2640,7 +2695,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -2747,7 +2803,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 43
+        "y": 44
       },
       "id": 22,
       "options": {
@@ -2764,7 +2820,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -2842,6 +2898,450 @@
         }
       ],
       "title": "CPU Details - dmz2.home",
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+      },
+      "description": "Shows data transferred for selected switch ports.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": true,
+            "axisColorMode": "text",
+            "axisLabel": "Bits Per Second",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "linearThreshold": 1,
+              "log": 10,
+              "type": "symlog"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/Rx$/"
+            },
+            "properties": [
+              {
+                "id": "custom.transform",
+                "value": "negative-Y"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byValue",
+              "options": {
+                "op": "gte",
+                "reducer": "allIsNull",
+                "value": 0
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": true,
+                  "viz": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 51
+      },
+      "id": 33,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": false
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "rate(unpoller_device_port_transmit_bytes_total{}[$__rate_interval])",
+          "interval": "",
+          "legendFormat": "{{port_id}} ({{port_name}}) Tx",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "rate(unpoller_device_port_receive_bytes_total{}[$__rate_interval])",
+          "interval": "",
+          "legendFormat": "{{port_id}} ({{port_name}}) Rx",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Switches - Data Transfer",
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "packets per second",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "pps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/Rx$/"
+            },
+            "properties": [
+              {
+                "id": "custom.transform",
+                "value": "negative-Y"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byValue",
+              "options": {
+                "op": "gte",
+                "reducer": "allIsNull",
+                "value": 0
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": true,
+                  "viz": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 51
+      },
+      "id": 32,
+      "options": {
+        "legend": {
+          "calcs": [
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "rate(unpoller_device_port_receive_dropped_total{}[$__rate_interval])",
+          "interval": "",
+          "legendFormat": "{{port_id}} ({{port_name}}) Drops Rx",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "rate(unpoller_device_port_transmit_dropped_total{}[$__rate_interval])",
+          "interval": "",
+          "legendFormat": "{{port_id}} ({{port_name}}) Drops Tx",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "rate(unpoller_device_port_transmit_errors_total{}[$__rate_interval])",
+          "interval": "",
+          "legendFormat": "{{port_id}} ({{port_name}}) Errors Tx",
+          "range": true,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "rate(unpoller_device_port_receive_errors_total{}[$__rate_interval])",
+          "interval": "",
+          "legendFormat": "{{port_id}} ({{port_name}}) Errors Rx",
+          "range": true,
+          "refId": "D"
+        }
+      ],
+      "title": "Network Errors and Drops",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "Time",
+                "AP Max Port 5 (Data) Drops Rx",
+                "AP Wohnzimmer Port 5 (Data) Drops Rx",
+                "Gateway Lite Port 1 (Port 1) Drops Rx",
+                "Switch Arbeitszimmer Port 1 (Port 1) Drops Rx",
+                "Switch Arbeitszimmer Port 2 (Port 2) Drops Rx",
+                "Switch Arbeitszimmer Port 3 (Port 3) Drops Rx",
+                "Switch Arbeitszimmer Port 4 (Port 4) Drops Rx",
+                "Switch Arbeitszimmer Port 5 (Port 5) Drops Rx",
+                "Switch Arbeitszimmer Port 6 (Port 6) Drops Rx",
+                "Switch Arbeitszimmer Port 7 (Port 7) Drops Rx",
+                "Switch Arbeitszimmer Port 8 (Port 8) Drops Rx",
+                "Switch Wohnzimmer Port 1 (Port 1) Drops Rx",
+                "Switch Wohnzimmer Port 1 (Upstream) Drops Rx",
+                "Switch Wohnzimmer Port 3 (Port 3) Drops Rx",
+                "Switch Wohnzimmer Port 4 (Port 4) Drops Rx",
+                "Switch Wohnzimmer Port 5 (Fernseher) Drops Rx",
+                "Switch Wohnzimmer Port 5 (Port 5) Drops Rx",
+                "Switch Wohnzimmer Port 6 (Apple TV) Drops Rx",
+                "Switch Wohnzimmer Port 6 (Port 6) Drops Rx",
+                "Switch Wohnzimmer Port 8 (AP) Drops Rx",
+                "Switch Wohnzimmer Port 8 (Port 8) Drops Rx",
+                "US 8 60W Port 1 (Port 1) Drops Rx",
+                "US 8 60W Port 5 (Port 5) Drops Rx",
+                "US 8 60W Port 6 (Port 6) Drops Rx",
+                "US 8 60W Port 8 (Port 8) Drops Rx",
+                "AP Max Port 5 (Data) Drops Tx",
+                "AP Wohnzimmer Port 5 (Data) Drops Tx",
+                "Gateway Lite Port 1 (Port 1) Drops Tx",
+                "Gateway Lite Port 2 (Port 2) Drops Tx",
+                "Switch Arbeitszimmer Port 1 (Port 1) Drops Tx",
+                "Switch Arbeitszimmer Port 2 (Port 2) Drops Tx",
+                "Switch Arbeitszimmer Port 3 (Port 3) Drops Tx",
+                "Switch Arbeitszimmer Port 4 (Port 4) Drops Tx",
+                "Switch Arbeitszimmer Port 5 (Port 5) Drops Tx",
+                "Switch Arbeitszimmer Port 6 (Port 6) Drops Tx",
+                "Switch Arbeitszimmer Port 7 (Port 7) Drops Tx",
+                "Switch Arbeitszimmer Port 8 (Port 8) Drops Tx",
+                "Switch Wohnzimmer Port 1 (Port 1) Drops Tx",
+                "Switch Wohnzimmer Port 1 (Upstream) Drops Tx",
+                "Switch Wohnzimmer Port 3 (Port 3) Drops Tx",
+                "Switch Wohnzimmer Port 4 (Port 4) Drops Tx",
+                "Switch Wohnzimmer Port 5 (Fernseher) Drops Tx",
+                "Switch Wohnzimmer Port 5 (Port 5) Drops Tx",
+                "Switch Wohnzimmer Port 6 (Apple TV) Drops Tx",
+                "Switch Wohnzimmer Port 6 (Port 6) Drops Tx",
+                "Switch Wohnzimmer Port 8 (AP) Drops Tx",
+                "Switch Wohnzimmer Port 8 (Port 8) Drops Tx",
+                "US 8 60W Port 1 (Port 1) Drops Tx",
+                "US 8 60W Port 5 (Port 5) Drops Tx",
+                "US 8 60W Port 6 (Port 6) Drops Tx",
+                "US 8 60W Port 8 (Port 8) Drops Tx",
+                "AP Max Port 5 (Data) Errors Tx",
+                "AP Wohnzimmer Port 5 (Data) Errors Tx",
+                "Gateway Lite Port 1 (Port 1) Errors Tx",
+                "Gateway Lite Port 2 (Port 2) Errors Tx",
+                "Switch Arbeitszimmer Port 1 (Port 1) Errors Tx",
+                "Switch Arbeitszimmer Port 2 (Port 2) Errors Tx",
+                "Switch Arbeitszimmer Port 3 (Port 3) Errors Tx",
+                "Switch Arbeitszimmer Port 4 (Port 4) Errors Tx",
+                "Switch Arbeitszimmer Port 5 (Port 5) Errors Tx",
+                "Switch Arbeitszimmer Port 6 (Port 6) Errors Tx",
+                "Switch Arbeitszimmer Port 7 (Port 7) Errors Tx",
+                "Switch Arbeitszimmer Port 8 (Port 8) Errors Tx",
+                "Switch Wohnzimmer Port 1 (Port 1) Errors Tx",
+                "Switch Wohnzimmer Port 1 (Upstream) Errors Tx",
+                "Switch Wohnzimmer Port 3 (Port 3) Errors Tx",
+                "Switch Wohnzimmer Port 4 (Port 4) Errors Tx",
+                "Switch Wohnzimmer Port 5 (Fernseher) Errors Tx",
+                "Switch Wohnzimmer Port 5 (Port 5) Errors Tx",
+                "Switch Wohnzimmer Port 6 (Apple TV) Errors Tx",
+                "Switch Wohnzimmer Port 6 (Port 6) Errors Tx",
+                "Switch Wohnzimmer Port 8 (AP) Errors Tx",
+                "Switch Wohnzimmer Port 8 (Port 8) Errors Tx",
+                "US 8 60W Port 1 (Port 1) Errors Tx",
+                "US 8 60W Port 5 (Port 5) Errors Tx",
+                "US 8 60W Port 6 (Port 6) Errors Tx",
+                "US 8 60W Port 8 (Port 8) Errors Tx",
+                "AP Max Port 5 (Data) Errors Rx",
+                "AP Wohnzimmer Port 5 (Data) Errors Rx",
+                "Gateway Lite Port 1 (Port 1) Errors Rx",
+                "Gateway Lite Port 2 (Port 2) Errors Rx",
+                "Switch Arbeitszimmer Port 1 (Port 1) Errors Rx",
+                "Switch Arbeitszimmer Port 2 (Port 2) Errors Rx",
+                "Switch Arbeitszimmer Port 3 (Port 3) Errors Rx",
+                "Switch Arbeitszimmer Port 4 (Port 4) Errors Rx",
+                "Switch Arbeitszimmer Port 5 (Port 5) Errors Rx",
+                "Switch Arbeitszimmer Port 6 (Port 6) Errors Rx",
+                "Switch Arbeitszimmer Port 7 (Port 7) Errors Rx",
+                "Switch Arbeitszimmer Port 8 (Port 8) Errors Rx",
+                "Switch Wohnzimmer Port 1 (Port 1) Errors Rx",
+                "Switch Wohnzimmer Port 1 (Upstream) Errors Rx",
+                "Switch Wohnzimmer Port 3 (Port 3) Errors Rx",
+                "Switch Wohnzimmer Port 4 (Port 4) Errors Rx",
+                "Switch Wohnzimmer Port 5 (Fernseher) Errors Rx",
+                "Switch Wohnzimmer Port 5 (Port 5) Errors Rx",
+                "Switch Wohnzimmer Port 6 (Apple TV) Errors Rx",
+                "Switch Wohnzimmer Port 6 (Port 6) Errors Rx",
+                "Switch Wohnzimmer Port 8 (AP) Errors Rx",
+                "Switch Wohnzimmer Port 8 (Port 8) Errors Rx",
+                "US 8 60W Port 1 (Port 1) Errors Rx",
+                "US 8 60W Port 5 (Port 5) Errors Rx",
+                "US 8 60W Port 6 (Port 6) Errors Rx",
+                "US 8 60W Port 8 (Port 8) Errors Rx"
+              ]
+            }
+          }
+        }
+      ],
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -2850,7 +3350,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 50
+        "y": 60
       },
       "id": 28,
       "panels": [],
@@ -2907,7 +3407,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -2923,7 +3424,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 51
+        "y": 61
       },
       "id": 29,
       "interval": "1m",
@@ -2947,7 +3448,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -3017,7 +3518,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -3033,7 +3535,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 51
+        "y": 61
       },
       "id": 30,
       "interval": "1m",
@@ -3057,7 +3559,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -3131,7 +3633,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               }
             ]
           }
@@ -3142,7 +3645,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 60
+        "y": 70
       },
       "id": 27,
       "options": {
@@ -3159,7 +3662,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -3174,6 +3677,7 @@
         }
       ],
       "title": "Immich Assets Growth (last week)",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -3225,7 +3729,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -3240,7 +3745,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 60
+        "y": 70
       },
       "id": 26,
       "options": {
@@ -3256,7 +3761,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -3273,6 +3778,7 @@
         }
       ],
       "title": "CrowdSec: Alerts per Scenario",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -3281,7 +3787,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 69
+        "y": 79
       },
       "id": 4,
       "panels": [],
@@ -3338,7 +3844,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -3354,7 +3861,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 70
+        "y": 80
       },
       "id": 5,
       "options": {
@@ -3377,7 +3884,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -3399,6 +3906,7 @@
         }
       ],
       "title": "CPU %",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -3451,7 +3959,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -3467,7 +3976,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 82
+        "y": 92
       },
       "id": 6,
       "options": {
@@ -3490,7 +3999,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -3508,6 +4017,7 @@
         }
       ],
       "title": "Memory %",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -3558,7 +4068,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -3574,7 +4085,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 94
+        "y": 104
       },
       "id": 23,
       "options": {
@@ -3597,7 +4108,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -3615,6 +4126,7 @@
         }
       ],
       "title": "NFS Send Total",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -3665,7 +4177,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -3681,7 +4194,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 103
+        "y": 113
       },
       "id": 24,
       "options": {
@@ -3704,7 +4217,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -3722,6 +4235,7 @@
         }
       ],
       "title": "NFS Receive Total",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -3730,7 +4244,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 112
+        "y": 122
       },
       "id": 14,
       "panels": [],
@@ -3762,7 +4276,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 113
+        "y": 123
       },
       "id": 17,
       "interval": "1m",
@@ -3805,7 +4319,7 @@
           "unit": "dtdurationms"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -3876,7 +4390,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -3892,7 +4407,7 @@
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 123
+        "y": 133
       },
       "id": 15,
       "interval": "1m",
@@ -3916,7 +4431,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -4000,7 +4515,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -4016,7 +4532,7 @@
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 137
+        "y": 147
       },
       "id": 16,
       "interval": "1m",
@@ -4040,7 +4556,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.0.2",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
@@ -4078,7 +4594,7 @@
   ],
   "preload": true,
   "refresh": "10s",
-  "schemaVersion": 41,
+  "schemaVersion": 42,
   "tags": [
     "Homelab"
   ],
@@ -4109,7 +4625,9 @@
       },
       {
         "current": {
-          "text": "All",
+          "text": [
+            "All"
+          ],
           "value": [
             "$__all"
           ]
@@ -4140,5 +4658,5 @@
   "timezone": "",
   "title": "1. Overview",
   "uid": "cacaa9a6-7789-48b4-8ff6-aa27f03895c8",
-  "version": 207
+  "version": 234
 }
