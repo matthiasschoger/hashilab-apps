@@ -18,6 +18,6 @@ context {
 
 mount_options {
   fs_type = "nfs"
-  mount_flags = [ "soft", "async" ]
+  mount_flags = [ "hard", "sync" ]
 }
 

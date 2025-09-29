@@ -1,9 +1,0 @@
-
-  use_x_forwarded_for: true
-  trusted_proxies:
-#  - 0.0.0.0/0      # everything is trusted
-  - 192.168.0.0/16 # host network
-  - 127.0.0.1/32   # Consul Connect
-  - 172.16.0.0/12  # Bridge network
-#  ip_ban_enabled: true
-#  login_attempts_threshold: 5
