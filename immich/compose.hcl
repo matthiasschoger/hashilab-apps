@@ -383,6 +383,7 @@ EOH
         MACHINE_LEARNING_CACHE_FOLDER    = "${NOMAD_ALLOC_DIR}/data/cache"
         MACHINE_LEARNING_MODEL_TTL       = 0 # don't unload the model cache, re-fetching slows down queries a lot
         MACHINE_LEARNING_REQUEST_THREADS = 4
+        # add your models from Settings -> Machine Learning here
         MACHINE_LEARNING_PRELOAD__CLIP   = "ViT-L-16-SigLIP-256__webli"
         MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION = "buffalo_l"
       }
