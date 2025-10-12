@@ -289,7 +289,7 @@ EOH
 
       resources {
         memory = 3000
-        cpu    = 512
+        cpu    = 2000
       }
 
       volume_mount {
@@ -384,13 +384,13 @@ EOH
         MACHINE_LEARNING_MODEL_TTL       = 0 # don't unload the model cache, re-fetching slows down queries a lot
         MACHINE_LEARNING_REQUEST_THREADS = 4
         # add your models from Settings -> Machine Learning here
-        MACHINE_LEARNING_PRELOAD__CLIP   = "ViT-L-16-SigLIP-256__webli"
+        MACHINE_LEARNING_PRELOAD__CLIP   = "ViT-B-16-SigLIP-256__webli"
         MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION = "buffalo_l"
       }
 
       resources {
-        memory = 3000
-        cpu    = 512
+        memory = 3072
+        cpu    = 2000
       }
     }
   }
@@ -476,7 +476,7 @@ EOH
 
         sidecar_task {
           resources {
-            cpu    = 48
+            cpu    = 400
             memory = 50
           }
         }
@@ -499,6 +499,8 @@ EOF
 
       config {
          image = "ghcr.io/immich-app/postgres:14-vectorchord0.4.3"
+
+         force_pull = true
       }
 
       env {
@@ -525,8 +527,8 @@ EOH
       }
 
       resources {
-        cpu    = 1024
-        memory = 1000
+        cpu    = 2000
+        memory = 1024
       }
     }
  
@@ -553,7 +555,7 @@ EOH
 
       resources {
         memory = 200
-        cpu    = 150
+        cpu    = 300
       }
     }
 
