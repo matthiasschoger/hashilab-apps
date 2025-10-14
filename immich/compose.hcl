@@ -532,12 +532,12 @@ EOH
       }
     }
  
-     # Redis cache, used as an event queue to schedule jobs
+     # Valkey cache, used as an event queue to schedule jobs
     task "valkey" {
       driver = "docker"
 
       config {
-        image = "valkey/valkey:8-bookworm"
+        image = "valkey/valkey:8.1"
         force_pull = true
 
         args = [ "/local/valkey.conf" ]
