@@ -395,12 +395,12 @@ EOH
     }
   }
 
-  // --- Immich Postgres database and Redis instance ---
+  // --- Immich Postgres database and Valkey instance ---
 
   group "backend" {
 
     ephemeral_disk {
-      # Persistent data for Redis. Nomad will try to preserve the disk between job updates
+      # Persistent data for Valkey. Nomad will try to preserve the disk between job updates
       size    = 300 # MB
       migrate = true
     }
@@ -409,7 +409,7 @@ EOH
       mode = "bridge"
 
       port "envoy_metrics_postgres" { to = 9101 }
-      port "envoy_metrics_redis" { to = 9102 }
+      port "envoy_metrics_valkey" { to = 9102 }
     }
 
     service {
@@ -447,7 +447,7 @@ EOH
       }
     }
 
-    # Immich is using Redis to communicate with the worker microservices
+    # Immich is using Valkey to communicate with the worker microservices
     service {
       name = "immich-valkey"
 
@@ -463,7 +463,7 @@ EOH
       }
 
       meta {
-        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_redis}" # make envoy metrics port available in Consul
+        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_valkey}" # make envoy metrics port available in Consul
       }
       connect {
         sidecar_service {
