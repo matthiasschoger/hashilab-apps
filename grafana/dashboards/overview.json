@@ -247,7 +247,7 @@
           }
         ]
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -382,7 +382,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -455,7 +455,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -464,7 +464,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "nomad_nomad_autopilot_failure_tolerance{job=\"nomad\"}",
+          "expr": "min(nomad_nomad_autopilot_failure_tolerance{job=\"nomad\"})",
           "instant": true,
           "interval": "",
           "legendFormat": "fault tolerance",
@@ -558,7 +558,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -724,7 +724,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -805,7 +805,7 @@
           }
         ]
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -1077,7 +1077,7 @@
           }
         ]
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -1291,7 +1291,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -1299,7 +1299,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "100-(100/raidTotalSize{job=\"snmp\",raidName=\"Volume 1\"}*raidFreeSize{job=\"snmp\",raidName=\"Volume 1\"})",
+          "expr": "100-(100/raidTotalSize{job=\"snmp\",raidName=\"Volume 1\",instance=~\"$instance\"}*raidFreeSize{job=\"snmp\",raidName=\"Volume 1\",instance=~\"$instance\"})",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -1314,7 +1314,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "100-(100/raidTotalSize{job=\"snmp\",raidName=\"Volume 2\"}*raidFreeSize{job=\"snmp\",raidName=\"Volume 2\"})",
+          "expr": "100-(100/raidTotalSize{job=\"snmp\",raidName=\"Volume 2\",instance=~\"$instance\"}*raidFreeSize{job=\"snmp\",raidName=\"Volume 2\",instance=~\"$instance\"})",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -1329,119 +1329,24 @@
             "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
           },
           "editorMode": "code",
-          "expr": "100*(1 - node_filesystem_avail_bytes{instance=\"compute1.home\",mountpoint=\"/\"} / node_filesystem_size_bytes{instance=\"compute1.home\",mountpoint=\"/\"})",
+          "expr": "100*(1 - node_filesystem_avail_bytes{instance=~\"$instance\",mountpoint=\"/\"} / node_filesystem_size_bytes{instance=~\"$instance\",mountpoint=\"/\"})",
           "hide": false,
           "instant": false,
-          "legendFormat": "Compute1",
+          "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "100*(1 - node_filesystem_avail_bytes{instance=\"compute2.home\",mountpoint=\"/\"} / node_filesystem_size_bytes{instance=\"compute2.home\",mountpoint=\"/\"})",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "Compute2",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "100*(1 - node_filesystem_avail_bytes{instance=\"master.home\",mountpoint=\"/\"} / node_filesystem_size_bytes{instance=\"master.home\",mountpoint=\"/\"})",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "Master",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "100*(1 - node_filesystem_avail_bytes{instance=\"dmz1.home\",mountpoint=\"/\"} / node_filesystem_size_bytes{instance=\"dmz1.home\",mountpoint=\"/\"})",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "Dmz1",
-          "range": true,
-          "refId": "D"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "100*(1 - node_filesystem_avail_bytes{instance=\"dmz2.home\",mountpoint=\"/\"} / node_filesystem_size_bytes{instance=\"dmz2.home\",mountpoint=\"/\"})",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "Dmz2",
-          "range": true,
-          "refId": "E"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "100*(1 - node_filesystem_avail_bytes{instance=\"nixos.home\",mountpoint=\"/\"} / node_filesystem_size_bytes{instance=\"nixos.home\",mountpoint=\"/\"})",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "Nixos",
-          "range": true,
-          "refId": "I"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "100*(1 - node_filesystem_avail_bytes{instance=\"proxmox0.home\",mountpoint=\"/\"} / node_filesystem_size_bytes{instance=\"proxmox0.home\",mountpoint=\"/\"})",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "Proxmox0",
-          "range": true,
-          "refId": "F"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "100*(1 - node_filesystem_avail_bytes{instance=\"proxmox1.home\",mountpoint=\"/\"} / node_filesystem_size_bytes{instance=\"proxmox1.home\",mountpoint=\"/\"})",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "Proxmox1",
-          "range": true,
-          "refId": "H"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
-          },
-          "editorMode": "code",
-          "expr": "100*(1 - node_filesystem_avail_bytes{instance=\"proxmox2.home\",mountpoint=\"/\"} / node_filesystem_size_bytes{instance=\"proxmox2.home\",mountpoint=\"/\"})",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "Proxmox2",
-          "range": true,
-          "refId": "G"
         }
       ],
       "title": "Storage Usage",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "(.*).home",
+            "renamePattern": "$1"
+          }
+        }
+      ],
       "transparent": true,
       "type": "timeseries"
     },
@@ -1534,7 +1439,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -1566,74 +1471,23 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "rate(node_disk_io_time_seconds_total{instance=\"compute1.home\",device=\"sda\"}[$__rate_interval])",
+          "expr": "rate(node_disk_io_time_seconds_total{instance=~\"$instance\",device=\"sda\"}[$__rate_interval])",
           "hide": false,
-          "legendFormat": "Compute1",
+          "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "rate(node_disk_io_time_seconds_total{instance=\"compute2.home\",device=\"sda\"}[$__rate_interval])",
-          "hide": false,
-          "legendFormat": "Compute2",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "rate(node_disk_io_time_seconds_total{instance=\"master.home\",device=\"sda\"}[$__rate_interval])",
-          "hide": false,
-          "legendFormat": "Master",
-          "range": true,
-          "refId": "E"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "rate(node_disk_io_time_seconds_total{instance=\"dmz1.home\",device=\"sda\"}[$__rate_interval])",
-          "hide": false,
-          "legendFormat": "Dmz1",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "rate(node_disk_io_time_seconds_total{instance=\"dmz2.home\",device=\"sda\"}[$__rate_interval])",
-          "hide": false,
-          "legendFormat": "Dmz2",
-          "range": true,
-          "refId": "D"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "rate(node_disk_io_time_seconds_total{instance=\"storage.home\", device=\"usb1\"}[$__rate_interval])",
-          "hide": false,
-          "legendFormat": "NAS External",
-          "range": true,
-          "refId": "F"
         }
       ],
       "title": "Disk Utilization",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "(.*).home",
+            "renamePattern": "$1"
+          }
+        }
+      ],
       "transparent": true,
       "type": "timeseries"
     },
@@ -1721,7 +1575,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -1737,6 +1591,15 @@
         }
       ],
       "title": "Memory usage",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "(.*).home",
+            "renamePattern": "$1"
+          }
+        }
+      ],
       "transparent": true,
       "type": "timeseries"
     },
@@ -1825,7 +1688,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -1841,6 +1704,15 @@
         }
       ],
       "title": "CPU Usage",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "(.*).home",
+            "renamePattern": "$1"
+          }
+        }
+      ],
       "transparent": true,
       "type": "timeseries"
     },
@@ -2026,7 +1898,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -2289,7 +2161,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -2552,7 +2424,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -2815,7 +2687,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -3009,7 +2881,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -3036,7 +2908,7 @@
           "refId": "B"
         }
       ],
-      "title": "Switches - Data Transfer",
+      "title": "Switches - Data Transfers",
       "transparent": true,
       "type": "timeseries"
     },
@@ -3159,7 +3031,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -3330,12 +3202,254 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+      },
+      "description": "Shows broadcast and multicast packets per second for switch ports. ",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "PPS",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "pps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 60
+      },
+      "id": 34,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "sortBy": "Last *",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.2.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "rate(unpoller_device_port_receive_broadcast_total{}[$__rate_interval])",
+          "interval": "",
+          "legendFormat": "{{port_id}} ({{port_name}}) Broadcast",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "rate(unpoller_device_port_receive_multicast_total{site_name=~\"$Site\", port_id=~\"$Port\"}[$__rate_interval])",
+          "interval": "",
+          "legendFormat": "{{port_id}} ({{port_name}}) Multicast",
+          "range": true,
+          "refId": "D"
+        }
+      ],
+      "title": "Multicast & Broadcast: Switch Ports Receive",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+      },
+      "description": "Shows broadcast and multicast packets per second for switch ports. ",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "PPS",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "pps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 60
+      },
+      "id": 35,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "sortBy": "Last *",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.2.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "rate(unpoller_device_port_transmit_broadcast_total{}[$__rate_interval])",
+          "interval": "",
+          "legendFormat": "{{port_id}} ({{port_name}}) Broadcast",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
+          },
+          "editorMode": "code",
+          "expr": "rate(unpoller_device_port_transmit_multicast_total{site_name=~\"$Site\", port_id=~\"$Port\"}[$__rate_interval])",
+          "interval": "",
+          "legendFormat": "{{port_id}} ({{port_name}}) Multicast",
+          "range": true,
+          "refId": "D"
+        }
+      ],
+      "title": "Multicast & Broadcast: Switch Ports Transmit",
+      "type": "timeseries"
+    },
+    {
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 60
+        "y": 69
       },
       "id": 28,
       "panels": [],
@@ -3410,7 +3524,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 61
+        "y": 70
       },
       "id": 29,
       "interval": "1m",
@@ -3434,7 +3548,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -3522,7 +3636,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 61
+        "y": 70
       },
       "id": 30,
       "interval": "1m",
@@ -3546,7 +3660,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -3633,7 +3747,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 70
+        "y": 79
       },
       "id": 27,
       "options": {
@@ -3650,7 +3764,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -3734,7 +3848,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 70
+        "y": 79
       },
       "id": 26,
       "options": {
@@ -3750,7 +3864,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -3776,7 +3890,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 79
+        "y": 88
       },
       "id": 4,
       "panels": [],
@@ -3851,7 +3965,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 80
+        "y": 89
       },
       "id": 5,
       "options": {
@@ -3874,7 +3988,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -3967,7 +4081,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 92
+        "y": 101
       },
       "id": 6,
       "options": {
@@ -3990,7 +4104,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -4077,7 +4191,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 104
+        "y": 113
       },
       "id": 23,
       "options": {
@@ -4100,7 +4214,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -4187,7 +4301,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 113
+        "y": 122
       },
       "id": 24,
       "options": {
@@ -4210,7 +4324,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -4237,7 +4351,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 122
+        "y": 131
       },
       "id": 14,
       "panels": [],
@@ -4269,7 +4383,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 123
+        "y": 132
       },
       "id": 17,
       "interval": "1m",
@@ -4312,7 +4426,7 @@
           "unit": "dtdurationms"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -4401,7 +4515,7 @@
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 133
+        "y": 142
       },
       "id": 15,
       "interval": "1m",
@@ -4425,7 +4539,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -4527,7 +4641,7 @@
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 147
+        "y": 156
       },
       "id": 16,
       "interval": "1m",
@@ -4551,7 +4665,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.2.0",
+      "pluginVersion": "12.2.1",
       "targets": [
         {
           "datasource": {
@@ -4597,7 +4711,9 @@
     "list": [
       {
         "current": {
-          "text": "All",
+          "text": [
+            "All"
+          ],
           "value": [
             "$__all"
           ]
@@ -4651,5 +4767,5 @@
   "timezone": "",
   "title": "1. Overview",
   "uid": "cacaa9a6-7789-48b4-8ff6-aa27f03895c8",
-  "version": 243
+  "version": 252
 }
