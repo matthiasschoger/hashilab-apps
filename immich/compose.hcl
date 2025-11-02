@@ -209,6 +209,14 @@ EOH
 
       port = 2283
 
+      # check {
+      #   type     = "http"
+      #   path     = "/api/server/ping"
+      #   interval = "5s"
+      #   timeout  = "2s"
+      #   expose   = true
+      # }
+
       meta {
         envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
       }
@@ -342,6 +350,14 @@ EOH
       name = "immich-ml"
 
       port = 3003
+
+      check {
+        type     = "http"
+        path     = "/ping"
+        interval = "5s"
+        timeout  = "2s"
+        expose   = true
+      }
 
       meta {
         envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
