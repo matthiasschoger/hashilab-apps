@@ -209,13 +209,13 @@ EOH
 
       port = 2283
 
-      # check {
-      #   type     = "http"
-      #   path     = "/api/server/ping"
-      #   interval = "5s"
-      #   timeout  = "2s"
-      #   expose   = true
-      # }
+      check {
+        type     = "http"
+        path     = "/api/server/ping"
+        interval = "5s"
+        timeout  = "2s"
+        expose   = true
+      }
 
       meta {
         envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
@@ -277,11 +277,6 @@ EOH
         PGID = 100
 
         TZ = "Europe/Berlin"
-
-        IMMICH_TELEMETRY_INCLUDE = "all"
-#        IMMICH_TELEMETRY_EXCLUDE = "host"
-        
-        IMMICH_WORKERS_EXCLUDE = "api"
       }
 
       template {
@@ -296,8 +291,8 @@ EOH
       }
 
       resources {
-        memory = 3000
-        cpu    = 2000
+        memory = 3500
+        cpu    = 4000
       }
 
       volume_mount {
@@ -406,7 +401,7 @@ EOH
 
       resources {
         memory = 3072
-        cpu    = 2000
+        cpu    = 4000
       }
     }
   }
