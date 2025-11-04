@@ -230,7 +230,7 @@
         ]
       },
       "gridPos": {
-        "h": 5,
+        "h": 4,
         "w": 6,
         "x": 0,
         "y": 1
@@ -256,7 +256,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "raidStatus{job=\"snmp\", raidName=~\"Volume.*\"}",
+          "expr": "raidStatus{raidName=~\"Volume.*\"}",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -359,7 +359,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
+        "h": 4,
         "w": 3,
         "x": 6,
         "y": 1
@@ -432,7 +432,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
+        "h": 4,
         "w": 3,
         "x": 9,
         "y": 1
@@ -701,10 +701,10 @@
         ]
       },
       "gridPos": {
-        "h": 5,
+        "h": 6,
         "w": 12,
         "x": 0,
-        "y": 6
+        "y": 5
       },
       "id": 20,
       "options": {
@@ -1299,7 +1299,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "100-(100/raidTotalSize{job=\"snmp\",raidName=\"Volume 1\",instance=~\"$instance\"}*raidFreeSize{job=\"snmp\",raidName=\"Volume 1\",instance=~\"$instance\"})",
+          "expr": "100-(100/raidTotalSize{raidIndex=\"0\",instance=~\"$instance\"}*raidFreeSize{raidIndex=\"0\",instance=~\"$instance\"})",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -1314,7 +1314,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "100-(100/raidTotalSize{job=\"snmp\",raidName=\"Volume 2\",instance=~\"$instance\"}*raidFreeSize{job=\"snmp\",raidName=\"Volume 2\",instance=~\"$instance\"})",
+          "expr": "100-(100/raidTotalSize{raidIndex=\"2\",instance=~\"$instance\"}*raidFreeSize{raidIndex=\"2\",instance=~\"$instance\"})",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -4711,9 +4711,7 @@
     "list": [
       {
         "current": {
-          "text": [
-            "All"
-          ],
+          "text": "All",
           "value": [
             "$__all"
           ]
@@ -4736,7 +4734,9 @@
       },
       {
         "current": {
-          "text": "All",
+          "text": [
+            "All"
+          ],
           "value": [
             "$__all"
           ]
@@ -4767,5 +4767,5 @@
   "timezone": "",
   "title": "1. Overview",
   "uid": "cacaa9a6-7789-48b4-8ff6-aa27f03895c8",
-  "version": 252
+  "version": 256
 }
