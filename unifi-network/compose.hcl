@@ -384,7 +384,7 @@ EOH
 
       resources {
         memory = 1024
-        cpu    = 600
+        cpu    = 1000
       }
 
       # If using nfs, the share must preserve user:group and not sqash access rights
