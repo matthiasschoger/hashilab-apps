@@ -244,7 +244,7 @@ EOH
 
         sidecar_task {
           resources {
-            cpu    = 50
+            cpu    = 128
             memory = 50
           }
         }
@@ -451,7 +451,7 @@ EOH
 
         sidecar_task {
           resources {
-            cpu    = 48
+            cpu    = 256
             memory = 50
           }
         }
@@ -487,7 +487,7 @@ EOH
 
         sidecar_task {
           resources {
-            cpu    = 400
+            cpu    = 256
             memory = 50
           }
         }
