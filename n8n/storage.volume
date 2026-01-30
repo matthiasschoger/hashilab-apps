@@ -1,0 +1,23 @@
+
+plugin_id   = "nfs"
+type        = "csi"
+id          = "n8n"
+name        = "n8n"
+
+capability {
+	access_mode = "single-node-writer"
+	attachment_mode = "file-system"
+}
+
+context {
+  server = "storage.home"
+  share = "/volume2/homelab"
+  subDir = "n8n"
+#  mountPermissions = "577"  
+}
+
+mount_options {
+  fs_type = "nfs"
+  mount_flags = [ "hard", "sync", "nolock" ]
+}
+
