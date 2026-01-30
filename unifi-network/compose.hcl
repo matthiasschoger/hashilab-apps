@@ -35,7 +35,6 @@ job "unifi-network" {
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
         "traefik.http.routers.unifi-network.rule=Host(`network.lab.${var.base_domain}`)",
-        "traefik.http.routers.unifi-network.entrypoints=websecure"
       ]
 
       meta { # make envoy metrics port available in Consul

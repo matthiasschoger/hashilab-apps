@@ -30,8 +30,7 @@ job "bookstack" {
       tags = [
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.bookstack.rule=Host(`bookstack.lab.${var.base_domain}`)",
-        "traefik.http.routers.bookstack.entrypoints=websecure"
+        "traefik.http.routers.bookstack.rule=Host(`bookstack.lab.${var.base_domain}`)"
       ]
 
       meta {

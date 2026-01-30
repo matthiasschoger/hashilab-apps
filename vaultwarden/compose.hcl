@@ -30,8 +30,7 @@ job "vaultwarden" {
       tags = [
         "dmz.enable=true",
         "dmz.consulcatalog.connect=true",
-        "dmz.http.routers.vaultwarden.rule=Host(`bitwarden.${var.base_domain}`)",
-        "dmz.http.routers.vaultwarden.entrypoints=cloudflare"
+        "dmz.http.routers.vaultwarden.rule=Host(`bitwarden.${var.base_domain}`)"
       ]
 
       meta {

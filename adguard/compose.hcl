@@ -32,8 +32,7 @@ job "adguard" {
       tags = [
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.adguard.rule=Host(`adguard.lab.${var.base_domain}`)",
-        "traefik.http.routers.adguard.entrypoints=websecure"
+        "traefik.http.routers.adguard.rule=Host(`adguard.lab.${var.base_domain}`)"
       ]
 
       meta { # make envoy metrics port available in Consul

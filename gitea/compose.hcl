@@ -30,8 +30,7 @@ job "gitea" {
       tags = [
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.gitea.rule=Host(`gitea.lab.${var.base_domain}`)",
-        "traefik.http.routers.gitea.entrypoints=websecure"
+        "traefik.http.routers.gitea.rule=Host(`gitea.lab.${var.base_domain}`)"
       ]
 
       meta { envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" }

@@ -30,8 +30,7 @@ job "node-red" {
       tags = [
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.node-red.rule=Host(`node-red.lab.${var.base_domain}`)",
-        "traefik.http.routers.node-red.entrypoints=websecure"
+        "traefik.http.routers.node-red.rule=Host(`node-red.lab.${var.base_domain}`)"
       ]
 
       meta {

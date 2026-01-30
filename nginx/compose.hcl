@@ -30,8 +30,7 @@ job "nginx" {
       tags = [
         "dmz.enable=true",
         "dmz.consulcatalog.connect=true",
-        "dmz.http.routers.nginx.rule=Host(`${var.base_domain}`) || Host(`www.${var.base_domain}`)",
-        "dmz.http.routers.nginx.entrypoints=cloudflare",
+        "dmz.http.routers.nginx.rule=Host(`${var.base_domain}`) || Host(`www.${var.base_domain}`)"
       ]
 
       meta {

@@ -34,12 +34,9 @@ job "immich" {
         "dmz.enable=true",
         "dmz.consulcatalog.connect=true",
         "dmz.http.routers.immich.rule=Host(`immich.${var.base_domain}`)",
-        "dmz.http.routers.immich.entrypoints=cloudflare",
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.immich.rule=Host(`immich.${var.base_domain}`)",
-        "traefik.http.routers.immich.tls.certresolver=le",
-        "traefik.http.routers.immich.entrypoints=websecure",
+        "traefik.http.routers.immich.rule=Host(`immich.${var.base_domain}`)"
       ]
 
       meta {
