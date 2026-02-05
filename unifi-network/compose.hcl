@@ -323,7 +323,7 @@ EOH
     task "server" {
       driver = "docker"
 
-      # backs up the MongoDB database and removes all files in the backup folder which are older than 3 days
+      # backs up the MongoDB database and removes all files in the backup folder except for the latest three
       action "backup-mongodb" {
         command = "/bin/sh"
         args    = ["-c", <<EOF
