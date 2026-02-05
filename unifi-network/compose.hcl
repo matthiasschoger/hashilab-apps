@@ -365,6 +365,7 @@ EOH
         data = <<EOH
 net:
   bindIp: 127.0.0.1
+  maxIncomingConnections: 20
 storage:
   dbPath: /storage/db
   directoryPerDB: true
@@ -372,8 +373,9 @@ storage:
     engineConfig:
       directoryForIndexes: true
       journalCompressor: snappy
+      cacheSizeGB: 0.25
     collectionConfig:
-      blockCompressor: snappy
+      blockCompressor: zstd
 
 systemLog:
   verbosity: 0
@@ -382,7 +384,7 @@ EOH
       }
 
       resources {
-        memory = 1024
+        memory = 512
         cpu    = 1000
       }
 
