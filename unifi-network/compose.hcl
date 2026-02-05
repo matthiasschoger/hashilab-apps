@@ -328,14 +328,14 @@ EOH
         command = "/bin/sh"
         args    = ["-c", <<EOF
 mongodump --gzip --archive=/storage/backup/backup.$(date +"%Y%m%d%H%M").gz
-echo "cleaning up backup files older than 3 days ..."
+echo "cleaning up backup files except latest three ..."
 find /storage/backup -maxdepth 1 -type f -printf '%T@ %p\n' | sort -nr | tail -n +4 | cut -d' ' -f2- | xargs -r rm --
 EOF
         ]
       }
 
       config {
-        image = "mongo:7.0"
+        image = "mongo:7"
         force_pull = true
 
         command = "mongod"
