@@ -545,10 +545,14 @@ EOH
       driver = "docker"
 
       config {
-        image = "valkey/valkey:8.1"
+        image = "valkey/valkey:9"
         force_pull = true
 
         args = [ "/local/valkey.conf" ]
+      }
+
+      env {
+        TZ = "Europe/Berlin"
       }
 
       template {
