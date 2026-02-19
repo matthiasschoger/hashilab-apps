@@ -129,6 +129,7 @@ job "unifi-network" {
       }
     }
 
+
     task "server" {
       driver = "docker"
 
@@ -153,7 +154,7 @@ EOH
       }
 
       resources {
-        memory = 1536
+        memory = 2048
         cpu    = 400
       }
 
@@ -276,13 +277,129 @@ EOH
   }
 
 
+  # Add-ons to UniFi Network app, including Network Optimizer
+  group "add-ons" {
+
+    network {
+      mode = "bridge"
+
+      port "envoy_metrics_optimizer" { to = 9101 }
+    }
+
+    ephemeral_disk { # Used to cache the IEEE OUI database
+      size    = 3000 # MB
+      migrate = true
+    }
+
+    service {
+      name = "unifi-network-optimizer"
+
+      port = 8042
+
+      # check {
+      #   type            = "http"
+      #   path            = "/api/health"
+      #   interval        = "10s"
+      #   timeout         = "2s"
+      #   expose          = true
+      # }
+
+      tags = [
+        "traefik.enable=true",
+        "traefik.consulcatalog.connect=true",
+        "traefik.http.routers.unifi-network-optimizer.rule=Host(`optimizer.lab.${var.base_domain}`)",
+      ]
+
+      meta { # make envoy metrics port available in Consul
+        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics_optimizer}" 
+      }
+      connect {
+        sidecar_service {
+          proxy {
+            config {
+              envoy_prometheus_bind_addr = "0.0.0.0:9101"
+            }
+            upstreams {
+              destination_name = "unifi-network-ui"
+              local_bind_port  = 80
+            }
+          }
+        }
+
+        sidecar_task {
+          resources {
+            cpu    = 50
+            memory = 48
+          }
+        }
+      }
+    }
+
+    task "optimizer" {
+      driver = "docker"
+
+      config {
+        image = "ghcr.io/ozark-connect/network-optimizer:latest"
+      }
+
+      template {
+        destination = "secrets/variables.env"
+        env             = true
+        data            = <<EOH
+TZ = "Europe/Berlin"
+
+{{- with nomadVar "nomad/jobs/unifi-network" }}
+# Bind to localhost only (for reverse proxy) or all interfaces (direct access)
+BIND_LOCALHOST_ONLY = false
+APP_PASSWORD        = {{- .unifi_pass }}
+DEMO_MODE_MAPPINGS  = 
+# Host IP/name for path analysis and CORS (required for client speed tests)
+HOST_IP             = 192.168.0.3
+HOST_NAME           = 
+HTTP_PORTS           = 8042
+# Reverse proxy hostname (e.g., optimizer.example.com) - overrides HOST_NAME for API URLs
+REVERSE_PROXIED_HOST_NAME = optimizer.lab.schoger.net
+# OpenSpeedTest configuration (for UI display and CORS)
+OPENSPEEDTEST_PORT        = 3005
+OPENSPEEDTEST_HOST        = optimizer.lab.schoger.net
+OPENSPEEDTEST_HTTPS       = false
+OPENSPEEDTEST_HTTPS_PORT  = 443
+# iperf3 server mode - enable to accept client-initiated speed tests on port 5201
+Iperf3Server__Enabled     = false
+# Logging (Trace, Debug, Information, Warning, Error, Critical)
+Logging__LogLevel__Default          = Information
+Logging__LogLevel__NetworkOptimizer = Information
+{{- end }}
+EOH
+      }
+
+      resources {
+        memory = 512
+        cpu    = 400
+      }
+
+      volume_mount {
+        volume      = "unifi-network-optimizer"
+        destination = "/app/data"
+      }
+    }
+
+    volume "unifi-network-optimizer" {
+      type            = "csi"
+      source          = "unifi-network-optimizer"
+      access_mode     = "single-node-writer"
+      attachment_mode = "file-system"
+    }
+  }
+
+
   # MongoDB, which stores metrics and application data
   group "mongodb" {
 
     network {
       mode = "bridge"
 
-      port "envoy_metrics" { to = 9102 }
+      port "envoy_metrics" { to = 9101 }
     }
 
     service {
@@ -306,7 +423,7 @@ EOH
         sidecar_service {
           proxy {
             config {
-              envoy_prometheus_bind_addr = "0.0.0.0:9102"
+              envoy_prometheus_bind_addr = "0.0.0.0:9101"
             }
           }
         }
@@ -335,7 +452,7 @@ EOF
       }
 
       config {
-        image = "mongo:7"
+        image = "mongo:8.2"
         force_pull = true
 
         command = "mongod"

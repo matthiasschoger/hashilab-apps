@@ -1,0 +1,22 @@
+
+plugin_id   = "nfs"
+type        = "csi"
+id          = "unifi-network-optimizer"
+name        = "Unifi Network Optimizer"
+
+capability {
+	access_mode = "single-node-writer"
+	attachment_mode = "file-system"
+}
+
+context {
+  server = "storage.home"
+  share = "/volume2/homelab"
+  subDir = "unifi/optimizer"
+#  mountPermissions = "755"
+}
+
+mount_options {
+  fs_type = "nfs"
+  mount_flags = [ "hard", "sync" ]
+}
