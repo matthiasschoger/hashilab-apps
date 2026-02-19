@@ -77,7 +77,7 @@ job "adguard" {
       }
 
       resources {
-        memory = 128
+        memory = 192
         cpu    = 50
       }
 
