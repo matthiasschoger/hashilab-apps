@@ -286,11 +286,6 @@ EOH
       port "envoy_metrics_optimizer" { to = 9101 }
     }
 
-    ephemeral_disk { # Used to cache the IEEE OUI database
-      size    = 3000 # MB
-      migrate = true
-    }
-
     service {
       name = "unifi-network-optimizer"
 
@@ -318,10 +313,6 @@ EOH
           proxy {
             config {
               envoy_prometheus_bind_addr = "0.0.0.0:9101"
-            }
-            upstreams {
-              destination_name = "unifi-network-ui"
-              local_bind_port  = 80
             }
           }
         }
@@ -502,7 +493,7 @@ EOH
 
       resources {
         memory = 512
-        cpu    = 1000
+        cpu    = 2000
       }
 
       # If using nfs, the share must preserve user:group and not sqash access rights
