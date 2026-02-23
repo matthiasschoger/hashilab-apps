@@ -30,8 +30,7 @@ job "n8n" {
       tags = [
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.n8n.rule=Host(`n8n.lab.${var.base_domain}`)",
-        "traefik.http.routers.n8n.entrypoints=websecure"
+        "traefik.http.routers.n8n.rule=Host(`n8n.lab.${var.base_domain}`)"
       ]
 
       meta {
@@ -60,10 +59,10 @@ job "n8n" {
 
       driver = "docker"
 
-      user = "1000:1000" # matthias:users
+      user = "1000:1000"
 
       config {
-        image = "n8nio/n8n:latest"
+        image = "n8nio/n8n:2.9.1"
         # image = "busybox:latest"
 
         # command = "sleep"
@@ -71,13 +70,6 @@ job "n8n" {
         # args = [
         #   "infinity",
         # ]
-
-        mount {
-          type     = "bind"
-          target   = "/home/node/.n8n"
-          source   = "n8n"
-          readonly = false
-        }
       }
 
       env {
@@ -142,7 +134,7 @@ EOH
 
       volume_mount {
         volume      = "n8n"
-        destination = "/home/node/.n8n"
+        destination = "/home/node"
       }
     }
 
