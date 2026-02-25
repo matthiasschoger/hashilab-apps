@@ -196,7 +196,7 @@ map $http_upgrade $connection_upgrade {
     ''      close;
 }
 
-server {
+server { # proxy https to http by stripping the TLS tunnel
   listen 127.0.0.1:8888;
 
   proxy_http_version 1.1;
@@ -211,6 +211,19 @@ server {
   location / {
     proxy_pass https://localhost:8443; # Main Unifi console
   }
+}
+
+server { # fixes random ULP errors in the log and speeds up the server startup
+    listen 127.0.0.1:9080;
+
+    location = /api/ucore/manifest {
+        default_type application/json;
+        return 200 '{}';
+    }
+
+    location / {
+        return 401;
+    }
 }
 _EOF
         destination = "local/nginx.conf"
