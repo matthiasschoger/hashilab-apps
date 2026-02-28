@@ -6,16 +6,18 @@ job "n8n" {
   datacenters = ["home"]
   type        = "service"
 
-  group "n8n" {
+  group "api-server" {
 
     network {
       mode = "bridge"
+
+      port "n8n_exporter_metrics" { to = 5678 }
 
       port "envoy_metrics" { to = 9102 }
     }
 
     service {
-      name = "n8n"
+      name = "n8n-api"
 
       port = 5678
 
@@ -34,7 +36,8 @@ job "n8n" {
       ]
 
       meta {
-        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
+        metrics_port = "${NOMAD_HOST_PORT_n8n_exporter_metrics}" # make n8n metrics port available in Consul 
+        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}"  # make envoy metrics port available in Consul
       }
       connect {
         sidecar_service {
@@ -59,55 +62,46 @@ job "n8n" {
 
       driver = "docker"
 
-      user = "1000:1000"
+      user = "1000:1000" 
 
       config {
-        image = "n8nio/n8n:2.9.1"
-        # image = "busybox:latest"
-
-        # command = "sleep"
-
-        # args = [
-        #   "infinity",
-        # ]
+        image = "n8nio/n8n:latest"
       }
 
       env {
         TZ = "Europe/Berlin"
 
+        # user and group ID
+        PUID = 1000
+        PGID = 1000
+
+        N8N_DATA = "/home/node/.n8n"
+
         # Database Configuration
-        DB_TYPE                 = "sqlite"
-        DB_SQLITE_DATABASE_FILE = "/home/node/.n8n/database.sqlite"
+        DB_TYPE                     = "sqlite"
         DB_SQLITE_VACUUM_ON_STARTUP = true
 
-        # Basic Configuration
-        N8N_PROTOCOL = "https"
-        N8N_HOST     = "n8n.lab.${var.base_domain}"
-        N8N_PORT     = "443"
-        WEBHOOK_URL  = "https://n8n.lab.${var.base_domain}/"
-
-        # User Management & Security
-        N8N_USER_MANAGEMENT_DISABLED      = "false"
-        N8N_EMAIL_MODE                    = "smtp"
-
-        # Performance Settings
-        N8N_CONCURRENCY_PRODUCTION_LIMIT  = "5"
-        EXECUTIONS_DATA_MAX_AGE           = "336" # 14 days in hours
-        EXECUTIONS_DATA_PRUNE             = "true"
-
         # Binary Data Storage
-        BINARY_DATA_MODE                  = "filesystem"
-        N8N_BINARY_DATA_STORAGE_PATH      = "/home/node/.n8n/binaryData/"
+        BINARY_DATA_MODE            = "filesystem"
 
-        # Metrics
-        METRICS                           = true
+        # Basic Configuration
+        N8N_PROTOCOL = "http"
+        N8N_PORT     = "5678"
+
+        N8N_EDITOR_BASE_URL = "https://n8n.lab.${var.base_domain}"
+        WEBHOOK_URL         = "https://n8n.lab.${var.base_domain}/"
+        N8N_PROXY_HOPS      = 1
+
+        # Prometheus Metrics
+        N8N_METRICS                       = true
+        QUEUE_HEALTH_CHECK_ACTIVE         = true
 
         # Development Settings
         N8N_LOG_LEVEL                     = "info"
         N8N_VERSION_NOTIFICATIONS_ENABLED = "true"
 
-        # Disable diagnostics for privacy
-        N8N_DIAGNOSTICS_ENABLED           = "false"
+        # Diagnostics
+        N8N_DIAGNOSTICS_ENABLED           = "true"
       }
 
       template {
@@ -116,20 +110,20 @@ job "n8n" {
         perms       = 400
         data        = <<EOH
 {{- with nomadVar "nomad/jobs/n8n" }}
-N8N_ENCRYPTION_KEY  = {{ .encryption_key }}
+N8N_ENCRYPTION_KEY  = {{ .N8N_ENCRYPTION_KEY }}
 
-N8N_SMTP_HOST       = {{ .smtp_host }}
-N8N_SMTP_PORT       = {{ .smtp_port }}
-N8N_SMTP_USER       = {{ .smtp_user }}
-N8N_SMTP_PASS       = {{ .smtp_pass }}
-N8N_SMTP_SENDER     = {{ .smtp_sender }}
+N8N_SMTP_HOST       = {{ .N8N_SMTP_HOST }}
+N8N_SMTP_PORT       = {{ .N8N_SMTP_PORT }}
+N8N_SMTP_USER       = {{ .N8N_SMTP_USER }}
+N8N_SMTP_PASS       = {{ .N8N_SMTP_PASS }}
+N8N_SMTP_SENDER     = {{ .N8N_SMTP_SENDER }}
 {{- end }}
 EOH
       }
 
       resources {
-        memory = 200
-        cpu    = 100
+        memory = 512
+        cpu    = 400
       }
 
       volume_mount {

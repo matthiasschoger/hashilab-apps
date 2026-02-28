@@ -102,7 +102,7 @@ job "immich" {
 
         # user and group ID
         PUID = 1026
-        PGID = 100
+        PGID = 1000
 
         IMMICH_TELEMETRY_INCLUDE = "all"
 #        IMMICH_TELEMETRY_EXCLUDE = "host"
