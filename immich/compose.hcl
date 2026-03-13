@@ -73,7 +73,7 @@ job "immich" {
       }
     }
 
-    # Unpoller port to get network metrics into Prometheus
+    # Exporter port to get network metrics into Prometheus
     service {
       name = "immich-exporter"
 
