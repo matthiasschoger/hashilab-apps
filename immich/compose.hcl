@@ -561,6 +561,7 @@ EOH
 # save every 60 seconds if at least 100 keys have changed
 save 60 100
 
+maxmemory {{ env "NOMAD_MEMORY_LIMIT" | parseInt | subtract 5 }}mb
 dir {{ env "NOMAD_ALLOC_DIR" }}/data
 EOH
       }
