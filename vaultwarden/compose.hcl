@@ -71,6 +71,7 @@ job "vaultwarden" {
         ROCKET_PORT = "80"
         WEBSOCKET_ENABLED = true
         LOG_LEVEL = "warn"
+#        LOG_LEVEL = "info"
         DOMAIN = "https://bitwarden.${var.base_domain}"
       }
 
@@ -83,16 +84,15 @@ job "vaultwarden" {
         perms       = 400
         data        = <<EOH
 {{- with nomadVar "nomad/jobs/vaultwarden" }}
-ADMIN_TOKEN = {{- .admin_token }}
+ADMIN_TOKEN   = {{- .admin_token }}
+
+SMTP_HOST     = "smtp.protonmail.ch"
+SMTP_FROM     = "{{- .email_user }}"
+SMTP_PORT     = 587
+SMTP_SECURITY = starttls
+SMTP_USERNAME = "{{- .email_user }}"
+SMTP_PASSWORD = "{{- .email_pass }}"
 {{- end }}
-
-TZ = "Europe/Berlin"
-
-ROCKET_PROFILE = "release"
-ROCKET_PORT = "80"
-WEBSOCKET_ENABLED = true
-LOG_LEVEL = "info"
-DOMAIN = "https://bitwarden.${var.base_domain}"
 EOH
       }
 
