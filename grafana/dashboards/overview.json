@@ -18,7 +18,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 0,
   "links": [],
   "panels": [
     {
@@ -230,7 +229,7 @@
         ]
       },
       "gridPos": {
-        "h": 4,
+        "h": 5,
         "w": 6,
         "x": 0,
         "y": 1
@@ -247,7 +246,7 @@
           }
         ]
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -258,7 +257,6 @@
           "exemplar": true,
           "expr": "raidStatus{raidName=~\"Volume.*\"}",
           "format": "table",
-          "hide": false,
           "instant": true,
           "interval": "",
           "legendFormat": "__auto",
@@ -359,7 +357,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 5,
         "w": 3,
         "x": 6,
         "y": 1
@@ -382,7 +380,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -390,7 +388,7 @@
             "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
           },
           "editorMode": "code",
-          "expr": "consul_autopilot_failure_tolerance{instance=\"master.home\"}",
+          "expr": "min(consul_autopilot_failure_tolerance{})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -408,13 +406,13 @@
         "type": "prometheus",
         "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
           "mappings": [],
+          "noValue": "N/A",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -432,7 +430,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 5,
         "w": 3,
         "x": 9,
         "y": 1
@@ -455,7 +453,7 @@
         "textMode": "value",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -538,7 +536,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 10,
+        "h": 11,
         "w": 12,
         "x": 12,
         "y": 1
@@ -558,7 +556,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -567,7 +565,6 @@
           },
           "editorMode": "code",
           "expr": "avg(node_hwmon_temp_celsius{instance=\"proxmox1.home\"})",
-          "hide": false,
           "instant": false,
           "legendFormat": "proxmox1.home",
           "range": true,
@@ -580,7 +577,6 @@
           },
           "editorMode": "code",
           "expr": "avg(node_hwmon_temp_celsius{instance=\"proxmox2.home\"})",
-          "hide": false,
           "instant": false,
           "legendFormat": "proxmox2.home",
           "range": true,
@@ -704,7 +700,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 5
+        "y": 6
       },
       "id": 20,
       "options": {
@@ -724,7 +720,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -791,7 +787,7 @@
         "h": 11,
         "w": 12,
         "x": 0,
-        "y": 11
+        "y": 12
       },
       "id": 31,
       "options": {
@@ -805,7 +801,7 @@
           }
         ]
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -816,7 +812,6 @@
           "exemplar": true,
           "expr": "node_uname_info{}",
           "format": "table",
-          "hide": false,
           "instant": true,
           "interval": "",
           "legendFormat": "__auto",
@@ -847,7 +842,6 @@
         "type": "prometheus",
         "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1064,7 +1058,7 @@
         "h": 11,
         "w": 12,
         "x": 12,
-        "y": 11
+        "y": 12
       },
       "id": 10,
       "options": {
@@ -1077,7 +1071,7 @@
           }
         ]
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -1088,7 +1082,6 @@
           "exemplar": false,
           "expr": "100 -\nnomad_client_unallocated_cpu{}\n/\n(nomad_client_allocated_cpu{}\n+ nomad_client_unallocated_cpu{}) * 100",
           "format": "table",
-          "hide": false,
           "instant": true,
           "interval": "",
           "legendFormat": "cpu utilization",
@@ -1103,7 +1096,6 @@
           "exemplar": false,
           "expr": "100 -\nnomad_client_unallocated_memory{}\n/\n(nomad_client_allocated_memory{}\n+ nomad_client_unallocated_memory{}) * 100",
           "format": "table",
-          "hide": false,
           "instant": true,
           "interval": "",
           "legendFormat": "memory utilization",
@@ -1118,7 +1110,6 @@
           "exemplar": false,
           "expr": "100 -\nnomad_client_unallocated_disk{}\n/\n(nomad_client_allocated_disk{}\n+ nomad_client_unallocated_disk{}) * 100",
           "format": "table",
-          "hide": false,
           "instant": true,
           "interval": "",
           "legendFormat": "disk utilization",
@@ -1200,7 +1191,6 @@
         "type": "prometheus",
         "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1274,7 +1264,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 22
+        "y": 23
       },
       "id": 12,
       "options": {
@@ -1291,7 +1281,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -1301,7 +1291,6 @@
           "editorMode": "code",
           "expr": "100-(100/raidTotalSize{raidIndex=\"0\",instance=~\"$instance\"}*raidFreeSize{raidIndex=\"0\",instance=~\"$instance\"})",
           "format": "time_series",
-          "hide": false,
           "intervalFactor": 1,
           "legendFormat": "NAS HDD",
           "range": true,
@@ -1316,7 +1305,6 @@
           "editorMode": "code",
           "expr": "100-(100/raidTotalSize{raidIndex=\"2\",instance=~\"$instance\"}*raidFreeSize{raidIndex=\"2\",instance=~\"$instance\"})",
           "format": "time_series",
-          "hide": false,
           "intervalFactor": 1,
           "legendFormat": "NAS NVMe",
           "range": true,
@@ -1330,7 +1318,6 @@
           },
           "editorMode": "code",
           "expr": "100*(1 - node_filesystem_avail_bytes{instance=~\"$instance\",mountpoint=\"/\"} / node_filesystem_size_bytes{instance=~\"$instance\",mountpoint=\"/\"})",
-          "hide": false,
           "instant": false,
           "legendFormat": "{{instance}}",
           "range": true,
@@ -1420,7 +1407,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 22
+        "y": 23
       },
       "id": 13,
       "options": {
@@ -1439,7 +1426,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -1448,7 +1435,6 @@
           },
           "editorMode": "code",
           "expr": "rate(node_disk_io_time_seconds_total{instance=\"storage.home\", device=\"dm-3\"}[$__rate_interval])",
-          "hide": false,
           "legendFormat": "NAS HDD",
           "range": true,
           "refId": "util sata"
@@ -1460,7 +1446,6 @@
           },
           "editorMode": "code",
           "expr": "rate(node_disk_io_time_seconds_total{instance=\"storage.home\", device=\"dm-1\"}[$__rate_interval])",
-          "hide": false,
           "legendFormat": "NAS NVMe",
           "range": true,
           "refId": "util nvme"
@@ -1472,7 +1457,6 @@
           },
           "editorMode": "code",
           "expr": "rate(node_disk_io_time_seconds_total{instance=~\"$instance\",device=\"sda\"}[$__rate_interval])",
-          "hide": false,
           "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
@@ -1558,7 +1542,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 30
+        "y": 31
       },
       "id": 2,
       "options": {
@@ -1575,7 +1559,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -1670,7 +1654,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 30
+        "y": 31
       },
       "id": 1,
       "maxDataPoints": 100,
@@ -1688,7 +1672,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -1721,7 +1705,6 @@
         "type": "prometheus",
         "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1881,7 +1864,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 37
+        "y": 38
       },
       "id": 18,
       "options": {
@@ -1898,7 +1881,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -1908,7 +1891,6 @@
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{mode=\"system\", instance=\"compute1.home\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"compute1.home\"}[$__rate_interval])))",
           "format": "time_series",
-          "hide": false,
           "intervalFactor": 1,
           "legendFormat": "Busy System",
           "range": true,
@@ -1923,7 +1905,6 @@
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{mode=~\".*irq\", instance=\"compute1.home\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"compute1.home\"}[$__rate_interval])))",
           "format": "time_series",
-          "hide": false,
           "intervalFactor": 1,
           "legendFormat": "Busy IRQs",
           "range": true,
@@ -1938,7 +1919,6 @@
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{mode!='idle',mode!='system',mode!='iowait',mode!='irq',mode!='softirq', instance=\"compute1.home\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"compute1.home\"}[$__rate_interval])))",
           "format": "time_series",
-          "hide": false,
           "intervalFactor": 1,
           "legendFormat": "Busy User",
           "range": true,
@@ -1984,7 +1964,6 @@
         "type": "prometheus",
         "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2144,7 +2123,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 37
+        "y": 38
       },
       "id": 19,
       "options": {
@@ -2161,7 +2140,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -2171,7 +2150,6 @@
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{mode=\"system\", instance=\"compute2.home\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"compute2.home\"}[$__rate_interval])))",
           "format": "time_series",
-          "hide": false,
           "intervalFactor": 1,
           "legendFormat": "Busy System",
           "range": true,
@@ -2186,7 +2164,6 @@
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{mode=~\".*irq\", instance=\"compute2.home\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"compute2.home\"}[$__rate_interval])))",
           "format": "time_series",
-          "hide": false,
           "intervalFactor": 1,
           "legendFormat": "Busy IRQs",
           "range": true,
@@ -2201,7 +2178,6 @@
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{mode!='idle',mode!='system',mode!='iowait',mode!='irq',mode!='softirq', instance=\"compute2.home\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"compute2.home\"}[$__rate_interval])))",
           "format": "time_series",
-          "hide": false,
           "intervalFactor": 1,
           "legendFormat": "Busy User",
           "range": true,
@@ -2247,7 +2223,6 @@
         "type": "prometheus",
         "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2407,7 +2382,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 44
+        "y": 45
       },
       "id": 21,
       "options": {
@@ -2424,7 +2399,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -2434,7 +2409,6 @@
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{mode=\"system\", instance=\"dmz1.home\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"dmz1.home\"}[$__rate_interval])))",
           "format": "time_series",
-          "hide": false,
           "intervalFactor": 1,
           "legendFormat": "Busy System",
           "range": true,
@@ -2449,7 +2423,6 @@
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{mode=~\".*irq\", instance=\"dmz1.home\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"dmz1.home\"}[$__rate_interval])))",
           "format": "time_series",
-          "hide": false,
           "intervalFactor": 1,
           "legendFormat": "Busy IRQs",
           "range": true,
@@ -2464,7 +2437,6 @@
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{mode!='idle',mode!='system',mode!='iowait',mode!='irq',mode!='softirq', instance=\"dmz1.home\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"dmz1.home\"}[$__rate_interval])))",
           "format": "time_series",
-          "hide": false,
           "intervalFactor": 1,
           "legendFormat": "Busy User",
           "range": true,
@@ -2510,7 +2482,6 @@
         "type": "prometheus",
         "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2670,7 +2641,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 44
+        "y": 45
       },
       "id": 22,
       "options": {
@@ -2687,7 +2658,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -2697,7 +2668,6 @@
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{mode=\"system\", instance=\"dmz2.home\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"dmz2.home\"}[$__rate_interval])))",
           "format": "time_series",
-          "hide": false,
           "intervalFactor": 1,
           "legendFormat": "Busy System",
           "range": true,
@@ -2712,7 +2682,6 @@
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{mode=~\".*irq\", instance=\"dmz2.home\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"dmz2.home\"}[$__rate_interval])))",
           "format": "time_series",
-          "hide": false,
           "intervalFactor": 1,
           "legendFormat": "Busy IRQs",
           "range": true,
@@ -2727,7 +2696,6 @@
           "editorMode": "code",
           "expr": "sum by(instance) (irate(node_cpu_seconds_total{mode!='idle',mode!='system',mode!='iowait',mode!='irq',mode!='softirq', instance=\"dmz2.home\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"dmz2.home\"}[$__rate_interval])))",
           "format": "time_series",
-          "hide": false,
           "intervalFactor": 1,
           "legendFormat": "Busy User",
           "range": true,
@@ -2785,6 +2753,7 @@
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
+            "axisSoftMax": 1000,
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
@@ -2833,7 +2802,7 @@
               }
             ]
           },
-          "unit": "bps"
+          "unit": "binbps"
         },
         "overrides": [
           {
@@ -2862,7 +2831,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 51
+        "y": 52
       },
       "id": 33,
       "options": {
@@ -2881,7 +2850,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -2917,7 +2886,6 @@
         "type": "prometheus",
         "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3013,7 +2981,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 51
+        "y": 52
       },
       "id": 32,
       "options": {
@@ -3031,7 +2999,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -3269,7 +3237,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 60
+        "y": 61
       },
       "id": 34,
       "options": {
@@ -3292,7 +3260,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -3320,6 +3288,7 @@
         }
       ],
       "title": "Multicast & Broadcast: Switch Ports Receive",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -3390,7 +3359,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 60
+        "y": 61
       },
       "id": 35,
       "options": {
@@ -3413,7 +3382,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -3441,6 +3410,7 @@
         }
       ],
       "title": "Multicast & Broadcast: Switch Ports Transmit",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -3449,7 +3419,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 69
+        "y": 70
       },
       "id": 28,
       "panels": [],
@@ -3461,7 +3431,6 @@
         "type": "prometheus",
         "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3516,15 +3485,15 @@
               }
             ]
           },
-          "unit": "binBps"
+          "unit": "binbps"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
+        "h": 10,
         "w": 12,
         "x": 0,
-        "y": 70
+        "y": 71
       },
       "id": 29,
       "interval": "1m",
@@ -3548,7 +3517,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -3556,8 +3525,7 @@
             "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
           },
           "editorMode": "code",
-          "expr": "sum without (code, protocol, method, instance) (rate(traefik_service_requests_bytes_total{instance=~\"dmz.*\"} [$__rate_interval:]))",
-          "hide": false,
+          "expr": "sum without (code, protocol, method, instance) (rate(traefik_service_requests_bytes_total{instance=~\"dmz.*\"} [$__rate_interval:])) * 8 ",
           "instant": false,
           "legendFormat": "internet → {{service_name}}",
           "range": true,
@@ -3573,7 +3541,6 @@
         "type": "prometheus",
         "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3628,15 +3595,15 @@
               }
             ]
           },
-          "unit": "binBps"
+          "unit": "binbps"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
+        "h": 10,
         "w": 12,
         "x": 12,
-        "y": 70
+        "y": 71
       },
       "id": 30,
       "interval": "1m",
@@ -3660,7 +3627,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -3668,8 +3635,7 @@
             "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
           },
           "editorMode": "code",
-          "expr": "sum without (code, protocol, method, instance) (rate(traefik_service_responses_bytes_total{instance=~\"dmz.*\"} [$__rate_interval:]))",
-          "hide": false,
+          "expr": "sum without (code, protocol, method, instance) (rate(traefik_service_responses_bytes_total{instance=~\"dmz.*\"} [$__rate_interval:])) * 8",
           "instant": false,
           "legendFormat": "{{service_name}} → internet",
           "range": true,
@@ -3747,7 +3713,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 79
+        "y": 81
       },
       "id": 27,
       "options": {
@@ -3764,7 +3730,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -3848,7 +3814,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 79
+        "y": 81
       },
       "id": 26,
       "options": {
@@ -3864,7 +3830,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -3890,7 +3856,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 88
+        "y": 90
       },
       "id": 4,
       "panels": [],
@@ -3902,7 +3868,6 @@
         "type": "prometheus",
         "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3965,7 +3930,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 89
+        "y": 91
       },
       "id": 5,
       "options": {
@@ -3988,7 +3953,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -4018,7 +3983,6 @@
         "type": "prometheus",
         "uid": "dc5d4f1c-2b4a-4b29-aeab-846174dc5891"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -4081,7 +4045,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 101
+        "y": 103
       },
       "id": 6,
       "options": {
@@ -4104,7 +4068,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -4191,7 +4155,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 113
+        "y": 115
       },
       "id": 23,
       "options": {
@@ -4214,7 +4178,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -4231,7 +4195,7 @@
           "step": 240
         }
       ],
-      "title": "NFS Send Total",
+      "title": "NFS Send Total (write)",
       "transparent": true,
       "type": "timeseries"
     },
@@ -4301,7 +4265,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 122
+        "y": 124
       },
       "id": 24,
       "options": {
@@ -4324,7 +4288,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -4341,7 +4305,7 @@
           "step": 240
         }
       ],
-      "title": "NFS Receive Total",
+      "title": "NFS Receive Total (read)",
       "transparent": true,
       "type": "timeseries"
     },
@@ -4351,7 +4315,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 131
+        "y": 133
       },
       "id": 14,
       "panels": [],
@@ -4383,7 +4347,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 132
+        "y": 134
       },
       "id": 17,
       "interval": "1m",
@@ -4426,7 +4390,7 @@
           "unit": "dtdurationms"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -4515,7 +4479,7 @@
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 142
+        "y": 144
       },
       "id": 15,
       "interval": "1m",
@@ -4539,7 +4503,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -4549,7 +4513,6 @@
           "editorMode": "code",
           "exemplar": false,
           "expr": "sum(rate(envoy_cluster_upstream_cx_tx_bytes_total{consul_destination_service!=\"\", instance=~\"$instance\"} [$__rate_interval:])) by (consul_source_service, consul_destination_service, instance)",
-          "hide": false,
           "interval": "1m",
           "legendFormat": "{{instance}} - {{consul_source_service}} → {{consul_destination_service}}",
           "range": true,
@@ -4562,7 +4525,6 @@
           },
           "editorMode": "code",
           "expr": "rate(traefik_service_requests_bytes_total{instance=~\"$instance\"} [$__rate_interval:])",
-          "hide": false,
           "instant": false,
           "legendFormat": "{{instance}} - traefik → {{service_name}}",
           "range": true,
@@ -4641,7 +4603,7 @@
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 156
+        "y": 158
       },
       "id": 16,
       "interval": "1m",
@@ -4665,7 +4627,7 @@
           "sort": "desc"
         }
       },
-      "pluginVersion": "12.3.0",
+      "pluginVersion": "12.4.1",
       "targets": [
         {
           "datasource": {
@@ -4675,7 +4637,6 @@
           "editorMode": "code",
           "exemplar": false,
           "expr": "sum (irate(envoy_cluster_upstream_cx_rx_bytes_total{consul_destination_service!=\"\", instance=~\"$instance\"} [$__rate_interval:]))  by (consul_source_service, consul_destination_service, instance)",
-          "hide": false,
           "interval": "1m",
           "legendFormat": "{{instance}} - {{consul_destination_service}} → {{consul_source_service}}",
           "range": true,
@@ -4688,7 +4649,6 @@
           },
           "editorMode": "code",
           "expr": "sum (rate(traefik_service_responses_bytes_total{instance=~\"$instance\"} [$__rate_interval:]))  by (service_name, instance)",
-          "hide": false,
           "instant": false,
           "interval": "",
           "legendFormat": "{{instance}} - {{service_name}} → traefik",
@@ -4729,6 +4689,7 @@
         },
         "refresh": 1,
         "regex": "",
+        "regexApplyTo": "value",
         "sort": 1,
         "type": "query"
       },
@@ -4752,6 +4713,7 @@
         },
         "refresh": 1,
         "regex": "",
+        "regexApplyTo": "value",
         "sort": 1,
         "type": "query"
       }
@@ -4762,8 +4724,9 @@
     "to": "now"
   },
   "timepicker": {},
-  "timezone": "",
+  "timezone": "browser",
   "title": "1. Overview",
   "uid": "cacaa9a6-7789-48b4-8ff6-aa27f03895c8",
-  "version": 258
+  "version": 275,
+  "weekStart": ""
 }
