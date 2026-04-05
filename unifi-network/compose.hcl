@@ -247,7 +247,7 @@ _EOF
         image = "ghcr.io/unpoller/unpoller:latest"
 
         args  = [
-          "--config=/local/unpoller.yaml"
+          "--config=/secrets/unpoller.yaml"
         ]
       }
 
@@ -256,7 +256,7 @@ _EOF
       }
 
       template {
-        destination = "/local/unpoller.yaml"
+        destination = "/secrets/unpoller.yaml"
         data = <<EOH
 poller:
   debug: false
