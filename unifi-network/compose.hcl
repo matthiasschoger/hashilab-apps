@@ -499,7 +499,8 @@ storage:
       blockCompressor: zstd
 
 systemLog:
-  verbosity: 0
+  quiet: true
+#  verbosity: 0
 #  verbosity: 1 # log level Debug1
 EOH
       }
