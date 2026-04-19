@@ -68,8 +68,9 @@ job "grafana" {
 
       driver = "docker"
 
-      config {
-        image = "grafana/grafana:latest"
+      config { 
+#        image = "grafana/grafana:latest"
+        image = "grafana/grafana:12.4.3"
       }
 
       env {

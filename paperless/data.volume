@@ -1,0 +1,23 @@
+
+plugin_id   = "nfs"
+type        = "csi"
+id          = "paperless-data"
+name        = "Paperless Data"
+
+capability {
+	access_mode = "single-node-writer"
+	attachment_mode = "file-system"
+}
+
+context {
+  server = "storage.home"
+  share = "/volume1/homelab-hdd"
+  subDir = "paperless/data"
+#  mountPermissions = "755"  
+}
+
+mount_options {
+  fs_type = "nfs"
+  mount_flags = [ "soft", "async" ]
+}
+

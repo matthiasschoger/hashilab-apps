@@ -499,9 +499,8 @@ storage:
       blockCompressor: zstd
 
 systemLog:
-  quiet: true
-#  verbosity: 0
-#  verbosity: 1 # log level Debug1
+  destination: file
+  path: /dev/null     # honestly pretty much pissed off by MongoDB logging. Giving up on filtering out Info messages, not logs at all then
 EOH
       }
 

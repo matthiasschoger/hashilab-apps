@@ -90,6 +90,9 @@ server {
 
     location /alive { # for the Consul health check
       default_type text/plain;
+      access_log off;
+      log_not_found off;
+      
       return 200;
     }
 }
