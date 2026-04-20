@@ -60,8 +60,6 @@ job "mealie" {
 
       config {
         image = "ghcr.io/mealie-recipes/mealie"
-
-        # volumes = [ "local/conf.d:/etc/nginx/conf.d" ]      
       }
 
       env {
