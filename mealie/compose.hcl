@@ -19,13 +19,13 @@ job "mealie" {
 
       port = 9000
 
-      # check {
-      #   type     = "http"
-      #   path     = "/alive"
-      #   interval = "10s"
-      #   timeout  = "2s"
-      #   expose   = true # required for Connect
-      # }
+      check {
+        type     = "http"
+        path     = "/api/app/about"
+        interval = "10s"
+        timeout  = "2s"
+        expose   = true # required for Connect
+      }
 
       tags = [
         "traefik.enable=true",
@@ -61,23 +61,16 @@ job "mealie" {
       config {
         image = "ghcr.io/mealie-recipes/mealie"
 
-#        volumes = [ "local/conf.d:/etc/nginx/conf.d" ]      
+        # volumes = [ "local/conf.d:/etc/nginx/conf.d" ]      
       }
 
       env {
         TZ            = "Europe/Berlin"
         BASE_URL      = "https://mealie.lab.${var.base_domain}"
         ALLOW_SIGNUP  = "false"
+
+        LOG_LEVEL     = "warning"
       }
-
-#       template {
-#         destination = "local/conf.d/default.conf"
-#         change_mode   = "signal"
-#         change_signal = "SIGHUP"
-
-#         data = <<EOH
-# EOH
-#       }
 
       resources {
         memory = 512
