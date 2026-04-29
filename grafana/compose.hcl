@@ -22,8 +22,7 @@ job "grafana" {
       tags = [
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.grafana.rule=Host(`grafana.lab.${var.base_domain}`)",
-        "traefik.http.routers.grafana.entrypoints=websecure"
+        "traefik.http.routers.grafana.rule=Host(`grafana.lab.${var.base_domain}`)"
       ]
 
       check {
