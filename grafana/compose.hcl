@@ -73,12 +73,24 @@ job "grafana" {
         image = "grafana/grafana:12.4.3"
       }
 
-      env {
-        TZ = "Europe/Berlin"
+      template {
+        destination = "secrets/variables.env"
+        env             = true
+        data            = <<EOH
+TZ = "Europe/Berlin"
 
-        GF_LOG_LEVEL = "WARN"
-        GF_LOG_MODE = "console"
-        GF_PATHS_PROVISIONING = "/etc/grafana/provisioning"
+GF_LOG_LEVEL = "WARN"
+GF_LOG_MODE = "console"
+GF_PATHS_PROVISIONING = "/etc/grafana/provisioning"
+
+GF_SMTP_ENABLED=true
+{{- with nomadVar "nomad/jobs/grafana" }}
+GF_SMTP_HOST={{ .smtp_host }}:{{ .smtp_port }}
+GF_SMTP_USER={{ .smtp_user }}
+GF_SMTP_PASSWORD={{ .smtp_pass }}
+GF_SMTP_FROM_ADDRESS={{ .smtp_sender }}
+{{- end }}
+EOH
       }
 
       resources {
