@@ -68,8 +68,7 @@ job "grafana" {
       driver = "docker"
 
       config { 
-#        image = "grafana/grafana:latest"
-        image = "grafana/grafana:12.4.3"
+        image = "grafana/grafana:latest"
       }
 
       template {
@@ -94,7 +93,7 @@ EOH
 
       resources {
         cpu    = 400
-        memory = 384
+        memory = 512
       }
 
       volume_mount {
