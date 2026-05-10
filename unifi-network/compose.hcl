@@ -394,9 +394,6 @@ storage:
 setParameter:
   diagnosticDataCollectionEnabled: false
 
-systemLog:
-  destination: file
-  path: /dev/null     # honestly pretty much pissed off by MongoDB logging. Giving up on filtering out Info messages, not logs at all then
 EOH
       }
 
