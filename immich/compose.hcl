@@ -558,6 +558,8 @@ EOH
       template {
         destination = "local/valkey.conf"
         data        = <<EOH
+loglevel warning
+
 # save every 60 seconds if at least 100 keys have changed
 save 60 100
 
