@@ -160,6 +160,8 @@ EOH
 IMMICH_HOST      = localhost
 IMMICH_PORT      = 2283
 IMMICH_API_TOKEN = "{{- .immich_api_key }}"
+
+EXPORTER_LOG_LEVEL = WARNING
 {{- end }}
 EOH
       }
