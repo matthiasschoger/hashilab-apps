@@ -80,6 +80,7 @@ TZ = "Europe/Berlin"
 GF_LOG_LEVEL = "WARN"
 GF_LOG_MODE = "console"
 GF_PATHS_PROVISIONING = "/etc/grafana/provisioning"
+GF_SERVER_ROOT_URL = "https://grafana.lab.${var.base_domain}"
 
 GF_SMTP_ENABLED=true
 {{- with nomadVar "nomad/jobs/grafana" }}
@@ -93,7 +94,7 @@ EOH
 
       resources {
         cpu    = 400
-        memory = 640
+        memory = 512
       }
 
       volume_mount {
