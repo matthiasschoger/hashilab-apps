@@ -11,7 +11,7 @@ job "grafana" {
     network {
       mode = "bridge"
 
-      port "envoy_metrics" { to = 9102 }
+      port "envoy_metrics" { to = 9101 }
     }
 
     service {
@@ -40,7 +40,7 @@ job "grafana" {
         sidecar_service {
           proxy {
             config {
-              envoy_prometheus_bind_addr = "0.0.0.0:9102"
+              envoy_prometheus_bind_addr = "0.0.0.0:9101"
             }
             # link Loki + Prometheus for all the SDN goodness
             upstreams {
@@ -64,31 +64,40 @@ job "grafana" {
     }
 
     task "server" {
-
       driver = "docker"
 
       config { 
         image = "grafana/grafana:latest"
+
+        args = [
+          "--config", "/secrets/grafana.ini"
+        ]
+      }
+
+      env {
+        TZ = "Europe/Berlin"
       }
 
       template {
-        destination = "secrets/variables.env"
-        env             = true
-        data            = <<EOH
-TZ = "Europe/Berlin"
+        destination = "secrets/grafana.ini"
+        data = <<EOH
+[server]
+root_url = https://grafana.lab.${var.base_domain}
 
-GF_LOG_LEVEL = "WARN"
-GF_LOG_MODE = "console"
-GF_PATHS_PROVISIONING = "/etc/grafana/provisioning"
-GF_SERVER_ROOT_URL = "https://grafana.lab.${var.base_domain}"
+[log]
+level = warn
+mode = console
+;filters = sqlstore:debug
 
-GF_SMTP_ENABLED=true
+[smtp]
+enabled = true
 {{- with nomadVar "nomad/jobs/grafana" }}
-GF_SMTP_HOST={{ .smtp_host }}:{{ .smtp_port }}
-GF_SMTP_USER={{ .smtp_user }}
-GF_SMTP_PASSWORD={{ .smtp_pass }}
-GF_SMTP_FROM_ADDRESS={{ .smtp_sender }}
+host = {{ .smtp_host }}:{{ .smtp_port }}
+user = {{ .smtp_user }}
+password = {{ .smtp_pass }}
+from_address = {{ .smtp_sender }}
 {{- end }}
+
 EOH
       }
 
