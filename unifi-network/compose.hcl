@@ -85,7 +85,7 @@ job "unifi-network" {
         sidecar_task {
           resources {
             cpu    = 50
-            memory = 64
+            memory = 48
           }
         }
       }
@@ -112,7 +112,7 @@ job "unifi-network" {
         sidecar_task {
           resources {
             cpu    = 50
-            memory = 64
+            memory = 48
           }
         }
       }
@@ -154,8 +154,8 @@ EOH
       }
 
       resources {
-        memory = 2048
-        cpu    = 400
+        memory = 1536
+        cpu    = 800
       }
 
       volume_mount {
@@ -182,6 +182,7 @@ EOH
       driver = "docker"
       config {
         image           = "nginx:latest"
+        
         volumes         = ["local/nginx.conf:/etc/nginx/conf.d/default.conf"]
       }
 
@@ -231,7 +232,7 @@ _EOF
 
       resources {
         cpu    = 20
-        memory = 48
+        memory = 32
       }
     }
 
@@ -284,7 +285,7 @@ EOH
       }
       resources {
         cpu    = 50
-        memory = 80
+        memory = 64
       }
     }
   }
@@ -398,7 +399,7 @@ EOH
       }
 
       resources {
-        memory = 768
+        memory = 512
         cpu    = 2000
       }
 
