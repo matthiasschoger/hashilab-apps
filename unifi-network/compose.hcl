@@ -133,6 +133,8 @@ job "unifi-network" {
     task "server" {
       driver = "docker"
 
+      leader = true   // other tasks finish after the leader has stopped
+
       config {
         image = "lscr.io/linuxserver/unifi-network-application:latest"
       }
@@ -174,10 +176,6 @@ EOH
 
     # NGINX to strip https from the UI endpoint (8443). Required to make Consul Connect happy
     task "nginx" {
-      lifecycle {
-        hook = "prestart"
-        sidecar = true
-      }
 
       driver = "docker"
       config {
@@ -238,10 +236,6 @@ _EOF
 
     # Unifi exporter for Prometheus
     task "unifi-exporter" {
-      lifecycle {
-        hook = "prestart"
-        sidecar = true
-      }
 
       driver = "docker"
       config {

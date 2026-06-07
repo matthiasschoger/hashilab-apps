@@ -88,6 +88,8 @@ job "immich" {
     task "server" {
       driver = "docker"
 
+      leader = true   // other tasks finish after the leader has stopped
+
       config {
         image = "ghcr.io/immich-app/immich-server:release"
         force_pull = true
@@ -138,10 +140,6 @@ EOH
 
     # Immich exporter for Prometheus
     task "immich-exporter" {
-      lifecycle {
-        hook = "prestart"
-        sidecar = true
-      }
 
       driver = "docker"
       config {
@@ -496,6 +494,8 @@ EOH
     task "postgres" {
       driver = "docker"
 
+      shutdown_delay = "3s"   // wait 3s to allow other tasks to shut down
+
       # backs up the Postgres database and removes all files in the backup folder which are older than 3 days.
       action "backup-postgres" {
         command = "/bin/sh"
@@ -545,6 +545,8 @@ EOH
      # Valkey cache, used as an event queue to schedule jobs
     task "valkey" {
       driver = "docker"
+
+      shutdown_delay = "3s"   // wait 3s to allow other tasks to shut down
 
       config {
         image = "valkey/valkey:9"
