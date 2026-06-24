@@ -362,7 +362,7 @@ EOH
     task "postgres" {
       driver = "docker"
 
-      # user = "1026:1000" 
+      user = "1026:1000" 
 
       # backs up the Postgres database and removes all files in the backup folder which are older than 3 days.
       action "backup-postgres" {
@@ -384,8 +384,8 @@ EOF
         TZ = "Europe/Berlin"
 
         # user and group ID
-        # PUID = 1026
-        # PGID = 1000
+        PUID = 1026
+        PGID = 1000
       }
 
       template {
