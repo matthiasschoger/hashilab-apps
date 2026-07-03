@@ -30,13 +30,13 @@ job "immich" {
         expose   = true
       }
 
-      tags = [ # dual-head to be able to upload large assets (videos) when in the internal network
+      tags = [ # dual-head to be able to upload large assets (videos) when on the internal network
         "dmz.enable=true",
         "dmz.consulcatalog.connect=true",
         "dmz.http.routers.immich.rule=Host(`immich.${var.base_domain}`)",
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.immich.rule=Host(`immich.${var.base_domain}`)"
+        "traefik.http.routers.immich.rule=Host(`immich.${var.base_domain}`)",
       ]
 
       meta {
@@ -392,8 +392,10 @@ EOH
         MACHINE_LEARNING_MODEL_TTL       = 0 # don't unload the model cache, re-fetching slows down queries a lot
         MACHINE_LEARNING_REQUEST_THREADS = 4
         # add your models from Settings -> Machine Learning here
-        MACHINE_LEARNING_PRELOAD__CLIP   = "ViT-B-16-SigLIP-256__webli"
-        MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION = "buffalo_l"
+        MACHINE_LEARNING_PRELOAD__CLIP__TEXTUAL = "ViT-B-16-SigLIP-256__webli"
+        MACHINE_LEARNING_PRELOAD__CLIP__VISUAL  = "ViT-B-16-SigLIP-256__webli"
+        MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__DETECTION   = "buffalo_l"
+        MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__RECOGNITION = "buffalo_l"
       }
 
       resources {
@@ -508,9 +510,7 @@ EOF
       }
 
       config {
-         image = "ghcr.io/immich-app/postgres:14-vectorchord0.4.3"
-
-         force_pull = true
+         image = "ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0"
       }
 
       env {
