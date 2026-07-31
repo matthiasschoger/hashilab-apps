@@ -89,7 +89,7 @@ job "n8n" {
         N8N_PORT     = "5678"
 
         N8N_EDITOR_BASE_URL = "https://n8n.lab.${var.base_domain}"
-        WEBHOOK_URL         = "https://n8n.lab.${var.base_domain}/"
+        N8N_WEBHOOK_URL     = "https://n8n.lab.${var.base_domain}/"
         N8N_PROXY_HOPS      = 1
 
         # Prometheus Metrics
