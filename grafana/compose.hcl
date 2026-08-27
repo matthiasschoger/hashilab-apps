@@ -103,7 +103,7 @@ EOH
 
       resources {
         cpu    = 400
-        memory = 768
+        memory = 900
       }
 
       volume_mount {

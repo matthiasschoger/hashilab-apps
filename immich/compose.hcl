@@ -398,6 +398,17 @@ EOH
         MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__RECOGNITION = "buffalo_l"
       }
 
+      template {
+        destination = "secrets/variables.env"
+        env         = true
+        perms       = 400
+        data        = <<EOH
+{{- with nomadVar "nomad/jobs/immich" }}
+HF_TOKEN = {{- .hf_token }}
+{{- end }}
+EOH
+      }
+
       resources {
         memory = 3072
         cpu    = 4000

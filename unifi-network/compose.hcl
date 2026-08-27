@@ -393,7 +393,7 @@ EOH
       }
 
       resources {
-        memory = 512
+        memory = 640
         cpu    = 2000
       }
 
