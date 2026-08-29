@@ -12,12 +12,12 @@ My main goals for my new homelab were the following
 
 - High-Availablity - I want to shut down or lose any node, and my cluster should heal itself. With all services being available again after a couple of seconds.
 - Observability - I'm a sucker for graph p*rn, and want to have as much insight as possible into what my homelab is currently doing.
-- Scratch my technical itch. Since I move into a sales position right before Covid, I needed some tech stuff to do.
+- Scratch my technical itch. Since I moved into a sales position right before Covid, I needed some tech stuff to do.
 
 To keep the jobs manageable, I've split them into three repositories
 
-- [hashilab-core](https://github.com/matthiasschoger/hashilab-core): Basic infrastructure which contains load-balancing, reverse proxy, DNS and ingress management.
-- [hashilab-support](https://github.com/matthiasschoger/hashilab-support): Additional operational stuff like metrics management, Cloudflare tunnel, maintenance tasks and much more stuff to run the cluster more effienctly.
+- [hashilab-core](https://github.com/matthiasschoger/hashilab-core): Basic infrastructure which contains load-balancing, HA, reverse proxy, DNS and ingress management.
+- [hashilab-support](https://github.com/matthiasschoger/hashilab-support): Additional operational stuff like metrics and log management, Cloudflare tunnel, maintenance tasks and much more stuff to run the cluster more effienctly.
 - [hashilab-apps](https://github.com/matthiasschoger/hashilab-apps): End-user apps like Vaultwarden or Immich.
 
 ## Hashilab-apps
@@ -30,8 +30,9 @@ The "apps" repository defines end-user applications running on the cluster. Used
 - grafana - Fancy dashboards for all your graph-p*rn needs.
 - home-assistant - Mainly used to bridge my IoT hardware and OpenWeatherMap to Homekit.
 - immich - Awesome image management tool which handles image backup and management for the family. Great example how to scale a complex application in a Nomad/Consul cluster.
-- nginx-web - Static web page if you should happen to stumble across my domain.
-- node-red - More home automation.
+- nginx - Static web page if you should happen to stumble across my domain.
+- node-red - More home automation, currently not in use.
+- n8n - Another experimental platform for home automation.
 - unifi-network - Controller application for the Unifi network stack from Ubiquiti Networks. Was quite tricky to set up in a HA environment, please check [consul-ingress](https://github.com/matthiasschoger/hashilab-core/tree/master/consul-ingress) for UDP ingress management.
 - vaultwarden - Password management for the family.
 
