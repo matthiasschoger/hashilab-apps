@@ -1,0 +1,23 @@
+
+plugin_id   = "nfs"
+type        = "csi"
+id          = "rallly-postgres"
+name        = "Rallly Postgres"
+
+capability {
+	access_mode = "single-node-writer"
+	attachment_mode = "file-system"
+}
+
+context {
+  server = "storage.home"
+  share = "/volume2/homelab-dmz"
+  subDir = "rallly/postgres"
+  mountPermissions = "755"
+}
+
+mount_options {
+  fs_type = "nfs"
+  mount_flags = [ "hard", "sync" ]
+}
+
