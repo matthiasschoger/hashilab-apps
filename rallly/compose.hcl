@@ -19,13 +19,13 @@ job "rallly" {
 
       port = 3000
 
-      # check {
-      #   type     = "http"
-      #   path     = "/api/server/ping"
-      #   interval = "5s"
-      #   timeout  = "2s"
-      #   expose   = true
-      # }
+      check {
+        type     = "http"
+        path     = "/api/status"
+        interval = "5s"
+        timeout  = "2s"
+        expose   = true
+      }
 
       tags = [ 
         "dmz.enable=true",
