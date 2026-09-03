@@ -130,7 +130,7 @@ job "unifi-network" {
     }
 
 
-    task "server" {
+    task "network" {
       driver = "docker"
 
       leader = true   // other tasks finish after the leader has stopped
@@ -304,7 +304,7 @@ EOH
         args     = ["-c", "/usr/bin/mongosh --eval 'db.runCommand(\"ping\").ok'"]
         interval = "10s"
         timeout  = "2s"
-        task     = "server"
+        task     = "mongodb"
       }
 
       meta { # make envoy metrics port available in Consul
@@ -328,7 +328,7 @@ EOH
       }
     }
 
-    task "server" {
+    task "mongodb" {
       driver = "docker"
 
       # backs up the MongoDB database and removes all files in the backup folder except for the latest three
