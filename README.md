@@ -25,7 +25,7 @@ To keep the jobs manageable, I've split them into three repositories
 The "apps" repository defines end-user applications running on the cluster. Used by me and my family to manage our home automations, photos on our mobile phones and family passwords.
 
 - adguard - DNS filering to make sure that tracking and ads are limited to a minimum on our home network. Some magic is involved in [core-dns](https://github.com/matthiasschoger/hashilab-core/tree/master/core-dns) to make sure that DNS still works if the adguard service is down.
-- bookstack - My internal wiki where I keep all the notes for my setup.
+- bookstack - My internal wiki where I keep notes for my setup.
 - gitea - Local git which keeps all my IaC code.
 - grafana - Fancy dashboards for all your graph-p*rn needs.
 - home-assistant - Mainly used to bridge my IoT hardware and OpenWeatherMap to Homekit.
@@ -33,6 +33,7 @@ The "apps" repository defines end-user applications running on the cluster. Used
 - nginx - Static web page if you should happen to stumble across my domain.
 - node-red - More home automation, currently not in use.
 - n8n - Another experimental platform for home automation.
+- rallly - Meeting planning tool which I'm using to organize the gaming sessions with my friends. OIDC integration with Pocket-ID.
 - unifi-network - Controller application for the Unifi network stack from Ubiquiti Networks. Was quite tricky to set up in a HA environment, please check [consul-ingress](https://github.com/matthiasschoger/hashilab-core/tree/master/consul-ingress) for UDP ingress management.
 - vaultwarden - Password management for the family.
 
