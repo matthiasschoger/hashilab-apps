@@ -52,19 +52,18 @@ job "rallly" {
 
         sidecar_task {
           resources {
-            cpu    = 48
-            memory = 50
+            cpu    = 50
+            memory = 48
           }
         }
       }
     }
 
-    # The main immich API server
     task "server" {
       driver = "docker"
 
       config {
-        image = "lukevella/rallly:4"
+        image = "lukevella/rallly:latest"
         force_pull = true
       }
 
@@ -159,8 +158,8 @@ EOH
 
         sidecar_task {
           resources {
-            cpu    = 256
-            memory = 50
+            cpu    = 50
+            memory = 48
           }
         }
       }
@@ -210,8 +209,8 @@ EOH
       }
 
       resources {
-        cpu    = 200
-        memory = 64
+        cpu    = 50
+        memory = 48
       }
     }
 
