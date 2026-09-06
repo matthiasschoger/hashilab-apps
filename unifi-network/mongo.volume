@@ -1,23 +1,23 @@
+# Register volume with
+#  nomad volume register example.volume
+type      = "csi"
+id        = "unifi-mongo"
+name      = "Unifi-MongoDB"
+plugin_id = "iscsi"
 
-plugin_id   = "nfs"
-type        = "csi"
-id          = "unifi-mongo"
-name        = "Unifi MongoDB"
+capacity_min = "1GiB"
+capacity_max = "2GiB"
 
 capability {
-	access_mode = "single-node-writer"
-	attachment_mode = "file-system"
-}
-
-context {
-  server = "storage.home"
-  # has to use volume1 without user sqashing 
-  share = "/volume1/homelab-hdd"
-  subDir = "unifi/mongodb"
-  mountPermissions = "755"
+  access_mode     = "single-node-writer"
+  attachment_mode = "file-system"
 }
 
 mount_options {
-  fs_type = "nfs"
-  mount_flags = [ "hard", "sync" ]
+  fs_type     = "btrfs"
+  mount_flags = ["noatime"]
+}
+
+parameters {
+  location = "/volume2"
 }

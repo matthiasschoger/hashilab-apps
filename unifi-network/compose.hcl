@@ -139,12 +139,14 @@ job "unifi-network" {
         image = "lscr.io/linuxserver/unifi-network-application:latest"
       }
 
+      env {
+        TZ = "Europe/Berlin"
+      }
+
       template {
         destination = "secrets/variables.env"
         env             = true
         data            = <<EOH
-TZ = "Europe/Berlin"
-
 {{- with nomadVar "nomad/jobs/unifi-network" }}
 MONGO_HOST = "localhost"
 MONGO_PORT = "27017"
@@ -330,6 +332,7 @@ EOH
 
     task "mongodb" {
       driver = "docker"
+      user   = "999:999" # MongoDB user
 
       # backs up the MongoDB database and removes all files in the backup folder except for the latest three
       action "backup-mongodb" {
@@ -343,7 +346,7 @@ EOF
       }
 
       config {
-        image = "mongo:8.2"
+        image = "mongo:8.3"
         force_pull = true
 
         command = "mongod"
@@ -375,7 +378,7 @@ net:
   bindIp: 127.0.0.1
   maxIncomingConnections: 20
 storage:
-  dbPath: /storage/db
+  dbPath: /storage
   directoryPerDB: true
   wiredTiger:
     engineConfig:
@@ -404,6 +407,31 @@ EOH
       }
     }
  
+     // fixes permission on the mounted iSCSI storage volume
+    task "fix-permissions" {
+      driver = "docker"
+      lifecycle {
+        hook    = "prestart"
+        sidecar = false
+      }
+
+      config {
+        image   = "busybox:latest"
+        command = "chown"
+        args    = ["-R", "999:999", "/storage"]
+      }
+
+      volume_mount {
+        volume      = "unifi-mongo"
+        destination = "/storage"
+      }
+
+      resources {
+        cpu    = 50
+        memory = 32
+      }
+    }
+
     volume "unifi-mongo" {
       type            = "csi"
       source          = "unifi-mongo"
