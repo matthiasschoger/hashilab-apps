@@ -13,7 +13,7 @@ context {
   server = "storage.home"
   share = "/volume1/homelab-hdd"
   subDir = "paperless/data"
-#  mountPermissions = "755"  
+  mountPermissions = "755"  
 }
 
 mount_options {

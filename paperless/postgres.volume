@@ -1,23 +1,23 @@
+# Register volume with
+#  nomad volume register example.volume
+type      = "csi"
+id        = "paperless-postgres"
+name      = "Paperless-Postgres"
+plugin_id = "iscsi"
 
-plugin_id   = "nfs"
-type        = "csi"
-id          = "paperless-postgres"
-name        = "Paperless Postgres"
+capacity_min = "1GiB"
+capacity_max = "2GiB"
 
 capability {
-	access_mode = "single-node-writer"
-	attachment_mode = "file-system"
-}
-
-context {
-  server = "storage.home"
-  share = "/volume2/homelab"
-  subDir = "paperless/postgres"
-  mountPermissions = "0"
+  access_mode     = "single-node-writer"
+  attachment_mode = "file-system"
 }
 
 mount_options {
-  fs_type = "nfs"
-  mount_flags = [ "hard", "sync" ]
+  fs_type     = "btrfs"
+  mount_flags = ["noatime"]
 }
 
+parameters {
+  location = "/volume2"
+}

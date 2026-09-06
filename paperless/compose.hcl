@@ -5,7 +5,7 @@ variable "base_domain" {
 job "paperless" {
   datacenters = ["home"]
   type        = "service"
-/*
+
   group "api-server" {
 
     network {
@@ -15,26 +15,22 @@ job "paperless" {
     }
 
     service {
-      name = "immich-api"
+      name = "paperless-ui"
 
-      task = "server"
-      port = 2283
+      port = 8000
 
-      check {
-        type     = "http"
-        path     = "/api/server/ping"
-        interval = "5s"
-        timeout  = "2s"
-        expose   = true
-      }
+      # check {
+      #   type     = "http"
+      #   path     = "/api/status/"
+      #   interval = "5s"
+      #   timeout  = "2s"
+      #   expose   = true
+      # }
 
       tags = [ # dual-head to be able to upload large assets (videos) when in the internal network
-        "dmz.enable=true",
-        "dmz.consulcatalog.connect=true",
-        "dmz.http.routers.immich.rule=Host(`immich.${var.base_domain}`)",
         "traefik.enable=true",
         "traefik.consulcatalog.connect=true",
-        "traefik.http.routers.immich.rule=Host(`immich.${var.base_domain}`)"
+        "traefik.http.routers.paperless.rule=Host(`paperless.lab.${var.base_domain}`)"
       ]
 
       meta {
@@ -48,15 +44,11 @@ job "paperless" {
             }
 
             upstreams {
-              destination_name = "immich-ml" # required for Smart Search
-              local_bind_port  = 3003
-            }
-            upstreams {
-              destination_name = "immich-postgres"
+              destination_name = "paperless-postgres"
               local_bind_port  = 5432
             }
             upstreams {
-              destination_name = "immich-valkey"
+              destination_name = "paperless-valkey"
               local_bind_port  = 6379
             }
           }
@@ -76,25 +68,41 @@ job "paperless" {
       driver = "docker"
 
       config {
-        image = "ghcr.io/immich-app/immich-server:release"
-        force_pull = true
+        image = "ghcr.io/paperless-ngx/paperless-ngx:latest"
       }
 
       env {
-        NODE_ENV              = "production"
-        REDIS_HOSTNAME        = "127.0.0.1"
-        IMMICH_MEDIA_LOCATION = "/data"
-
         TZ = "Europe/Berlin"
 
+        PAPERLESS_TIME_ZONE = "Europe/Berlin"
+        PAPERLESS_OCR_LANGUAGE = "deu+eng"
+
         # user and group ID
-        PUID = 1026
-        PGID = 1000
+        USERMAP_UID = 1026
+        USERMAP_GID = 100
 
-        IMMICH_TELEMETRY_INCLUDE = "all"
-#        IMMICH_TELEMETRY_EXCLUDE = "host"
+        PAPERLESS_URL = "https://paperless.lab.${var.base_domain}"
 
-        IMMICH_WORKERS_INCLUDE = "api"
+        PAPERLESS_REDIS = "redis://localhost:6379"
+        PAPERLESS_DBHOST = "localhost"
+        PAPERLESS_DBENGINE = "postgresql"
+        PAPERLESS_DBUSER = "postgres"
+
+
+        PAPERLESS_ARCHIVE_MODE = "move"
+        PAPERLESS_CONSUMER_RECURSIVE = true
+        PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS = true
+        PAPERLESS_CONSUMER_DELETE_DUPLICATES = true
+
+        PAPERLESS_DATA_DIR        = "/paperless/data"
+        PAPERLESS_MEDIA_ROOT      = "/paperless/media"
+        PAPERLESS_CONSUMPTION_DIR = "/paperless/consume"
+        PAPERLESS_EXPORT_DIR      = "/paperless/export"
+        PAPERLESS_MODEL_FILE      = "/paperless/models"
+
+        # PAPERLESS_TIKA_ENABLED: 1
+        # PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://localhost:3000
+        # PAPERLESS_TIKA_ENDPOINT: http://localhost:9998
       }
 
       template {
@@ -102,8 +110,10 @@ job "paperless" {
         env         = true
         perms       = 400
         data        = <<EOH
-{{- with nomadVar "nomad/jobs/immich" }}
-DB_URL=postgres://{{- .db_user }}:{{- .db_pass }}@127.0.0.1:5432/immich
+{{- with nomadVar "nomad/jobs/paperless" }}
+PAPERLESS_SECRET_KEY = "{{- .secret_key }}"
+
+PAPERLESS_DBPASS = {{- .db_pass }}
 {{- end }}
 EOH
       }
@@ -114,163 +124,19 @@ EOH
       }
 
       volume_mount {
-        volume      = "immich-data"
-        destination = "/data"
-      }
-      volume_mount {
-        volume      = "immich-homes"
-        destination = "/homes"
+        volume      = "paperless-data"
+        destination = "/paperless"
       }
     }
 
-    volume "immich-data" {
+    volume "paperless-data" {
       type            = "csi"
-      source          = "immich-data"
-      access_mode     = "multi-node-multi-writer"
+      source          = "paperless-data"
+      access_mode     = "single-node-writer"
       attachment_mode = "file-system"
-    }
-    volume "immich-homes" { # external library location
-      type            = "csi"
-      source          = "immich-homes"
-      access_mode     = "multi-node-reader-only"
-      attachment_mode = "file-system"
-      read_only       = true
     }
   }
-
-  // --- Immich Worker ---
-
-  group "worker" {
-
-    # Run two worker instancen, spread over the two DMZ nodes.
-    count = "2"
-    constraint {
-      distinct_hosts = true
-    }
-
-    network {
-      mode = "bridge"
-
-      port "envoy_metrics" { to = 9102 }
-    }
-
-    service {
-      name = "immich-worker"
-
-      port = 2283
-
-      check {
-        type     = "http"
-        path     = "/api/server/ping"
-        interval = "5s"
-        timeout  = "2s"
-        expose   = true
-      }
-
-      meta {
-        envoy_metrics_port = "${NOMAD_HOST_PORT_envoy_metrics}" # make envoy metrics port available in Consul
-      }
-      connect {
-        sidecar_service {
-          proxy {
-            config {
-              envoy_prometheus_bind_addr = "0.0.0.0:9102"
-            }
-
-            upstreams {
-              destination_name = "immich-ml"
-              local_bind_port  = 3003
-            }
-            upstreams {
-              destination_name = "immich-postgres"
-              local_bind_port  = 5432
-            }
-            upstreams {
-              destination_name = "immich-valkey"
-              local_bind_port  = 6379
-            }
-          }
-        }
-
-        sidecar_task {
-          resources {
-            cpu    = 128
-            memory = 50
-          }
-        }
-      }
-    }
-
-    # task worker, doing all the processing async
-    task "server" {
-      driver = "docker"
-
-      config {
-        image = "ghcr.io/immich-app/immich-server:release"
-        force_pull = true
-
-        devices = [ # map Intel QuickSync to container, allowing for hardware encoding
-          {
-            host_path = "/dev/dri"
-            container_path = "/dev/dri"
-          }
-        ]
-      }
-
-      env {
-        NODE_ENV              = "production"
-        REDIS_HOSTNAME        = "127.0.0.1"
-        IMMICH_MEDIA_LOCATION = "/data"
-
-        # user and group ID
-        PUID = 1026
-        PGID = 100
-
-        TZ = "Europe/Berlin"
-      }
-
-      template {
-        destination = "secrets/variables.env"
-        env         = true
-        perms       = 400
-        data        = <<EOH
-{{- with nomadVar "nomad/jobs/immich" }}
-DB_URL=postgres://{{- .db_user }}:{{- .db_pass }}@127.0.0.1:5432/immich
-{{- end }}
-EOH
-      }
-
-      resources {
-        memory = 3500
-        cpu    = 4000
-      }
-
-      volume_mount {
-        volume      = "immich-data"
-        destination = "/data"
-      }
-      volume_mount {
-        volume      = "immich-homes"
-        destination = "/homes"
-      }
-    }
-
-    volume "immich-data" {
-      type            = "csi"
-      source          = "immich-data"
-      access_mode     = "multi-node-multi-writer"
-      attachment_mode = "file-system"
-    }
-    volume "immich-homes" { # external library location
-      type            = "csi"
-      source          = "immich-homes"
-      access_mode     = "multi-node-reader-only"
-      attachment_mode = "file-system"
-      read_only       = true
-    }
-  }
-
-*/
+ 
   // --- Paperless Postgres database and Valkey instance ---
 
   group "backend" {
@@ -362,8 +228,6 @@ EOH
     task "postgres" {
       driver = "docker"
 
-      user = "1026:1000" 
-
       # backs up the Postgres database and removes all files in the backup folder which are older than 3 days.
       action "backup-postgres" {
         command = "/bin/sh"
@@ -376,16 +240,12 @@ EOF
       }
 
       config {
-        image = "postgres:16"
+        image = "postgres:18"
         force_pull = true
       }
 
       env {
         TZ = "Europe/Berlin"
-
-        # user and group ID
-        PUID = 1026
-        PGID = 1000
       }
 
       template {
@@ -394,16 +254,16 @@ EOF
         perms       = 400
         data        = <<EOH
 {{- with nomadVar "nomad/jobs/paperless" }}
-POSTGRES_PASSWORD    = {{- .db_pass }}
-POSTGRES_USER        = {{- .db_user }}
-DB_URL               = postgres://{{- .db_user }}:{{- .db_pass }}@127.0.0.1:5432/paperless
+POSTGRES_DB       = paperless
+POSTGRES_USER     = "postgres"
+POSTGRES_PASSWORD = {{- .db_pass }}
 {{- end }}
 EOH
       }
 
       volume_mount {
         volume      = "paperless-postgres"
-        destination = "/var/lib/postgresql/data"
+        destination = "/var/lib/postgresql"
       }
 
       resources {
@@ -417,7 +277,7 @@ EOH
       driver = "docker"
 
       config {
-        image = "valkey/valkey:9"
+        image = "valkey/valkey:9-alpine"
         force_pull = true
 
         args = [ "/local/valkey.conf" ]
