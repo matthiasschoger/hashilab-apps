@@ -158,7 +158,7 @@ EOH
       }
 
       resources {
-        memory = 1800
+        memory = 1000
         cpu    = 800
       }
 
@@ -346,7 +346,7 @@ EOF
       }
 
       config {
-        image = "mongo:8.3"
+        image = "mongo:8"
         force_pull = true
 
         command = "mongod"
@@ -400,7 +400,6 @@ EOH
         cpu    = 2000
       }
 
-      # If using nfs, the share must preserve user:group and not sqash access rights
       volume_mount {
         volume      = "unifi-mongo"
         destination = "/storage"
