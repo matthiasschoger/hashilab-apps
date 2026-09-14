@@ -86,6 +86,7 @@ root_url = https://grafana.lab.${var.base_domain}
 
 [log]
 level = warn
+;level = info
 mode = console
 ;filters = sqlstore:debug
 
@@ -98,6 +99,12 @@ password = {{ .smtp_pass }}
 from_address = {{ .smtp_sender }}
 {{- end }}
 
+[panels]
+enable_cache = true
+cache_ttl = 60  # Cache time-to-live in seconds
+
+[metrics]
+enabled = true
 EOH
       }
 
