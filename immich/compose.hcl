@@ -107,7 +107,6 @@ job "immich" {
         PGID = 1000
 
         IMMICH_TELEMETRY_INCLUDE = "all"
-#        IMMICH_TELEMETRY_EXCLUDE = "host"
 
         IMMICH_WORKERS_INCLUDE = "api"
       }
@@ -249,7 +248,7 @@ EOH
     }
 
     # task worker, doing all the processing async
-    task "server" {
+    task "worker" {
       driver = "docker"
 
       config {
@@ -372,7 +371,7 @@ EOH
       }
     }
 
-    task "server" {
+    task "ml" {
       driver = "docker"
 
       config {

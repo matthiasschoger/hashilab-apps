@@ -119,7 +119,7 @@ EOH
       }
 
       resources {
-        memory = 800
+        memory = 1000
         cpu    = 512
       }
 
@@ -268,7 +268,7 @@ EOH
 
       resources {
         cpu    = 500
-        memory = 512
+        memory = 128
       }
     }
  
@@ -299,7 +299,7 @@ EOH
       }
 
       resources {
-        memory = 200
+        memory = 64
         cpu    = 300
       }
     }
